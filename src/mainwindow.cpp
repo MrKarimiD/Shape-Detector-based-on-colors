@@ -62,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
     cyanSem = new QSemaphore();
     violetSem = new QSemaphore();
     blackSem = new QSemaphore();
+    realSem = new QSemaphore();
 
     redProc->moveToThread(redThread);
     blueProc->moveToThread(blueThread);
@@ -775,7 +776,6 @@ void MainWindow::addRedImage(Mat out)
 {
     redSem->tryAcquire(1,30);
     filterColor[0] = out;
-    imshow("red",filterColor[0]);
     redSem->release();
 }
 
@@ -827,6 +827,10 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
     Mat inputFrame;
 
     imageProcessor->undistortImage(input_mat).copyTo(inputFrame);
+
+    realSem->tryAcquire(1,30);
+    inputFrame.copyTo(filterColor[7]);
+    realSem->release();
 
     //croped image for better performance
     Mat CropFrame;
@@ -1635,9 +1639,6 @@ void MainWindow::checkAllOfRecieved()
     }
     semaphoreForDataPlussing->release(7);
 
-   if(!filterColor[0].empty())
-       imshow("redi",filterColor[0]);
-
    if(permissionForSending)
     {
         imageProcessor->result.set_mission(mission);
@@ -1696,12 +1697,13 @@ void MainWindow::checkAllOfRecieved()
 
     else if(ui->out_comboBox->currentText() == "Final")
     {
-        //filterColor[6].copyTo(outputFrame);
+        realSem->tryAcquire(1,30);
+        filterColor[7].copyTo(outputFrame);
+        realSem->release();
     }
 
     if(!outputFrame.empty())
     {
-        imshow("out",outputFrame);
         cv::resize(outputFrame,outputFrame,Size(640,480),0,0,INTER_CUBIC);
         QImage imgIn;
 

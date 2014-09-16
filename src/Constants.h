@@ -8,11 +8,11 @@
 
 #define ASPECT_RATIO_TRESH 4
 
-#define Width 2746//2150//
-#define Height 2803// 1930
+#define Width 2754//2746//2150//
+#define Height 2710//2803// 1930
 
-#define Orgin_X 2677
-#define Orgin_Y -1537
+#define Orgin_X 2795//2677
+#define Orgin_Y -1405//-1537
 
 #define ColorThresh 20
 #define ColorPercentage 80

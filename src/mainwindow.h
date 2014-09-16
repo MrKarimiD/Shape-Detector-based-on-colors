@@ -160,8 +160,6 @@ private slots:
 
     void on_contrast_slider_sliderMoved(int position);
 
-
-
     void resposibleForRedOutput();
 
     void resposibleForBlueOutput();
@@ -304,7 +302,7 @@ private:
         ,*yellowThread,*cyanThread,*violetThread,*blackThread;
 
     QSemaphore *redSem,*blueSem,*greenSem
-    ,*yellowSem,*cyanSem,*violetSem,*blackSem;
+    ,*yellowSem,*cyanSem,*violetSem,*blackSem,*realSem;
 
     QList<Shape> red_shapes;
     QList<Shape> blue_shapes;
@@ -317,7 +315,7 @@ private:
     bool RecievedData[7];
     QSemaphore *semaphoreForDataPlussing;
 
-    Mat filterColor[7];
+    Mat filterColor[8];
 
     void enableCameraSetting();
 
