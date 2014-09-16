@@ -1,0 +1,64 @@
+message SystemSettings
+{
+	message HSV
+	{
+		required float hue = 1;
+		required float sat = 2;
+		required float val = 3;
+	}
+		
+	
+	//Input Tab
+	required bool input_edit_camera_setting = 1;
+	required int64 input_WHITE_BALANCE_BLUE_U = 2;
+	required int64 input_WHITE_BALANCE_RED_V = 3;
+	required int64 input_EXPOSURE = 4;
+	required int64 input_BRIGHTNESS = 5;
+	required int32 input_SHARPNESS = 6;
+	required int64 input_GAIN = 7;
+	required int64 input_HUE = 8;
+	required int64 input_SAT = 9;
+	required int64 input_CONTRAST = 10;
+	required string input_network_ip = 11;
+	required string input_network_port = 12;
+
+	//filters tab	
+	required bool filters_crop_photo = 13;
+	required string filters_crop_firstPoint_x = 14;
+	required string filters_crop_firstPoint_y = 15;
+	required string filters_crop_secondPoint_x = 16;
+	required string filters_crop_secondPoint_y = 17;
+	
+	required bool filters_median_blur = 18;
+	required string filters_median_blur_kernelSize = 19;
+	
+	required bool filters_Adaptive_threshold = 20;
+	required int64 filters_Adaptive_threshold_blockSize = 21;
+	required int64 filters_Adaptive_threshold_C = 22;
+		
+	required bool filters_Threshold = 23;
+	required int64 filters_Threshold_value = 24;
+	
+	required bool filters_dilate = 25;
+	required string filters_dilationSize = 26;
+	
+	required bool filters_Canny = 27;
+	required int64 filters_Canny_First_Threshold  = 28;
+	required int64 filters_Canny_Second_Threshold = 29;
+	required string filters_Canny_apertureSize = 30;
+
+	//Colors tab
+	repeated HSV red_instances = 31;
+	
+	repeated HSV blue_instances = 32;
+	
+	repeated HSV green_instances = 33;
+	
+	repeated HSV yellow_instances = 34;	
+	
+	repeated HSV violet_instances = 35;
+	
+	repeated HSV cyan_instances = 36;
+	
+	repeated HSV black_instances = 37;
+}
