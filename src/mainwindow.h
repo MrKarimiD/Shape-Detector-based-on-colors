@@ -21,6 +21,7 @@
 #include "networksender.h"
 #include "Prototype_Messages/GameGround.pb.h"
 #include "System_Protobuf/SystemSettings.pb.h"
+#include "Color_Protobuf/ColorSettings.pb.h"
 #include <iostream>
 #include <fstream>
 #include "QRubberBand"
@@ -273,6 +274,8 @@ private slots:
     void on_black_min_val_slider_sliderMoved(int position);
 
     void on_black_max_val_slider_sliderMoved(int position);
+
+    void on_import_button_clicked();
 
 private:
     Ui::MainWindow *ui;

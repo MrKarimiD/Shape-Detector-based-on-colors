@@ -2,9 +2,12 @@ message SystemSettings
 {
 	message HSV
 	{
-		required float hue = 1;
-		required float sat = 2;
-		required float val = 3;
+		required float min_hue = 1;
+		required float min_sat = 2;
+		required float min_val = 3;
+		required float max_hue = 4;
+		required float max_sat = 5;
+		required float max_val = 6;
 	}
 		
 	

@@ -125,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     imageProcessor=new ImageProcessing();
 
-    //openSetting("/home/kn2c/setting.txt");
+    openSetting("/home/kn2c/setting-color.txt");
 }
 
 MainWindow::~MainWindow()
@@ -600,6 +600,15 @@ void MainWindow::openSetting(QString fileAddress)
         ui->gain_slider->setValue(setting.input_gain());
         ui->gainOut_label->setText(QString::number(setting.input_gain()));
 
+        ui->hue_slider->setValue(setting.input_hue());
+        ui->hueOut_label->setText(QString::number(setting.input_hue()));
+
+        ui->saturation_slider->setValue(setting.input_sat());
+        ui->saturationOut_label->setText(QString::number(setting.input_sat()));
+
+        ui->contrast_slider->setValue(setting.input_contrast());
+        ui->contrastOut_label->setText(QString::number(setting.input_contrast()));
+
         ui->ip_lineEdit->setText(QString::fromStdString(setting.input_network_ip()));
         ui->port_lineEdit->setText(QString::fromStdString(setting.input_network_port()));
 
@@ -632,82 +641,141 @@ void MainWindow::openSetting(QString fileAddress)
         ui->secondThreshOut_label->setText(QString::number(setting.filters_canny_second_threshold()));
         ui->apertureSize_lineEdit->setText(QString::fromStdString(setting.filters_canny_aperturesize()));
 
-        //        //Add red Colors
-        //        for(int i=0;i<setting.red_instances_size();i++)
-        //        {
-        //            Vec3f colorSample;
-        //            colorSample.val[0] = setting.red_instances(i).hue();
-        //            colorSample.val[1] = setting.red_instances(i).sat();
-        //            colorSample.val[2] = setting.red_instances(i).val();
-        //            imageProcessor->red_samples.push_back(colorSample);
-        //        }
-        //        ui->red_status_label->setText(QString::number(imageProcessor->red_samples.size())+" Color at list.");
+        //Add red Colors
+        ui->red_min_hue_slider->setValue(setting.red_instances(0).min_hue());
+        ui->red_min_hue_label->setText(QString::number(setting.red_instances(0).min_hue()));
 
-        //        //Add blue colors
-        //        for(int i=0;i<setting.blue_instances_size();i++)
-        //        {
-        //            Vec2f colorSample;
-        //            colorSample.val[0] = setting.blue_instances(i).min_hue();
-        //            colorSample.val[1] = setting.blue_instances(i).max_hue();
-        //            //colorSample.val[2] = setting.blue_instances(i).val();
-        //            imageProcessor->blue_samples.push_back(colorSample);
-        //        }
-        //        ui->blue_status_label->setText(QString::number(imageProcessor->blue_samples.size())+" Color at list.");
+        ui->red_min_sat_slider->setValue(setting.red_instances(0).min_sat());
+        ui->red_min_sat_label->setText(QString::number(setting.red_instances(0).min_sat()));
 
-        //       //Add green colors
-        //        for(int i=0;i<setting.green_instances_size();i++)
-        //        {
-        //            Vec2f colorSample;
-        //            colorSample.val[0] = setting.green_instances(i).min_hue();
-        //            colorSample.val[1] = setting.green_instances(i).max_hue();
-        //            //colorSample.val[2] = setting.green_instances(i).val();
-        //            imageProcessor->green_samples.push_back(colorSample);
-        //        }
-        //        ui->green_status_label->setText(QString::number(imageProcessor->green_samples.size())+" Color at list.");
+        ui->red_min_val_slider->setValue(setting.red_instances(0).min_val());
+        ui->red_min_val_label->setText(QString::number(setting.red_instances(0).min_val()));
 
-        //        //Add yellow colors
-        //        for(int i=0;i<setting.yellow_instances_size();i++)
-        //        {
-        //            Vec2f colorSample;
-        //            colorSample.val[0] = setting.yellow_instances(i).min_hue();
-        //            colorSample.val[1] = setting.yellow_instances(i).max_hue();
-        //            //colorSample.val[2] = setting.yellow_instances(i).val();
-        //            imageProcessor->yellow_samples.push_back(colorSample);
-        //        }
-        //        ui->yellow_status_label->setText(QString::number(imageProcessor->yellow_samples.size())+" Color at list.");
+        ui->red_max_hue_slider->setValue(setting.red_instances(0).max_hue());
+        ui->red_max_hue_label->setText(QString::number(setting.red_instances(0).max_hue()));
 
-        //        //Add violet colors
-        //        for(int i=0;i<setting.violet_instances_size();i++)
-        //        {
-        //            Vec2f colorSample;
-        //            colorSample.val[0] = setting.violet_instances(i).min_hue();
-        //            colorSample.val[1] = setting.violet_instances(i).max_hue();
-        //            //colorSample.val[2] = setting.violet_instances(i).val();
-        //            imageProcessor->violet_samples.push_back(colorSample);
-        //        }
-        //        ui->violet_status_label->setText(QString::number(imageProcessor->violet_samples.size())+" Color at list.");
+        ui->red_max_sat_slider->setValue(setting.red_instances(0).max_sat());
+        ui->red_max_sat_label->setText(QString::number(setting.red_instances(0).max_sat()));
 
-        //        //Add cyan colors
-        //        for(int i=0;i<setting.cyan_instances_size();i++)
-        //        {
-        //            Vec2f colorSample;
-        //            colorSample.val[0] = setting.cyan_instances(i).min_hue();
-        //            colorSample.val[1] = setting.cyan_instances(i).max_hue();
-        //            //colorSample.val[2] = setting.cyan_instances(i).val();
-        //            imageProcessor->cyan_samples.push_back(colorSample);
-        //        }
-        //        ui->cyan_status_label->setText(QString::number(imageProcessor->cyan_samples.size())+" Color at list.");
+        ui->red_max_val_slider->setValue(setting.red_instances(0).max_val());
+        ui->red_max_val_label->setText(QString::number(setting.red_instances(0).max_val()));
 
-        //        //Add black colors
-        //        for(int i=0;i<setting.black_instances_size();i++)
-        //        {
-        //            Vec2f colorSample;
-        //            colorSample.val[0] = setting.black_instances(i).min_hue();
-        //            colorSample.val[1] = setting.black_instances(i).max_hue();
-        //            //colorSample.val[2] = setting.black_instances(i).val();
-        //            imageProcessor->black_samples.push_back(colorSample);
-        //        }
-        //        ui->black_status_label->setText(QString::number(imageProcessor->black_samples.size())+" Color at list.");
+        //Add blue colors
+        ui->blue_min_hue_slider->setValue(setting.blue_instances(0).min_hue());
+        ui->blue_min_hue_label->setText(QString::number(setting.blue_instances(0).min_hue()));
+
+        ui->blue_min_sat_slider->setValue(setting.blue_instances(0).min_sat());
+        ui->blue_min_sat_label->setText(QString::number(setting.blue_instances(0).min_sat()));
+
+        ui->blue_min_val_slider->setValue(setting.blue_instances(0).min_val());
+        ui->blue_min_val_label->setText(QString::number(setting.blue_instances(0).min_val()));
+
+        ui->blue_max_hue_slider->setValue(setting.blue_instances(0).max_hue());
+        ui->blue_max_hue_label->setText(QString::number(setting.blue_instances(0).max_hue()));
+
+        ui->blue_max_sat_slider->setValue(setting.blue_instances(0).max_sat());
+        ui->blue_max_sat_label->setText(QString::number(setting.blue_instances(0).max_sat()));
+
+        ui->blue_max_val_slider->setValue(setting.blue_instances(0).max_val());
+        ui->blue_max_val_label->setText(QString::number(setting.blue_instances(0).max_val()));
+
+        //Add green colors
+        ui->green_min_hue_slider->setValue(setting.green_instances(0).min_hue());
+        ui->green_min_hue_label->setText(QString::number(setting.green_instances(0).min_hue()));
+
+        ui->green_min_sat_slider->setValue(setting.green_instances(0).min_sat());
+        ui->green_min_sat_label->setText(QString::number(setting.green_instances(0).min_sat()));
+
+        ui->green_min_val_slider->setValue(setting.green_instances(0).min_val());
+        ui->green_min_val_label->setText(QString::number(setting.green_instances(0).min_val()));
+
+        ui->green_max_hue_slider->setValue(setting.green_instances(0).max_hue());
+        ui->green_max_hue_label->setText(QString::number(setting.green_instances(0).max_hue()));
+
+        ui->green_max_sat_slider->setValue(setting.green_instances(0).max_sat());
+        ui->green_max_sat_label->setText(QString::number(setting.green_instances(0).max_sat()));
+
+        ui->green_max_val_slider->setValue(setting.green_instances(0).max_val());
+        ui->green_max_val_label->setText(QString::number(setting.green_instances(0).max_val()));
+
+        //Add yellow colors
+        ui->yellow_min_hue_slider->setValue(setting.yellow_instances(0).min_hue());
+        ui->yellow_min_hue_label->setText(QString::number(setting.yellow_instances(0).min_hue()));
+
+        ui->yellow_min_sat_slider->setValue(setting.yellow_instances(0).min_sat());
+        ui->yellow_min_sat_label->setText(QString::number(setting.yellow_instances(0).min_sat()));
+
+        ui->yellow_min_val_slider->setValue(setting.yellow_instances(0).min_val());
+        ui->yellow_min_val_label->setText(QString::number(setting.yellow_instances(0).min_val()));
+
+        ui->yellow_max_hue_slider->setValue(setting.yellow_instances(0).max_hue());
+        ui->yellow_max_hue_label->setText(QString::number(setting.yellow_instances(0).max_hue()));
+
+        ui->yellow_max_sat_slider->setValue(setting.yellow_instances(0).max_sat());
+        ui->yellow_max_sat_label->setText(QString::number(setting.yellow_instances(0).max_sat()));
+
+        ui->yellow_max_val_slider->setValue(setting.yellow_instances(0).max_val());
+        ui->yellow_max_val_label->setText(QString::number(setting.yellow_instances(0).max_val()));
+
+        //Add violet colors
+        ui->violet_min_hue_slider->setValue(setting.violet_instances(0).min_hue());
+        ui->violet_min_hue_label->setText(QString::number(setting.violet_instances(0).min_hue()));
+
+        ui->violet_min_sat_slider->setValue(setting.violet_instances(0).min_sat());
+        ui->violet_min_sat_label->setText(QString::number(setting.violet_instances(0).min_sat()));
+
+        ui->violet_min_val_slider->setValue(setting.violet_instances(0).min_val());
+        ui->violet_min_val_label->setText(QString::number(setting.violet_instances(0).min_val()));
+
+        ui->violet_max_hue_slider->setValue(setting.violet_instances(0).max_hue());
+        ui->violet_max_hue_label->setText(QString::number(setting.violet_instances(0).max_hue()));
+
+        ui->violet_max_sat_slider->setValue(setting.violet_instances(0).max_sat());
+        ui->violet_max_sat_label->setText(QString::number(setting.violet_instances(0).max_sat()));
+
+        ui->violet_max_val_slider->setValue(setting.violet_instances(0).max_val());
+        ui->violet_max_val_label->setText(QString::number(setting.violet_instances(0).max_val()));
+
+        //Add cyan colors
+        ui->cyan_min_hue_slider->setValue(setting.cyan_instances(0).min_hue());
+        ui->cyan_min_hue_label->setText(QString::number(setting.cyan_instances(0).min_hue()));
+
+        ui->cyan_min_sat_slider->setValue(setting.cyan_instances(0).min_sat());
+        ui->cyan_min_sat_label->setText(QString::number(setting.cyan_instances(0).min_sat()));
+
+        ui->cyan_min_val_slider->setValue(setting.cyan_instances(0).min_val());
+        ui->cyan_min_val_label->setText(QString::number(setting.cyan_instances(0).min_val()));
+
+        ui->cyan_max_hue_slider->setValue(setting.cyan_instances(0).max_hue());
+        ui->cyan_max_hue_label->setText(QString::number(setting.cyan_instances(0).max_hue()));
+
+        ui->cyan_max_sat_slider->setValue(setting.cyan_instances(0).max_sat());
+        ui->cyan_max_sat_label->setText(QString::number(setting.cyan_instances(0).max_sat()));
+
+        ui->cyan_max_val_slider->setValue(setting.cyan_instances(0).max_val());
+        ui->cyan_max_val_label->setText(QString::number(setting.cyan_instances(0).max_val()));
+
+
+        //Add black colors
+        ui->black_min_hue_slider->setValue(setting.black_instances(0).min_hue());
+        ui->black_min_hue_label->setText(QString::number(setting.black_instances(0).min_hue()));
+
+        ui->black_min_sat_slider->setValue(setting.black_instances(0).min_sat());
+        ui->black_min_sat_label->setText(QString::number(setting.black_instances(0).min_sat()));
+
+        ui->black_min_val_slider->setValue(setting.black_instances(0).min_val());
+        ui->black_min_val_label->setText(QString::number(setting.black_instances(0).min_val()));
+
+        ui->black_max_hue_slider->setValue(setting.black_instances(0).max_hue());
+        ui->black_max_hue_label->setText(QString::number(setting.black_instances(0).max_hue()));
+
+        ui->black_max_sat_slider->setValue(setting.black_instances(0).max_sat());
+        ui->black_max_sat_label->setText(QString::number(setting.black_instances(0).max_sat()));
+
+        ui->black_max_val_slider->setValue(setting.black_instances(0).max_val());
+        ui->black_max_val_label->setText(QString::number(setting.black_instances(0).max_val()));
+
+        addHSVSettings();
     }
 }
 
@@ -1295,6 +1363,9 @@ void MainWindow::on_save_set_button_clicked()
     setting.set_input_brightness(ui->brightness_slider->value());
     setting.set_input_sharpness(ui->sharpness_slider->value());
     setting.set_input_gain(ui->gain_slider->value());
+    setting.set_input_hue(ui->hue_slider->value());
+    setting.set_input_sat(ui->saturation_slider->value());
+    setting.set_input_contrast(ui->contrast_slider->value());
     setting.set_input_network_ip(ui->ip_lineEdit->text().toStdString());
     setting.set_input_network_port(ui->port_lineEdit->text().toStdString());
 
@@ -1322,62 +1393,76 @@ void MainWindow::on_save_set_button_clicked()
     setting.set_filters_canny_first_threshold(ui->firstThresh_slider->value());
     setting.set_filters_canny_second_threshold(ui->secondThresh_slider->value());
 
-    //    //Add Colors!
-    //    for(int i=0;i<imageProcessor->red_samples.size();i++)
-    //    {
-    //        SystemSettings_color *color = setting.add_red_instances();
-    //        color->set_hue(imageProcessor->red_samples.at(i).val[0]);
-    //        color->set_sat(imageProcessor->red_samples.at(i).val[1]);
-    //        color->set_val(imageProcessor->red_samples.at(i).val[2]);
-    //    }
+    //Add Colors!
+    //Red...
+    SystemSettings_HSV *red_color = setting.add_red_instances();
+    red_color->set_min_hue(ui->red_min_hue_slider->value());
+    red_color->set_min_sat(ui->red_min_sat_slider->value());
+    red_color->set_min_val(ui->red_min_val_slider->value());
 
-    //    for(int i=0;i<imageProcessor->blue_samples.size();i++)
-    //    {
-    //        SystemSettings_color *color = setting.add_blue_instances();
-    //        color->set_hue(imageProcessor->blue_samples.at(i).val[0]);
-    //        color->set_sat(imageProcessor->blue_samples.at(i).val[1]);
-    //        color->set_val(imageProcessor->blue_samples.at(i).val[2]);
-    //    }
+    red_color->set_max_hue(ui->red_max_hue_slider->value());
+    red_color->set_max_sat(ui->red_max_sat_slider->value());
+    red_color->set_max_val(ui->red_max_val_slider->value());
 
-    //    for(int i=0;i<imageProcessor->green_samples.size();i++)
-    //    {
-    //        SystemSettings_color *color = setting.add_green_instances();
-    //        color->set_hue(imageProcessor->green_samples.at(i).val[0]);
-    //        color->set_sat(imageProcessor->green_samples.at(i).val[1]);
-    //        color->set_val(imageProcessor->green_samples.at(i).val[2]);
-    //    }
+    //Blue...
+    SystemSettings_HSV *blue_color = setting.add_blue_instances();
+    blue_color->set_min_hue(ui->blue_min_hue_slider->value());
+    blue_color->set_min_sat(ui->blue_min_sat_slider->value());
+    blue_color->set_min_val(ui->blue_min_val_slider->value());
 
-    //    for(int i=0;i<imageProcessor->yellow_samples.size();i++)
-    //    {
-    //        SystemSettings_color *color = setting.add_yellow_instances();
-    //        color->set_hue(imageProcessor->yellow_samples.at(i).val[0]);
-    //        color->set_sat(imageProcessor->yellow_samples.at(i).val[1]);
-    //        color->set_val(imageProcessor->yellow_samples.at(i).val[2]);
-    //    }
+    blue_color->set_max_hue(ui->blue_max_hue_slider->value());
+    blue_color->set_max_sat(ui->blue_max_sat_slider->value());
+    blue_color->set_max_val(ui->blue_max_val_slider->value());
 
-    //    for(int i=0;i<imageProcessor->violet_samples.size();i++)
-    //    {
-    //        SystemSettings_color *color = setting.add_violet_instances();
-    //        color->set_hue(imageProcessor->violet_samples.at(i).val[0]);
-    //        color->set_sat(imageProcessor->violet_samples.at(i).val[1]);
-    //        color->set_val(imageProcessor->violet_samples.at(i).val[2]);
-    //    }
+    //Green...
+    SystemSettings_HSV *green_color = setting.add_green_instances();
+    green_color->set_min_hue(ui->green_min_hue_slider->value());
+    green_color->set_min_sat(ui->green_min_sat_slider->value());
+    green_color->set_min_val(ui->green_min_val_slider->value());
 
-    //    for(int i=0;i<imageProcessor->cyan_samples.size();i++)
-    //    {
-    //        SystemSettings_color *color = setting.add_cyan_instances();
-    //        color->set_hue(imageProcessor->cyan_samples.at(i).val[0]);
-    //        color->set_sat(imageProcessor->cyan_samples.at(i).val[1]);
-    //        color->set_val(imageProcessor->cyan_samples.at(i).val[2]);
-    //    }
+    green_color->set_max_hue(ui->green_max_hue_slider->value());
+    green_color->set_max_sat(ui->green_max_sat_slider->value());
+    green_color->set_max_val(ui->green_max_val_slider->value());
 
-    //    for(int i=0;i<imageProcessor->black_samples.size();i++)
-    //    {
-    //        SystemSettings_color *color = setting.add_black_instances();
-    //        color->set_hue(imageProcessor->black_samples.at(i).val[0]);
-    //        color->set_sat(imageProcessor->black_samples.at(i).val[1]);
-    //        color->set_val(imageProcessor->black_samples.at(i).val[2]);
-    //    }
+    //Yellow...
+    SystemSettings_HSV *yellow_color = setting.add_yellow_instances();
+    yellow_color->set_min_hue(ui->yellow_min_hue_slider->value());
+    yellow_color->set_min_sat(ui->yellow_min_sat_slider->value());
+    yellow_color->set_min_val(ui->yellow_min_val_slider->value());
+
+    yellow_color->set_max_hue(ui->yellow_max_hue_slider->value());
+    yellow_color->set_max_sat(ui->yellow_max_sat_slider->value());
+    yellow_color->set_max_val(ui->yellow_max_val_slider->value());
+
+    //Violet...
+    SystemSettings_HSV *violet_color = setting.add_violet_instances();
+    violet_color->set_min_hue(ui->violet_min_hue_slider->value());
+    violet_color->set_min_sat(ui->violet_min_sat_slider->value());
+    violet_color->set_min_val(ui->violet_min_val_slider->value());
+
+    violet_color->set_max_hue(ui->violet_max_hue_slider->value());
+    violet_color->set_max_sat(ui->violet_max_sat_slider->value());
+    violet_color->set_max_val(ui->violet_max_val_slider->value());
+
+    //Cyan...
+    SystemSettings_HSV *cyan_color = setting.add_cyan_instances();
+    cyan_color->set_min_hue(ui->cyan_min_hue_slider->value());
+    cyan_color->set_min_sat(ui->cyan_min_sat_slider->value());
+    cyan_color->set_min_val(ui->cyan_min_val_slider->value());
+
+    cyan_color->set_max_hue(ui->cyan_max_hue_slider->value());
+    cyan_color->set_max_sat(ui->cyan_max_sat_slider->value());
+    cyan_color->set_max_val(ui->cyan_max_val_slider->value());
+
+    //Black...
+    SystemSettings_HSV *black_color = setting.add_black_instances();
+    black_color->set_min_hue(ui->black_min_hue_slider->value());
+    black_color->set_min_sat(ui->black_min_sat_slider->value());
+    black_color->set_min_val(ui->black_min_val_slider->value());
+
+    black_color->set_max_hue(ui->black_max_hue_slider->value());
+    black_color->set_max_sat(ui->black_max_sat_slider->value());
+    black_color->set_max_val(ui->black_max_val_slider->value());
 
     QString fileAddress = QFileDialog::getSaveFileName(this,tr("Select Directory..."), "/home", tr("Text File (*.txt)"));
     QFile file(fileAddress);
@@ -1639,7 +1724,7 @@ void MainWindow::checkAllOfRecieved()
     }
     semaphoreForDataPlussing->release(7);
 
-   if(permissionForSending)
+    if(permissionForSending)
     {
         imageProcessor->result.set_mission(mission);
         imageProcessor->result.set_type(1);
@@ -1961,4 +2046,468 @@ void MainWindow::on_black_max_val_slider_sliderMoved(int position)
 {
     ui->black_max_val_label->setText(QString::number(position));
     addHSVSettings();
+}
+
+void MainWindow::on_import_button_clicked()
+{
+    ColorSettings setting;
+
+    QString fileAddress = QFileDialog::getOpenFileName(this,tr("Select Color File"), "/home", tr("Text File (*.txt)"));
+
+    fstream input;
+    input.open(fileAddress.toUtf8(), ios::in | ios::binary);
+    if (!input)
+    {
+        qDebug() << fileAddress << ": File not found.  Creating a new file." << endl;
+
+    }
+    else if (!setting.ParseFromIstream(&input))
+    {
+        qDebug() << "Failed";
+    }
+    else
+    {
+        if(setting.red_instances_size() >=0)
+        {
+            float red_min_hue = 100000;
+            float red_min_sat = 100000;
+            float red_min_val = 100000;
+
+            float red_max_hue = -10000;
+            float red_max_sat = -10000;
+            float red_max_val = -10000;
+
+            for(int i=0;i<setting.red_instances_size();i++)
+            {
+                if(setting.red_instances(i).min_hue() < red_min_hue)
+                {
+                    red_min_hue = setting.red_instances(i).min_hue();
+                }
+
+                if(setting.red_instances(i).min_sat() < red_min_sat)
+                {
+                    red_min_sat = setting.red_instances(i).min_sat();
+                }
+
+                if(setting.red_instances(i).min_val() < red_min_val)
+                {
+                    red_min_val = setting.red_instances(i).min_val();
+                }
+
+                if(setting.red_instances(i).max_hue() > red_max_hue)
+                {
+                    red_max_hue = setting.red_instances(i).max_hue();
+                }
+
+                if(setting.red_instances(i).max_sat() > red_max_sat)
+                {
+                    red_max_sat = setting.red_instances(i).max_sat();
+                }
+
+                if(setting.red_instances(i).max_val() > red_max_val)
+                {
+                    red_max_val = setting.red_instances(i).max_val();
+                }
+            }
+
+            //Add red Colors
+            ui->red_min_hue_slider->setValue(red_min_hue);
+            ui->red_min_hue_label->setText(QString::number(red_min_hue));
+
+            ui->red_min_sat_slider->setValue(red_min_sat);
+            ui->red_min_sat_label->setText(QString::number(red_min_sat));
+
+            ui->red_min_val_slider->setValue(red_min_val);
+            ui->red_min_val_label->setText(QString::number(red_min_val));
+
+            ui->red_max_hue_slider->setValue(red_max_hue);
+            ui->red_max_hue_label->setText(QString::number(red_max_hue));
+
+            ui->red_max_sat_slider->setValue(red_max_sat);
+            ui->red_max_sat_label->setText(QString::number(red_max_sat));
+
+            ui->red_max_val_slider->setValue(red_max_val);
+            ui->red_max_val_label->setText(QString::number(red_max_val));
+        }
+
+        if(setting.blue_instances_size() >=0)
+        {
+            float blue_min_hue = 100000;
+            float blue_min_sat = 100000;
+            float blue_min_val = 100000;
+
+            float blue_max_hue = -10000;
+            float blue_max_sat = -10000;
+            float blue_max_val = -10000;
+
+            for(int i=0;i<setting.blue_instances_size();i++)
+            {
+                if(setting.blue_instances(i).min_hue() < blue_min_hue)
+                {
+                    blue_min_hue = setting.blue_instances(i).min_hue();
+                }
+
+                if(setting.blue_instances(i).min_sat() < blue_min_sat)
+                {
+                    blue_min_sat = setting.blue_instances(i).min_sat();
+                }
+
+                if(setting.blue_instances(i).min_val() < blue_min_val)
+                {
+                    blue_min_val = setting.blue_instances(i).min_val();
+                }
+
+                if(setting.blue_instances(i).max_hue() > blue_max_hue)
+                {
+                    blue_max_hue = setting.blue_instances(i).max_hue();
+                }
+
+                if(setting.blue_instances(i).max_sat() > blue_max_sat)
+                {
+                    blue_max_sat = setting.blue_instances(i).max_sat();
+                }
+
+                if(setting.blue_instances(i).max_val() > blue_max_val)
+                {
+                    blue_max_val = setting.blue_instances(i).max_val();
+                }
+            }
+
+            //Add blue Colors
+            ui->blue_min_hue_slider->setValue(blue_min_hue);
+            ui->blue_min_hue_label->setText(QString::number(blue_min_hue));
+
+            ui->blue_min_sat_slider->setValue(blue_min_sat);
+            ui->blue_min_sat_label->setText(QString::number(blue_min_sat));
+
+            ui->blue_min_val_slider->setValue(blue_min_val);
+            ui->blue_min_val_label->setText(QString::number(blue_min_val));
+
+            ui->blue_max_hue_slider->setValue(blue_max_hue);
+            ui->blue_max_hue_label->setText(QString::number(blue_max_hue));
+
+            ui->blue_max_sat_slider->setValue(blue_max_sat);
+            ui->blue_max_sat_label->setText(QString::number(blue_max_sat));
+
+            ui->blue_max_val_slider->setValue(blue_max_val);
+            ui->blue_max_val_label->setText(QString::number(blue_max_val));
+        }
+
+        if(setting.green_instances_size() >=0)
+        {
+            float green_min_hue = 100000;
+            float green_min_sat = 100000;
+            float green_min_val = 100000;
+
+            float green_max_hue = -10000;
+            float green_max_sat = -10000;
+            float green_max_val = -10000;
+
+            for(int i=0;i<setting.green_instances_size();i++)
+            {
+                if(setting.green_instances(i).min_hue() < green_min_hue)
+                {
+                    green_min_hue = setting.green_instances(i).min_hue();
+                }
+
+                if(setting.green_instances(i).min_sat() < green_min_sat)
+                {
+                    green_min_sat = setting.green_instances(i).min_sat();
+                }
+
+                if(setting.green_instances(i).min_val() < green_min_val)
+                {
+                    green_min_val = setting.green_instances(i).min_val();
+                }
+
+                if(setting.green_instances(i).max_hue() > green_max_hue)
+                {
+                    green_max_hue = setting.green_instances(i).max_hue();
+                }
+
+                if(setting.green_instances(i).max_sat() > green_max_sat)
+                {
+                    green_max_sat = setting.green_instances(i).max_sat();
+                }
+
+                if(setting.green_instances(i).max_val() > green_max_val)
+                {
+                    green_max_val = setting.green_instances(i).max_val();
+                }
+            }
+
+            //Add green Colors
+            ui->green_min_hue_slider->setValue(green_min_hue);
+            ui->green_min_hue_label->setText(QString::number(green_min_hue));
+
+            ui->green_min_sat_slider->setValue(green_min_sat);
+            ui->green_min_sat_label->setText(QString::number(green_min_sat));
+
+            ui->green_min_val_slider->setValue(green_min_val);
+            ui->green_min_val_label->setText(QString::number(green_min_val));
+
+            ui->green_max_hue_slider->setValue(green_max_hue);
+            ui->green_max_hue_label->setText(QString::number(green_max_hue));
+
+            ui->green_max_sat_slider->setValue(green_max_sat);
+            ui->green_max_sat_label->setText(QString::number(green_max_sat));
+
+            ui->green_max_val_slider->setValue(green_max_val);
+            ui->green_max_val_label->setText(QString::number(green_max_val));
+        }
+
+        if(setting.yellow_instances_size() >=0)
+        {
+            float yellow_min_hue = 100000;
+            float yellow_min_sat = 100000;
+            float yellow_min_val = 100000;
+
+            float yellow_max_hue = -10000;
+            float yellow_max_sat = -10000;
+            float yellow_max_val = -10000;
+
+            for(int i=0;i<setting.yellow_instances_size();i++)
+            {
+                if(setting.yellow_instances(i).min_hue() < yellow_min_hue)
+                {
+                    yellow_min_hue = setting.yellow_instances(i).min_hue();
+                }
+
+                if(setting.yellow_instances(i).min_sat() < yellow_min_sat)
+                {
+                    yellow_min_sat = setting.yellow_instances(i).min_sat();
+                }
+
+                if(setting.yellow_instances(i).min_val() < yellow_min_val)
+                {
+                    yellow_min_val = setting.yellow_instances(i).min_val();
+                }
+
+                if(setting.yellow_instances(i).max_hue() > yellow_max_hue)
+                {
+                    yellow_max_hue = setting.yellow_instances(i).max_hue();
+                }
+
+                if(setting.yellow_instances(i).max_sat() > yellow_max_sat)
+                {
+                    yellow_max_sat = setting.yellow_instances(i).max_sat();
+                }
+
+                if(setting.yellow_instances(i).max_val() > yellow_max_val)
+                {
+                    yellow_max_val = setting.yellow_instances(i).max_val();
+                }
+            }
+
+            //Add yellow Colors
+            ui->yellow_min_hue_slider->setValue(yellow_min_hue);
+            ui->yellow_min_hue_label->setText(QString::number(yellow_min_hue));
+
+            ui->yellow_min_sat_slider->setValue(yellow_min_sat);
+            ui->yellow_min_sat_label->setText(QString::number(yellow_min_sat));
+
+            ui->yellow_min_val_slider->setValue(yellow_min_val);
+            ui->yellow_min_val_label->setText(QString::number(yellow_min_val));
+
+            ui->yellow_max_hue_slider->setValue(yellow_max_hue);
+            ui->yellow_max_hue_label->setText(QString::number(yellow_max_hue));
+
+            ui->yellow_max_sat_slider->setValue(yellow_max_sat);
+            ui->yellow_max_sat_label->setText(QString::number(yellow_max_sat));
+
+            ui->yellow_max_val_slider->setValue(yellow_max_val);
+            ui->yellow_max_val_label->setText(QString::number(yellow_max_val));
+        }
+
+        if(setting.violet_instances_size() >=0)
+        {
+            float violet_min_hue = 100000;
+            float violet_min_sat = 100000;
+            float violet_min_val = 100000;
+
+            float violet_max_hue = -10000;
+            float violet_max_sat = -10000;
+            float violet_max_val = -10000;
+
+            for(int i=0;i<setting.violet_instances_size();i++)
+            {
+                if(setting.violet_instances(i).min_hue() < violet_min_hue)
+                {
+                    violet_min_hue = setting.violet_instances(i).min_hue();
+                }
+
+                if(setting.violet_instances(i).min_sat() < violet_min_sat)
+                {
+                    violet_min_sat = setting.violet_instances(i).min_sat();
+                }
+
+                if(setting.violet_instances(i).min_val() < violet_min_val)
+                {
+                    violet_min_val = setting.violet_instances(i).min_val();
+                }
+
+                if(setting.violet_instances(i).max_hue() > violet_max_hue)
+                {
+                    violet_max_hue = setting.violet_instances(i).max_hue();
+                }
+
+                if(setting.violet_instances(i).max_sat() > violet_max_sat)
+                {
+                    violet_max_sat = setting.violet_instances(i).max_sat();
+                }
+
+                if(setting.violet_instances(i).max_val() > violet_max_val)
+                {
+                    violet_max_val = setting.violet_instances(i).max_val();
+                }
+            }
+
+            //Add violet Colors
+            ui->violet_min_hue_slider->setValue(violet_min_hue);
+            ui->violet_min_hue_label->setText(QString::number(violet_min_hue));
+
+            ui->violet_min_sat_slider->setValue(violet_min_sat);
+            ui->violet_min_sat_label->setText(QString::number(violet_min_sat));
+
+            ui->violet_min_val_slider->setValue(violet_min_val);
+            ui->violet_min_val_label->setText(QString::number(violet_min_val));
+
+            ui->violet_max_hue_slider->setValue(violet_max_hue);
+            ui->violet_max_hue_label->setText(QString::number(violet_max_hue));
+
+            ui->violet_max_sat_slider->setValue(violet_max_sat);
+            ui->violet_max_sat_label->setText(QString::number(violet_max_sat));
+
+            ui->violet_max_val_slider->setValue(violet_max_val);
+            ui->violet_max_val_label->setText(QString::number(violet_max_val));
+        }
+
+        if(setting.cyan_instances_size() >=0)
+        {
+            float cyan_min_hue = 100000;
+            float cyan_min_sat = 100000;
+            float cyan_min_val = 100000;
+
+            float cyan_max_hue = -10000;
+            float cyan_max_sat = -10000;
+            float cyan_max_val = -10000;
+
+            for(int i=0;i<setting.cyan_instances_size();i++)
+            {
+                if(setting.cyan_instances(i).min_hue() < cyan_min_hue)
+                {
+                    cyan_min_hue = setting.cyan_instances(i).min_hue();
+                }
+
+                if(setting.cyan_instances(i).min_sat() < cyan_min_sat)
+                {
+                    cyan_min_sat = setting.cyan_instances(i).min_sat();
+                }
+
+                if(setting.cyan_instances(i).min_val() < cyan_min_val)
+                {
+                    cyan_min_val = setting.cyan_instances(i).min_val();
+                }
+
+                if(setting.cyan_instances(i).max_hue() > cyan_max_hue)
+                {
+                    cyan_max_hue = setting.cyan_instances(i).max_hue();
+                }
+
+                if(setting.cyan_instances(i).max_sat() > cyan_max_sat)
+                {
+                    cyan_max_sat = setting.cyan_instances(i).max_sat();
+                }
+
+                if(setting.cyan_instances(i).max_val() > cyan_max_val)
+                {
+                    cyan_max_val = setting.cyan_instances(i).max_val();
+                }
+            }
+
+            //Add cyan Colors
+            ui->cyan_min_hue_slider->setValue(cyan_min_hue);
+            ui->cyan_min_hue_label->setText(QString::number(cyan_min_hue));
+
+            ui->cyan_min_sat_slider->setValue(cyan_min_sat);
+            ui->cyan_min_sat_label->setText(QString::number(cyan_min_sat));
+
+            ui->cyan_min_val_slider->setValue(cyan_min_val);
+            ui->cyan_min_val_label->setText(QString::number(cyan_min_val));
+
+            ui->cyan_max_hue_slider->setValue(cyan_max_hue);
+            ui->cyan_max_hue_label->setText(QString::number(cyan_max_hue));
+
+            ui->cyan_max_sat_slider->setValue(cyan_max_sat);
+            ui->cyan_max_sat_label->setText(QString::number(cyan_max_sat));
+
+            ui->cyan_max_val_slider->setValue(cyan_max_val);
+            ui->cyan_max_val_label->setText(QString::number(cyan_max_val));
+        }
+
+        if(setting.black_instances_size() >=0)
+        {
+            float black_min_hue = 100000;
+            float black_min_sat = 100000;
+            float black_min_val = 100000;
+
+            float black_max_hue = -10000;
+            float black_max_sat = -10000;
+            float black_max_val = -10000;
+
+            for(int i=0;i<setting.black_instances_size();i++)
+            {
+                if(setting.black_instances(i).min_hue() < black_min_hue)
+                {
+                    black_min_hue = setting.black_instances(i).min_hue();
+                }
+
+                if(setting.black_instances(i).min_sat() < black_min_sat)
+                {
+                    black_min_sat = setting.black_instances(i).min_sat();
+                }
+
+                if(setting.black_instances(i).min_val() < black_min_val)
+                {
+                    black_min_val = setting.black_instances(i).min_val();
+                }
+
+                if(setting.black_instances(i).max_hue() > black_max_hue)
+                {
+                    black_max_hue = setting.black_instances(i).max_hue();
+                }
+
+                if(setting.black_instances(i).max_sat() > black_max_sat)
+                {
+                    black_max_sat = setting.black_instances(i).max_sat();
+                }
+
+                if(setting.black_instances(i).max_val() > black_max_val)
+                {
+                    black_max_val = setting.black_instances(i).max_val();
+                }
+            }
+
+            //Add black Colors
+            ui->black_min_hue_slider->setValue(black_min_hue);
+            ui->black_min_hue_label->setText(QString::number(black_min_hue));
+
+            ui->black_min_sat_slider->setValue(black_min_sat);
+            ui->black_min_sat_label->setText(QString::number(black_min_sat));
+
+            ui->black_min_val_slider->setValue(black_min_val);
+            ui->black_min_val_label->setText(QString::number(black_min_val));
+
+            ui->black_max_hue_slider->setValue(black_max_hue);
+            ui->black_max_hue_label->setText(QString::number(black_max_hue));
+
+            ui->black_max_sat_slider->setValue(black_max_sat);
+            ui->black_max_sat_label->setText(QString::number(black_max_sat));
+
+            ui->black_max_val_slider->setValue(black_max_val);
+            ui->black_max_val_label->setText(QString::number(black_max_val));
+        }
+
+        addHSVSettings();
+    }
 }

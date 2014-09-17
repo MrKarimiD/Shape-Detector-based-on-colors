@@ -1,0 +1,38 @@
+message ColorSettings
+{
+	message color
+	{
+		required float min_hue = 1;
+		required float min_sat = 2;
+		required float min_val = 3;
+		required float max_hue = 4;
+		required float max_sat = 5;
+		required float max_val = 6;
+	}
+	
+	//Input Tab
+	required int64 input_WHITE_BALANCE_BLUE_U = 1;
+	required int64 input_WHITE_BALANCE_RED_V = 2;
+	required int64 input_EXPOSURE = 3;
+	required int64 input_BRIGHTNESS = 4;
+	required int32 input_SHARPNESS = 5;
+	required int64 input_GAIN = 6;
+	required int64 input_HUE = 7;
+	required int64 input_SAT = 8;
+	required int64 input_CONTRAST = 9;
+	
+	//Colors tab
+	repeated color red_instances = 10;
+	
+	repeated color blue_instances = 11;
+	
+	repeated color green_instances = 12;
+	
+	repeated color yellow_instances = 13;	
+	
+	repeated color violet_instances = 14;
+	
+	repeated color cyan_instances = 15;
+	
+	repeated color black_instances = 16;
+}

@@ -89,44 +89,74 @@ class SystemSettings_HSV : public ::google::protobuf::Message {
   
   // accessors -------------------------------------------------------
   
-  // required float hue = 1;
-  inline bool has_hue() const;
-  inline void clear_hue();
-  static const int kHueFieldNumber = 1;
-  inline float hue() const;
-  inline void set_hue(float value);
+  // required float min_hue = 1;
+  inline bool has_min_hue() const;
+  inline void clear_min_hue();
+  static const int kMinHueFieldNumber = 1;
+  inline float min_hue() const;
+  inline void set_min_hue(float value);
   
-  // required float sat = 2;
-  inline bool has_sat() const;
-  inline void clear_sat();
-  static const int kSatFieldNumber = 2;
-  inline float sat() const;
-  inline void set_sat(float value);
+  // required float min_sat = 2;
+  inline bool has_min_sat() const;
+  inline void clear_min_sat();
+  static const int kMinSatFieldNumber = 2;
+  inline float min_sat() const;
+  inline void set_min_sat(float value);
   
-  // required float val = 3;
-  inline bool has_val() const;
-  inline void clear_val();
-  static const int kValFieldNumber = 3;
-  inline float val() const;
-  inline void set_val(float value);
+  // required float min_val = 3;
+  inline bool has_min_val() const;
+  inline void clear_min_val();
+  static const int kMinValFieldNumber = 3;
+  inline float min_val() const;
+  inline void set_min_val(float value);
+  
+  // required float max_hue = 4;
+  inline bool has_max_hue() const;
+  inline void clear_max_hue();
+  static const int kMaxHueFieldNumber = 4;
+  inline float max_hue() const;
+  inline void set_max_hue(float value);
+  
+  // required float max_sat = 5;
+  inline bool has_max_sat() const;
+  inline void clear_max_sat();
+  static const int kMaxSatFieldNumber = 5;
+  inline float max_sat() const;
+  inline void set_max_sat(float value);
+  
+  // required float max_val = 6;
+  inline bool has_max_val() const;
+  inline void clear_max_val();
+  static const int kMaxValFieldNumber = 6;
+  inline float max_val() const;
+  inline void set_max_val(float value);
   
   // @@protoc_insertion_point(class_scope:SystemSettings.HSV)
  private:
-  inline void set_has_hue();
-  inline void clear_has_hue();
-  inline void set_has_sat();
-  inline void clear_has_sat();
-  inline void set_has_val();
-  inline void clear_has_val();
+  inline void set_has_min_hue();
+  inline void clear_has_min_hue();
+  inline void set_has_min_sat();
+  inline void clear_has_min_sat();
+  inline void set_has_min_val();
+  inline void clear_has_min_val();
+  inline void set_has_max_hue();
+  inline void clear_has_max_hue();
+  inline void set_has_max_sat();
+  inline void clear_has_max_sat();
+  inline void set_has_max_val();
+  inline void clear_has_max_val();
   
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
   
-  float hue_;
-  float sat_;
-  float val_;
+  float min_hue_;
+  float min_sat_;
+  float min_val_;
+  float max_hue_;
+  float max_sat_;
+  float max_val_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
   
   friend void  protobuf_AddDesc_SystemSettings_2eproto();
   friend void protobuf_AssignDesc_SystemSettings_2eproto();
@@ -643,70 +673,136 @@ class SystemSettings : public ::google::protobuf::Message {
 
 // SystemSettings_HSV
 
-// required float hue = 1;
-inline bool SystemSettings_HSV::has_hue() const {
+// required float min_hue = 1;
+inline bool SystemSettings_HSV::has_min_hue() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void SystemSettings_HSV::set_has_hue() {
+inline void SystemSettings_HSV::set_has_min_hue() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void SystemSettings_HSV::clear_has_hue() {
+inline void SystemSettings_HSV::clear_has_min_hue() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void SystemSettings_HSV::clear_hue() {
-  hue_ = 0;
-  clear_has_hue();
+inline void SystemSettings_HSV::clear_min_hue() {
+  min_hue_ = 0;
+  clear_has_min_hue();
 }
-inline float SystemSettings_HSV::hue() const {
-  return hue_;
+inline float SystemSettings_HSV::min_hue() const {
+  return min_hue_;
 }
-inline void SystemSettings_HSV::set_hue(float value) {
-  set_has_hue();
-  hue_ = value;
+inline void SystemSettings_HSV::set_min_hue(float value) {
+  set_has_min_hue();
+  min_hue_ = value;
 }
 
-// required float sat = 2;
-inline bool SystemSettings_HSV::has_sat() const {
+// required float min_sat = 2;
+inline bool SystemSettings_HSV::has_min_sat() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void SystemSettings_HSV::set_has_sat() {
+inline void SystemSettings_HSV::set_has_min_sat() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void SystemSettings_HSV::clear_has_sat() {
+inline void SystemSettings_HSV::clear_has_min_sat() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void SystemSettings_HSV::clear_sat() {
-  sat_ = 0;
-  clear_has_sat();
+inline void SystemSettings_HSV::clear_min_sat() {
+  min_sat_ = 0;
+  clear_has_min_sat();
 }
-inline float SystemSettings_HSV::sat() const {
-  return sat_;
+inline float SystemSettings_HSV::min_sat() const {
+  return min_sat_;
 }
-inline void SystemSettings_HSV::set_sat(float value) {
-  set_has_sat();
-  sat_ = value;
+inline void SystemSettings_HSV::set_min_sat(float value) {
+  set_has_min_sat();
+  min_sat_ = value;
 }
 
-// required float val = 3;
-inline bool SystemSettings_HSV::has_val() const {
+// required float min_val = 3;
+inline bool SystemSettings_HSV::has_min_val() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void SystemSettings_HSV::set_has_val() {
+inline void SystemSettings_HSV::set_has_min_val() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void SystemSettings_HSV::clear_has_val() {
+inline void SystemSettings_HSV::clear_has_min_val() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void SystemSettings_HSV::clear_val() {
-  val_ = 0;
-  clear_has_val();
+inline void SystemSettings_HSV::clear_min_val() {
+  min_val_ = 0;
+  clear_has_min_val();
 }
-inline float SystemSettings_HSV::val() const {
-  return val_;
+inline float SystemSettings_HSV::min_val() const {
+  return min_val_;
 }
-inline void SystemSettings_HSV::set_val(float value) {
-  set_has_val();
-  val_ = value;
+inline void SystemSettings_HSV::set_min_val(float value) {
+  set_has_min_val();
+  min_val_ = value;
+}
+
+// required float max_hue = 4;
+inline bool SystemSettings_HSV::has_max_hue() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void SystemSettings_HSV::set_has_max_hue() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void SystemSettings_HSV::clear_has_max_hue() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void SystemSettings_HSV::clear_max_hue() {
+  max_hue_ = 0;
+  clear_has_max_hue();
+}
+inline float SystemSettings_HSV::max_hue() const {
+  return max_hue_;
+}
+inline void SystemSettings_HSV::set_max_hue(float value) {
+  set_has_max_hue();
+  max_hue_ = value;
+}
+
+// required float max_sat = 5;
+inline bool SystemSettings_HSV::has_max_sat() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void SystemSettings_HSV::set_has_max_sat() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void SystemSettings_HSV::clear_has_max_sat() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void SystemSettings_HSV::clear_max_sat() {
+  max_sat_ = 0;
+  clear_has_max_sat();
+}
+inline float SystemSettings_HSV::max_sat() const {
+  return max_sat_;
+}
+inline void SystemSettings_HSV::set_max_sat(float value) {
+  set_has_max_sat();
+  max_sat_ = value;
+}
+
+// required float max_val = 6;
+inline bool SystemSettings_HSV::has_max_val() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void SystemSettings_HSV::set_has_max_val() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void SystemSettings_HSV::clear_has_max_val() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void SystemSettings_HSV::clear_max_val() {
+  max_val_ = 0;
+  clear_has_max_val();
+}
+inline float SystemSettings_HSV::max_val() const {
+  return max_val_;
+}
+inline void SystemSettings_HSV::set_max_val(float value) {
+  set_has_max_val();
+  max_val_ = value;
 }
 
 // -------------------------------------------------------------------

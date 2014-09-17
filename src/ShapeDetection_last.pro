@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     System_Protobuf/SystemSettings.pb.cc \
     shape.cpp \
     camerasetting.cpp \
-    imageprocsegment.cpp
+    imageprocsegment.cpp \
+    Color_Protobuf/ColorSettings.pb.cc
 
 HEADERS  += mainwindow.h \
     imageprocessing.h \
@@ -68,7 +69,8 @@ HEADERS  += mainwindow.h \
     System_Protobuf/SystemSettings.pb.h \
     shape.h \
     camerasetting.h \
-    imageprocsegment.h
+    imageprocsegment.h \
+    Color_Protobuf/ColorSettings.pb.h
 
 FORMS    += mainwindow.ui
 

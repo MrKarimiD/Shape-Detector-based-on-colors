@@ -83,10 +83,13 @@ void protobuf_AssignDesc_SystemSettings_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(SystemSettings));
   SystemSettings_HSV_descriptor_ = SystemSettings_descriptor_->nested_type(0);
-  static const int SystemSettings_HSV_offsets_[3] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, hue_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, sat_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, val_),
+  static const int SystemSettings_HSV_offsets_[6] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, min_hue_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, min_sat_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, min_val_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, max_hue_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, max_sat_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SystemSettings_HSV, max_val_),
   };
   SystemSettings_HSV_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -133,7 +136,7 @@ void protobuf_AddDesc_SystemSettings_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\024SystemSettings.proto\"\236\n\n\016SystemSetting"
+    "\n\024SystemSettings.proto\"\335\n\n\016SystemSetting"
     "s\022!\n\031input_edit_camera_setting\030\001 \002(\010\022\"\n\032"
     "input_WHITE_BALANCE_BLUE_U\030\002 \002(\003\022!\n\031inpu"
     "t_WHITE_BALANCE_RED_V\030\003 \002(\003\022\026\n\016input_EXP"
@@ -165,8 +168,9 @@ void protobuf_AddDesc_SystemSettings_2eproto() {
     "t_instances\030# \003(\0132\023.SystemSettings.HSV\022+"
     "\n\016cyan_instances\030$ \003(\0132\023.SystemSettings."
     "HSV\022,\n\017black_instances\030% \003(\0132\023.SystemSet"
-    "tings.HSV\032,\n\003HSV\022\013\n\003hue\030\001 \002(\002\022\013\n\003sat\030\002 \002"
-    "(\002\022\013\n\003val\030\003 \002(\002", 1335);
+    "tings.HSV\032k\n\003HSV\022\017\n\007min_hue\030\001 \002(\002\022\017\n\007min"
+    "_sat\030\002 \002(\002\022\017\n\007min_val\030\003 \002(\002\022\017\n\007max_hue\030\004"
+    " \002(\002\022\017\n\007max_sat\030\005 \002(\002\022\017\n\007max_val\030\006 \002(\002", 1398);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SystemSettings.proto", &protobuf_RegisterTypes);
   SystemSettings::default_instance_ = new SystemSettings();
@@ -187,9 +191,12 @@ struct StaticDescriptorInitializer_SystemSettings_2eproto {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int SystemSettings_HSV::kHueFieldNumber;
-const int SystemSettings_HSV::kSatFieldNumber;
-const int SystemSettings_HSV::kValFieldNumber;
+const int SystemSettings_HSV::kMinHueFieldNumber;
+const int SystemSettings_HSV::kMinSatFieldNumber;
+const int SystemSettings_HSV::kMinValFieldNumber;
+const int SystemSettings_HSV::kMaxHueFieldNumber;
+const int SystemSettings_HSV::kMaxSatFieldNumber;
+const int SystemSettings_HSV::kMaxValFieldNumber;
 #endif  // !_MSC_VER
 
 SystemSettings_HSV::SystemSettings_HSV()
@@ -208,9 +215,12 @@ SystemSettings_HSV::SystemSettings_HSV(const SystemSettings_HSV& from)
 
 void SystemSettings_HSV::SharedCtor() {
   _cached_size_ = 0;
-  hue_ = 0;
-  sat_ = 0;
-  val_ = 0;
+  min_hue_ = 0;
+  min_sat_ = 0;
+  min_val_ = 0;
+  max_hue_ = 0;
+  max_sat_ = 0;
+  max_val_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -245,9 +255,12 @@ SystemSettings_HSV* SystemSettings_HSV::New() const {
 
 void SystemSettings_HSV::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    hue_ = 0;
-    sat_ = 0;
-    val_ = 0;
+    min_hue_ = 0;
+    min_sat_ = 0;
+    min_val_ = 0;
+    max_hue_ = 0;
+    max_sat_ = 0;
+    max_val_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -259,46 +272,94 @@ bool SystemSettings_HSV::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required float hue = 1;
+      // required float min_hue = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &hue_)));
-          set_has_hue();
+                 input, &min_hue_)));
+          set_has_min_hue();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(21)) goto parse_sat;
+        if (input->ExpectTag(21)) goto parse_min_sat;
         break;
       }
       
-      // required float sat = 2;
+      // required float min_sat = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-         parse_sat:
+         parse_min_sat:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &sat_)));
-          set_has_sat();
+                 input, &min_sat_)));
+          set_has_min_sat();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(29)) goto parse_val;
+        if (input->ExpectTag(29)) goto parse_min_val;
         break;
       }
       
-      // required float val = 3;
+      // required float min_val = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-         parse_val:
+         parse_min_val:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &val_)));
-          set_has_val();
+                 input, &min_val_)));
+          set_has_min_val();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(37)) goto parse_max_hue;
+        break;
+      }
+      
+      // required float max_hue = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_max_hue:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &max_hue_)));
+          set_has_max_hue();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(45)) goto parse_max_sat;
+        break;
+      }
+      
+      // required float max_sat = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_max_sat:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &max_sat_)));
+          set_has_max_sat();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(53)) goto parse_max_val;
+        break;
+      }
+      
+      // required float max_val = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_max_val:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &max_val_)));
+          set_has_max_val();
         } else {
           goto handle_uninterpreted;
         }
@@ -324,19 +385,34 @@ bool SystemSettings_HSV::MergePartialFromCodedStream(
 
 void SystemSettings_HSV::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required float hue = 1;
-  if (has_hue()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->hue(), output);
+  // required float min_hue = 1;
+  if (has_min_hue()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->min_hue(), output);
   }
   
-  // required float sat = 2;
-  if (has_sat()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->sat(), output);
+  // required float min_sat = 2;
+  if (has_min_sat()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->min_sat(), output);
   }
   
-  // required float val = 3;
-  if (has_val()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->val(), output);
+  // required float min_val = 3;
+  if (has_min_val()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->min_val(), output);
+  }
+  
+  // required float max_hue = 4;
+  if (has_max_hue()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->max_hue(), output);
+  }
+  
+  // required float max_sat = 5;
+  if (has_max_sat()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->max_sat(), output);
+  }
+  
+  // required float max_val = 6;
+  if (has_max_val()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->max_val(), output);
   }
   
   if (!unknown_fields().empty()) {
@@ -347,19 +423,34 @@ void SystemSettings_HSV::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* SystemSettings_HSV::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required float hue = 1;
-  if (has_hue()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->hue(), target);
+  // required float min_hue = 1;
+  if (has_min_hue()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->min_hue(), target);
   }
   
-  // required float sat = 2;
-  if (has_sat()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->sat(), target);
+  // required float min_sat = 2;
+  if (has_min_sat()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->min_sat(), target);
   }
   
-  // required float val = 3;
-  if (has_val()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->val(), target);
+  // required float min_val = 3;
+  if (has_min_val()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->min_val(), target);
+  }
+  
+  // required float max_hue = 4;
+  if (has_max_hue()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->max_hue(), target);
+  }
+  
+  // required float max_sat = 5;
+  if (has_max_sat()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->max_sat(), target);
+  }
+  
+  // required float max_val = 6;
+  if (has_max_val()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->max_val(), target);
   }
   
   if (!unknown_fields().empty()) {
@@ -373,18 +464,33 @@ int SystemSettings_HSV::ByteSize() const {
   int total_size = 0;
   
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required float hue = 1;
-    if (has_hue()) {
+    // required float min_hue = 1;
+    if (has_min_hue()) {
       total_size += 1 + 4;
     }
     
-    // required float sat = 2;
-    if (has_sat()) {
+    // required float min_sat = 2;
+    if (has_min_sat()) {
       total_size += 1 + 4;
     }
     
-    // required float val = 3;
-    if (has_val()) {
+    // required float min_val = 3;
+    if (has_min_val()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float max_hue = 4;
+    if (has_max_hue()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float max_sat = 5;
+    if (has_max_sat()) {
+      total_size += 1 + 4;
+    }
+    
+    // required float max_val = 6;
+    if (has_max_val()) {
       total_size += 1 + 4;
     }
     
@@ -415,14 +521,23 @@ void SystemSettings_HSV::MergeFrom(const ::google::protobuf::Message& from) {
 void SystemSettings_HSV::MergeFrom(const SystemSettings_HSV& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_hue()) {
-      set_hue(from.hue());
+    if (from.has_min_hue()) {
+      set_min_hue(from.min_hue());
     }
-    if (from.has_sat()) {
-      set_sat(from.sat());
+    if (from.has_min_sat()) {
+      set_min_sat(from.min_sat());
     }
-    if (from.has_val()) {
-      set_val(from.val());
+    if (from.has_min_val()) {
+      set_min_val(from.min_val());
+    }
+    if (from.has_max_hue()) {
+      set_max_hue(from.max_hue());
+    }
+    if (from.has_max_sat()) {
+      set_max_sat(from.max_sat());
+    }
+    if (from.has_max_val()) {
+      set_max_val(from.max_val());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -441,16 +556,19 @@ void SystemSettings_HSV::CopyFrom(const SystemSettings_HSV& from) {
 }
 
 bool SystemSettings_HSV::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
   
   return true;
 }
 
 void SystemSettings_HSV::Swap(SystemSettings_HSV* other) {
   if (other != this) {
-    std::swap(hue_, other->hue_);
-    std::swap(sat_, other->sat_);
-    std::swap(val_, other->val_);
+    std::swap(min_hue_, other->min_hue_);
+    std::swap(min_sat_, other->min_sat_);
+    std::swap(min_val_, other->min_val_);
+    std::swap(max_hue_, other->max_hue_);
+    std::swap(max_sat_, other->max_sat_);
+    std::swap(max_val_, other->max_val_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
