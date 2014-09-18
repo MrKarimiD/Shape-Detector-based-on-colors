@@ -91,15 +91,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList items;
     items<<"0"<<"1"<<"USB0"<<"USB1"<<"Network";
     ui->cam_comboBox->addItems(items);
+    ui->cam_comboBox->setCurrentIndex(4);
 
     QStringList fps_items;
-    fps_items<<"60"<<"15"<<"30";
+    fps_items<<"15"<<"30"<<"60";
     ui->fps_comboBox->addItems(fps_items);
 
     QStringList output_items;
-    output_items<<"Red"<<"Blue"<<"Green"<<"Yellow"<<"Final"<<"Violet"<<"Cyan"<<"Black";
+    output_items<<"Red"<<"Blue"<<"Green"<<"Yellow"<<"Violet"<<"Cyan"<<"Black"<<"Final";
     ui->out_comboBox->addItems(output_items);
-    ui->out_comboBox->setCurrentIndex(4);
+    ui->out_comboBox->setCurrentIndex(7);
 
     cam_timer = new QTimer();
     send_timer = new QTimer();
@@ -129,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     recSocket= new QUdpSocket(this);
 
-    openSetting("/home/kn2c/setting-color.txt");
+    openSetting("/home/mil4d/setting-color.txt");
 }
 
 MainWindow::~MainWindow()
@@ -1082,20 +1083,20 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
         RecievedData[3] = true;
     }
 
-    if(ui->use_cyan_checkBox->isChecked())
+    if(ui->use_violet_checkBox->isChecked())
     {
-        filterColor[4] = returnFilterImage(HSV,"cyan");
-        cyanProc->setImage(filterColor[4]);
+        filterColor[4] = returnFilterImage(HSV,"violet");
+        violetProc->setImage(filterColor[4]);
     }
     else
     {
         RecievedData[4] = true;
     }
 
-    if(ui->use_violet_checkBox->isChecked())
+    if(ui->use_cyan_checkBox->isChecked())
     {
-        filterColor[5] = returnFilterImage(HSV,"violet");
-        violetProc->setImage(filterColor[5]);
+        filterColor[5] = returnFilterImage(HSV,"cyan");
+        cyanProc->setImage(filterColor[5]);
     }
     else
     {
@@ -1817,7 +1818,7 @@ void MainWindow::resposibleForCyanOutput()
 {
     semaphoreForDataPlussing->acquire(1);
     cyan_shapes = cyanProc->detectedShapes;
-    RecievedData[4] = true;
+    RecievedData[5] = true;
     semaphoreForDataPlussing->release(1);
 }
 
@@ -1825,7 +1826,7 @@ void MainWindow::resposibleForVioletOutput()
 {
     semaphoreForDataPlussing->acquire(1);
     violet_shapes = violetProc->detectedShapes;
-    RecievedData[5] = true;
+    RecievedData[4] = true;
     semaphoreForDataPlussing->release(1);
 }
 
