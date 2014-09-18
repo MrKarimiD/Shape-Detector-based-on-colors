@@ -277,6 +277,12 @@ private slots:
 
     void on_import_button_clicked();
 
+    Mat QImage2Mat(QImage src);
+
+    QImage Mat2QImage(Mat const& src);
+
+    void receiveUDPPacket();
+
 private:
     Ui::MainWindow *ui;
     ImageProcessing *imageProcessor;
@@ -299,10 +305,10 @@ private:
     QTimer *checkTimer;
 
     ImageProcSegment *redProc,*blueProc,*greenProc
-        ,*yellowProc,*cyanProc,*violetProc,*blackProc;
+    ,*yellowProc,*cyanProc,*violetProc,*blackProc;
 
     QThread *redThread,*blueThread,*greenThread
-        ,*yellowThread,*cyanThread,*violetThread,*blackThread;
+    ,*yellowThread,*cyanThread,*violetThread,*blackThread;
 
     QSemaphore *redSem,*blueSem,*greenSem
     ,*yellowSem,*cyanSem,*violetSem,*blackSem,*realSem;
@@ -319,6 +325,16 @@ private:
     QSemaphore *semaphoreForDataPlussing;
 
     Mat filterColor[8];
+
+    //------UDP Image Recieving
+    QUdpSocket *recSocket;
+    QByteArray udp_datagram;
+    QImage udpImage1;
+    Mat udpFrame;
+    int udpPort;
+    bool imageRecievedFromNetwork;
+
+    //-------------------
 
     void enableCameraSetting();
 

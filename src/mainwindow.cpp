@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fps_comboBox->addItems(fps_items);
 
     QStringList output_items;
-    output_items<<"Red"<<"Blue"<<"Green"<<"Yellow"<<"Violet"<<"Cyan"<<"Black"<<"Final";
+    output_items<<"Red"<<"Blue"<<"Green"<<"Yellow"<<"Final"<<"Violet"<<"Cyan"<<"Black";
     ui->out_comboBox->addItems(output_items);
     ui->out_comboBox->setCurrentIndex(4);
 
@@ -125,6 +125,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     imageProcessor=new ImageProcessing();
 
+    udpPort = 6000;
+
+    recSocket= new QUdpSocket(this);
+
     openSetting("/home/kn2c/setting-color.txt");
 }
 
@@ -139,8 +143,13 @@ void MainWindow::on_open_button_clicked()
 
     Mat frame;
 
+    imageRecievedFromNetwork = false;
+
     if(ui->cam_comboBox->currentText() == "Network")
     {
+        recSocket->bind(udpPort);
+        imageRecievedFromNetwork = true;
+        connect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
     }
     else
     {
@@ -161,36 +170,38 @@ void MainWindow::on_open_button_clicked()
             cameraIsOpened=cap.open(1);
         }
 
-        setCameraSetting();
+        if(!imageRecievedFromNetwork)
+        {
+            setCameraSetting();
 
-        cap.read(frame);
-
-        redThread->start();
-        redProc->Start();
-
-        blueThread->start();
-        blueProc->Start();
-
-        greenThread->start();
-        greenProc->Start();
-
-        yellowThread->start();
-        yellowProc->Start();
-
-        violetThread->start();
-        violetProc->Start();
-
-        cyanThread->start();
-        cyanProc->Start();
-
-        blackThread->start();
-        blackProc->Start();
+            cap.read(frame);
+        }
 
         cam_timer->start(1000*(1/ui->fps_comboBox->currentText().toInt()));
         connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+        emit imageReady(frame);
     }
 
-    emit imageReady(frame);
+    redThread->start();
+    redProc->Start();
+
+    blueThread->start();
+    blueProc->Start();
+
+    greenThread->start();
+    greenProc->Start();
+
+    yellowThread->start();
+    yellowProc->Start();
+
+    violetThread->start();
+    violetProc->Start();
+
+    cyanThread->start();
+    cyanProc->Start();
+
+    blackThread->start();
+    blackProc->Start();
 }
 
 void MainWindow::cam_timeout()
@@ -956,6 +967,9 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
 {
     //undisort image
     disconnect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+    //disconnect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
+    disconnect(this,SIGNAL(imageReady(Mat)),this,SLOT(callImageProcessingFunctions(Mat)));
+    //cam_timer->stop();
 
     Mat inputFrame;
 
@@ -963,7 +977,7 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
     {
         if( (ui->cam_comboBox->currentText() == "USB0") || (ui->cam_comboBox->currentText() == "USB1") )
             imageProcessor->undistortUSBCam(input_mat).copyTo(inputFrame);
-        else if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
+        else if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") ||  (ui->cam_comboBox->currentText() == "Network"))
             imageProcessor->undistortFIREWIRECam(input_mat).copyTo(inputFrame);
     }
     else
@@ -971,9 +985,7 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
         input_mat.copyTo(inputFrame);
     }
 
-    realSem->tryAcquire(1,30);
     inputFrame.copyTo(filterColor[7]);
-    realSem->release();
 
     //croped image for better performance
     Mat CropFrame;
@@ -1214,11 +1226,12 @@ void MainWindow::updateCameraSetting()
 
 void MainWindow::setCameraSetting()
 {
-    if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
+    if(cameraIsOpened)
     {
-        if(cameraIsOpened)
+        cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
+
+        if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
         {
-            cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
             camSetting->set_fps(ui->fps_comboBox->currentText().toInt());
 
             cap.set(CAP_PROP_WHITE_BALANCE_BLUE_U,ui->blue_slider->value());
@@ -1440,6 +1453,8 @@ void MainWindow::sendDataPacket()
 void MainWindow::on_save_set_button_clicked()
 {
     disconnect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+    //disconnect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
+    disconnect(this,SIGNAL(imageReady(Mat)),this,SLOT(callImageProcessingFunctions(Mat)));
 
     SystemSettings setting;
 
@@ -1570,17 +1585,23 @@ void MainWindow::on_save_set_button_clicked()
     }
 
     connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+    //connect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
+    connect(this,SIGNAL(imageReady(Mat)),this,SLOT(callImageProcessingFunctions(Mat)));
 }
 
 void MainWindow::on_open_set_button_clicked()
 {
     disconnect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+    //disconnect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
+    disconnect(this,SIGNAL(imageReady(Mat)),this,SLOT(callImageProcessingFunctions(Mat)));
 
     QString fileAddress = QFileDialog::getOpenFileName(this,tr("Select Setting File"), "/home", tr("Text File (*.txt)"));
 
     openSetting(fileAddress);
 
     connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+    //connect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
+    connect(this,SIGNAL(imageReady(Mat)),this,SLOT(callImageProcessingFunctions(Mat)));
 }
 
 void MainWindow::on_stall_button_clicked()
@@ -1825,62 +1846,52 @@ void MainWindow::checkAllOfRecieved()
     {
         dataRecievedCompeletly = false;
         checkTimer->stop();
-        connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+        if(!imageRecievedFromNetwork)
+        {
+            connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+        }
+//        recSocket->flush();
+//        connect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
+        connect(this,SIGNAL(imageReady(Mat)),this,SLOT(callImageProcessingFunctions(Mat)));
     }
 
     Mat outputFrame;
 
     if(ui->out_comboBox->currentText() == "Red")
     {
-        redSem->tryAcquire(1,30);
         filterColor[0].copyTo(outputFrame);
-        redSem->release();
     }
     else if(ui->out_comboBox->currentText() == "Blue")
     {
-        blueSem->tryAcquire(1,30);
         filterColor[1].copyTo(outputFrame);
-        blueSem->release();
     }
     else if(ui->out_comboBox->currentText() == "Green")
     {
-        greenSem->tryAcquire(1,30);
         filterColor[2].copyTo(outputFrame);
-        greenSem->release();
     }
     else if(ui->out_comboBox->currentText() == "Yellow")
     {
-        yellowSem->tryAcquire(1,30);
         filterColor[3].copyTo(outputFrame);
-        yellowSem->release();
     }
 
     else if(ui->out_comboBox->currentText() == "Violet")
     {
-        violetSem->tryAcquire(1,30);
         filterColor[4].copyTo(outputFrame);
-        violetSem->release();
     }
 
     else if(ui->out_comboBox->currentText() == "Cyan")
     {
-        cyanSem->tryAcquire(1,30);
         filterColor[5].copyTo(outputFrame);
-        cyanSem->release();
     }
 
     else if(ui->out_comboBox->currentText() == "Black")
     {
-        blackSem->tryAcquire(1,30);
         filterColor[6].copyTo(outputFrame);
-        blackSem->release();
     }
 
     else if(ui->out_comboBox->currentText() == "Final")
     {
-        realSem->tryAcquire(1,30);
         filterColor[7].copyTo(outputFrame);
-        realSem->release();
     }
 
     if(!outputFrame.empty())
@@ -2606,4 +2617,36 @@ void MainWindow::on_import_button_clicked()
 
         addHSVSettings();
     }
+}
+
+Mat MainWindow::QImage2Mat(QImage src)
+{
+    QImage myImage=src;
+    Mat tmp(src.height(),src.width(),CV_8UC4,src.scanLine(0)); //RGB32 has 8 bits of R, 8 bits of G, 8 bits of B and 8 bits of Alpha. It's essentially RGBA.
+    Mat MatOut(src.height(),src.width(),CV_8UC3); //RGB32 has 8 bits of R, 8 bits of G, 8 bits of B and 8 bits of Alpha. It's essentially RGBA.
+
+    cvtColor(tmp, MatOut, COLOR_RGBA2RGB);
+    return MatOut;
+}
+
+QImage MainWindow::Mat2QImage(const Mat &src)
+{
+    Mat temp; // make the same cv::Mat
+    cvtColor(src, temp, COLOR_BGR2RGB); // cvtColor Makes a copt, that what i need
+    QImage dest((uchar*) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
+    QImage dest2(dest);
+    dest2.detach(); // enforce deep copy
+    return dest2;
+}
+
+void MainWindow::receiveUDPPacket()
+{
+    udp_datagram.resize(recSocket->pendingDatagramSize());
+    recSocket->readDatagram(udp_datagram.data(), udp_datagram.size());
+
+    // show received image......................
+    udpImage1.loadFromData(udp_datagram);
+    QImage2Mat(udpImage1).copyTo(udpFrame);
+    udp_datagram.clear();
+    emit imageReady(udpFrame);
 }
