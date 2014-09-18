@@ -61,7 +61,7 @@
      <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="input_tab">
      <attribute name="title">
@@ -1779,8 +1779,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1790,7 +1790,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>26</x>
-          <y>10</y>
+          <y>29</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -1809,7 +1809,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>110</x>
-          <y>0</y>
+          <y>19</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -1822,7 +1822,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>58</x>
-          <y>2</y>
+          <y>21</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -1835,7 +1835,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>170</x>
-          <y>1</y>
+          <y>20</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -1848,7 +1848,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>26</x>
-          <y>31</y>
+          <y>50</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -1867,7 +1867,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>58</x>
-          <y>64</y>
+          <y>83</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -1880,7 +1880,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>26</x>
-          <y>93</y>
+          <y>112</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -1899,7 +1899,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>110</x>
-          <y>62</y>
+          <y>81</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -1912,7 +1912,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>170</x>
-          <y>63</y>
+          <y>82</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -1925,7 +1925,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>26</x>
-          <y>72</y>
+          <y>91</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -1947,7 +1947,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>59</x>
-          <y>142</y>
+          <y>161</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -1960,7 +1960,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>27</x>
-          <y>171</y>
+          <y>190</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -1979,7 +1979,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>111</x>
-          <y>140</y>
+          <y>159</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -1992,7 +1992,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>170</x>
-          <y>141</y>
+          <y>160</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2005,7 +2005,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>27</x>
-          <y>150</y>
+          <y>169</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2020,14 +2020,30 @@ Intrrupt</string>
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
+       <widget class="QCheckBox" name="use_red_checkBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>-3</y>
+          <width>121</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In the Picture?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="blue_page">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2037,7 +2053,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>160</y>
+          <y>179</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2059,7 +2075,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>181</y>
+          <y>200</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2078,7 +2094,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>115</x>
-          <y>150</y>
+          <y>169</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2091,7 +2107,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>12</y>
+          <y>31</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2104,7 +2120,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>41</y>
+          <y>60</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2123,7 +2139,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>10</y>
+          <y>29</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2136,7 +2152,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>73</y>
+          <y>92</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2149,7 +2165,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>103</y>
+          <y>122</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2168,7 +2184,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>74</y>
+          <y>93</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2181,7 +2197,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>72</y>
+          <y>91</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2194,7 +2210,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>11</y>
+          <y>30</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2207,7 +2223,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>151</y>
+          <y>170</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2220,7 +2236,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>82</y>
+          <y>101</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2239,7 +2255,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>63</x>
-          <y>152</y>
+          <y>171</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2252,7 +2268,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>20</y>
+          <y>39</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2267,14 +2283,30 @@ Intrrupt</string>
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
+       <widget class="QCheckBox" name="use_blue_checkBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>121</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In the Picture?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="green_page">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2284,7 +2316,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>153</y>
+          <y>169</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2303,7 +2335,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>174</y>
+          <y>190</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2322,7 +2354,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>143</y>
+          <y>159</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2335,7 +2367,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>61</x>
-          <y>5</y>
+          <y>21</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2348,7 +2380,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>29</x>
-          <y>34</y>
+          <y>50</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2367,7 +2399,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>113</x>
-          <y>3</y>
+          <y>19</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2380,7 +2412,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>173</x>
-          <y>66</y>
+          <y>82</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2393,7 +2425,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>29</x>
-          <y>96</y>
+          <y>112</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2412,7 +2444,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>61</x>
-          <y>67</y>
+          <y>83</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2425,7 +2457,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>113</x>
-          <y>65</y>
+          <y>81</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2438,7 +2470,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>173</x>
-          <y>4</y>
+          <y>20</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2451,7 +2483,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>173</x>
-          <y>144</y>
+          <y>160</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2464,7 +2496,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>29</x>
-          <y>75</y>
+          <y>91</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2483,7 +2515,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>145</y>
+          <y>161</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2496,7 +2528,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>29</x>
-          <y>13</y>
+          <y>29</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2511,14 +2543,30 @@ Intrrupt</string>
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
+       <widget class="QCheckBox" name="use_green_checkBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>-3</y>
+          <width>121</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In the Picture?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="yellow_page">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2528,7 +2576,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>150</y>
+          <y>169</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2547,7 +2595,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>171</y>
+          <y>190</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2566,7 +2614,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>115</x>
-          <y>140</y>
+          <y>159</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2579,7 +2627,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>2</y>
+          <y>21</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2592,7 +2640,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>31</y>
+          <y>50</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2611,7 +2659,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>0</y>
+          <y>19</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2624,7 +2672,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>63</y>
+          <y>82</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2637,7 +2685,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>93</y>
+          <y>112</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2656,7 +2704,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>64</y>
+          <y>83</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2669,7 +2717,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>62</y>
+          <y>81</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2682,7 +2730,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>1</y>
+          <y>20</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2695,7 +2743,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>141</y>
+          <y>160</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2708,7 +2756,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>72</y>
+          <y>91</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2727,7 +2775,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>63</x>
-          <y>142</y>
+          <y>161</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2740,7 +2788,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>10</y>
+          <y>29</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2755,14 +2803,30 @@ Intrrupt</string>
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
+       <widget class="QCheckBox" name="use_yellow_checkBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>-2</y>
+          <width>121</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In the Picture?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="violet_page">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2772,7 +2836,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>29</x>
-          <y>152</y>
+          <y>176</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2791,7 +2855,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>29</x>
-          <y>173</y>
+          <y>197</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2810,7 +2874,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>113</x>
-          <y>142</y>
+          <y>166</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2823,7 +2887,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>60</x>
-          <y>4</y>
+          <y>28</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2836,7 +2900,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>28</x>
-          <y>33</y>
+          <y>57</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2855,7 +2919,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>112</x>
-          <y>2</y>
+          <y>26</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2868,7 +2932,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>172</x>
-          <y>65</y>
+          <y>89</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2881,7 +2945,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>28</x>
-          <y>95</y>
+          <y>119</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2900,7 +2964,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>60</x>
-          <y>66</y>
+          <y>90</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2913,7 +2977,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>112</x>
-          <y>64</y>
+          <y>88</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2926,7 +2990,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>172</x>
-          <y>3</y>
+          <y>27</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2939,7 +3003,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>172</x>
-          <y>143</y>
+          <y>167</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2952,7 +3016,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>28</x>
-          <y>74</y>
+          <y>98</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2971,7 +3035,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>61</x>
-          <y>144</y>
+          <y>168</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -2984,7 +3048,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>28</x>
-          <y>12</y>
+          <y>36</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -2999,14 +3063,30 @@ Intrrupt</string>
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
+       <widget class="QCheckBox" name="use_violet_checkBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>121</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In the Picture?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="cyan_page">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3016,7 +3096,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>160</y>
+          <y>179</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3035,7 +3115,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>181</y>
+          <y>200</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3054,7 +3134,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>115</x>
-          <y>150</y>
+          <y>169</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3067,7 +3147,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>12</y>
+          <y>31</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3080,7 +3160,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>41</y>
+          <y>60</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3099,7 +3179,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>10</y>
+          <y>29</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3112,7 +3192,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>73</y>
+          <y>92</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3125,7 +3205,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>103</y>
+          <y>122</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3144,7 +3224,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>74</y>
+          <y>93</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3157,7 +3237,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>72</y>
+          <y>91</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3170,7 +3250,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>11</y>
+          <y>30</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3183,7 +3263,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>151</y>
+          <y>170</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3196,7 +3276,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>82</y>
+          <y>101</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3215,7 +3295,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>63</x>
-          <y>152</y>
+          <y>171</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3228,7 +3308,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>20</y>
+          <y>39</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3241,6 +3321,22 @@ Intrrupt</string>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="use_cyan_checkBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>121</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In the Picture?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>
@@ -3260,7 +3356,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>150</y>
+          <y>169</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3279,7 +3375,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>171</y>
+          <y>190</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3298,7 +3394,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>115</x>
-          <y>140</y>
+          <y>159</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3311,7 +3407,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>2</y>
+          <y>21</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3324,7 +3420,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>31</y>
+          <y>50</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3343,7 +3439,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>0</y>
+          <y>19</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3356,7 +3452,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>63</y>
+          <y>82</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3369,7 +3465,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>93</y>
+          <y>112</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3388,7 +3484,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>64</y>
+          <y>83</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3401,7 +3497,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>62</y>
+          <y>81</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3414,7 +3510,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>1</y>
+          <y>20</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3427,7 +3523,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>141</y>
+          <y>160</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3440,7 +3536,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>72</y>
+          <y>91</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3459,7 +3555,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>63</x>
-          <y>142</y>
+          <y>161</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3472,7 +3568,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>10</y>
+          <y>29</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3482,6 +3578,22 @@ Intrrupt</string>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="use_black_checkBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>-2</y>
+          <width>121</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>In the Picture?</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>

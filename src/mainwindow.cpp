@@ -182,26 +182,56 @@ void MainWindow::on_open_button_clicked()
         emit imageReady(frame);
     }
 
-    redThread->start();
-    redProc->Start();
+    int numberOfColors = 0;
 
-    blueThread->start();
-    blueProc->Start();
+    if(ui->use_red_checkBox->isChecked())
+    {
+        numberOfColors++;
+        redThread->start();
+        redProc->Start();
+    }
 
-    greenThread->start();
-    greenProc->Start();
+    if(ui->use_blue_checkBox->isChecked())
+    {
+        numberOfColors++;
+        blueThread->start();
+        blueProc->Start();
+    }
 
-    yellowThread->start();
-    yellowProc->Start();
+    if(ui->use_green_checkBox->isChecked())
+    {
+        numberOfColors++;
+        greenThread->start();
+        greenProc->Start();
+    }
 
-    violetThread->start();
-    violetProc->Start();
+    if(ui->use_yellow_checkBox->isChecked())
+    {
+        numberOfColors++;
+        yellowThread->start();
+        yellowProc->Start();
+    }
 
-    cyanThread->start();
-    cyanProc->Start();
+    if(ui->use_violet_checkBox->isChecked())
+    {
+        numberOfColors++;
+        violetThread->start();
+        violetProc->Start();
+    }
 
-    blackThread->start();
-    blackProc->Start();
+    if(ui->use_cyan_checkBox->isChecked())
+    {
+        numberOfColors++;
+        cyanThread->start();
+        cyanProc->Start();
+    }
+
+    if(ui->use_black_checkBox->isChecked())
+    {
+        numberOfColors++;
+        blackThread->start();
+        blackProc->Start();
+    }
 }
 
 void MainWindow::cam_timeout()
@@ -1012,20 +1042,75 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
     Mat HSV;
     cvtColor(CropFrame,HSV,COLOR_RGB2HSV);
 
-    filterColor[0] = returnFilterImage(HSV,"red");
-    redProc->setImage(filterColor[0]);
-    filterColor[1] = returnFilterImage(HSV,"blue");
-    blueProc->setImage(filterColor[1]);
-    filterColor[2] = returnFilterImage(HSV,"green");
-    greenProc->setImage(filterColor[2]);
-    filterColor[3] = returnFilterImage(HSV,"yellow");
-    yellowProc->setImage(filterColor[3]);
-    filterColor[4] = returnFilterImage(HSV,"cyan");
-    cyanProc->setImage(filterColor[4]);
-    filterColor[5] = returnFilterImage(HSV,"violet");
-    violetProc->setImage(filterColor[5]);
-    filterColor[6] = returnFilterImage(HSV,"black");
-    blackProc->setImage(filterColor[6]);
+    if(ui->use_red_checkBox->isChecked())
+    {
+        filterColor[0] = returnFilterImage(HSV,"red");
+        redProc->setImage(filterColor[0]);
+    }
+    else
+    {
+        RecievedData[0] = true;
+    }
+
+    if(ui->use_blue_checkBox->isChecked())
+    {
+        filterColor[1] = returnFilterImage(HSV,"blue");
+        blueProc->setImage(filterColor[1]);
+    }
+    else
+    {
+        RecievedData[1] = true;
+    }
+
+    if(ui->use_green_checkBox->isChecked())
+    {
+        filterColor[2] = returnFilterImage(HSV,"green");
+        greenProc->setImage(filterColor[2]);
+    }
+    else
+    {
+        RecievedData[2] = true;
+    }
+
+    if(ui->use_yellow_checkBox->isChecked())
+    {
+        filterColor[3] = returnFilterImage(HSV,"yellow");
+        yellowProc->setImage(filterColor[3]);
+    }
+    else
+    {
+        RecievedData[3] = true;
+    }
+
+    if(ui->use_cyan_checkBox->isChecked())
+    {
+        filterColor[4] = returnFilterImage(HSV,"cyan");
+        cyanProc->setImage(filterColor[4]);
+    }
+    else
+    {
+        RecievedData[4] = true;
+    }
+
+    if(ui->use_violet_checkBox->isChecked())
+    {
+        filterColor[5] = returnFilterImage(HSV,"violet");
+        violetProc->setImage(filterColor[5]);
+    }
+    else
+    {
+        RecievedData[5] = true;
+    }
+
+    if(ui->use_black_checkBox->isChecked())
+    {
+        filterColor[6] = returnFilterImage(HSV,"black");
+        blackProc->setImage(filterColor[6]);
+    }
+    else
+    {
+        RecievedData[6] = true;
+    }
 
     checkTimer->start(15);
 }
