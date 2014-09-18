@@ -28,7 +28,8 @@ class ImageProcessing : public QObject
 public:
     explicit ImageProcessing(QObject *parent = 0);
 
-    Mat undistortImage(Mat input);
+    Mat undistortUSBCam(Mat input);
+    Mat undistortFIREWIRECam(Mat input);
 
     Mat applyFilters(Mat input);
 

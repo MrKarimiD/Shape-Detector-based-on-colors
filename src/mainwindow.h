@@ -378,6 +378,8 @@ private:
 
     void addHSVSettings();
 
+    Mat returnFilterImage(Mat input,QString color);
+
 signals:
     void imageReady(Mat image);
     void cameraSettingChanged();

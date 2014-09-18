@@ -29,7 +29,7 @@ public:
 
     void addShape(float x,float y,double radius,string type,string color);
 
-    void setRanges(Vec3f minR,Vec3f maxR);
+    //void setRanges(Vec3f minR,Vec3f maxR);
 
     void Start();
 
@@ -42,13 +42,13 @@ private:
     //Mat cameraMatrix, distCoeffs;
     QString color;
 
-    QSemaphore *semaphoreForRanges;
+    //QSemaphore *semaphoreForRanges;
 
     Mat input;
     QTimer *timer;
     bool newDataRecieved;
 
-    Vec3f minColorRange,maxColorRange;
+    //Vec3f minColorRange,maxColorRange;
 
     bool checkAspectRatio(vector<Point> contours_poly);
 
@@ -67,7 +67,7 @@ public slots:
 
 signals:
     void dataGenerated();
-    void afterFilter(Mat out);
+    //void afterFilter(Mat out);
 
 public slots:
 

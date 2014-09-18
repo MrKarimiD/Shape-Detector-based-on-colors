@@ -5,7 +5,7 @@ ImageProcSegment::ImageProcSegment(QObject *parent) :
 {
     newDataRecieved = false;
 
-    semaphoreForRanges = new QSemaphore(1);
+    //semaphoreForRanges = new QSemaphore(1);
     timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(timer_inteval()));
 }
@@ -139,13 +139,13 @@ void ImageProcSegment::addShape(float x, float y, double radius, string type, st
     detectedShapes.push_back(shape);
 }
 
-void ImageProcSegment::setRanges(Vec3f minR, Vec3f maxR)
-{
-    semaphoreForRanges->tryAcquire(1,30);
-    minColorRange = minR;
-    maxColorRange = maxR;
-    semaphoreForRanges->release(1);
-}
+//void ImageProcSegment::setRanges(Vec3f minR, Vec3f maxR)
+//{
+//    semaphoreForRanges->tryAcquire(1,30);
+//    minColorRange = minR;
+//    maxColorRange = maxR;
+//    semaphoreForRanges->release(1);
+//}
 
 void ImageProcSegment::Start()
 {
@@ -210,15 +210,16 @@ void ImageProcSegment::doProccess()
 
     newDataRecieved = false;
     Mat ranged;
-    semaphoreForRanges->tryAcquire(1,30);
-    inRange(input
-            ,Scalar(minColorRange.val[0],minColorRange.val[1],minColorRange.val[2])
-            ,Scalar(maxColorRange.val[0],maxColorRange.val[1],maxColorRange.val[2])
-            ,ranged);
+//    semaphoreForRanges->tryAcquire(1,30);
+//    inRange(input
+//            ,Scalar(minColorRange.val[0],minColorRange.val[1],minColorRange.val[2])
+//            ,Scalar(maxColorRange.val[0],maxColorRange.val[1],maxColorRange.val[2])
+//            ,ranged);
 
-    emit afterFilter(ranged);
+//    emit afterFilter(ranged);
 
-    semaphoreForRanges->release(1);
+//    semaphoreForRanges->release(1);
+    input.copyTo(ranged);
     medianBlur(ranged,ranged,7);
     Canny( ranged, ranged, 80, 180, 3 );
     shapeDetection(ranged);

@@ -37,13 +37,13 @@ MainWindow::MainWindow(QWidget *parent) :
     blackProc = new ImageProcSegment();
     blackProc->setColor("black");
 
-    connect(redProc,SIGNAL(afterFilter(Mat)),this,SLOT(addRedImage(Mat)));
-    connect(blueProc,SIGNAL(afterFilter(Mat)),this,SLOT(addBlueImage(Mat)));
-    connect(greenProc,SIGNAL(afterFilter(Mat)),this,SLOT(addGreenImage(Mat)));
-    connect(yellowProc,SIGNAL(afterFilter(Mat)),this,SLOT(addYellowImage(Mat)));
-    connect(violetProc,SIGNAL(afterFilter(Mat)),this,SLOT(addVioletImage(Mat)));
-    connect(cyanProc,SIGNAL(afterFilter(Mat)),this,SLOT(addCyanImage(Mat)));
-    connect(blackProc,SIGNAL(afterFilter(Mat)),this,SLOT(addBlackImage(Mat)));
+    //    connect(redProc,SIGNAL(afterFilter(Mat)),this,SLOT(addRedImage(Mat)));
+    //    connect(blueProc,SIGNAL(afterFilter(Mat)),this,SLOT(addBlueImage(Mat)));
+    //    connect(greenProc,SIGNAL(afterFilter(Mat)),this,SLOT(addGreenImage(Mat)));
+    //    connect(yellowProc,SIGNAL(afterFilter(Mat)),this,SLOT(addYellowImage(Mat)));
+    //    connect(violetProc,SIGNAL(afterFilter(Mat)),this,SLOT(addVioletImage(Mat)));
+    //    connect(cyanProc,SIGNAL(afterFilter(Mat)),this,SLOT(addCyanImage(Mat)));
+    //    connect(blackProc,SIGNAL(afterFilter(Mat)),this,SLOT(addBlackImage(Mat)));
 
     addHSVSettings();
 
@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
     semaphoreForOutput = new QSemaphore(1);
 
     QStringList items;
-    items<<"0"<<"1"<<"Network";
+    items<<"0"<<"1"<<"USB0"<<"USB1"<<"Network";
     ui->cam_comboBox->addItems(items);
 
     QStringList fps_items;
@@ -148,9 +148,17 @@ void MainWindow::on_open_button_clicked()
         {
             cameraIsOpened=cap.open(CAP_FIREWIRE+0);
         }
-        else
+        else if(ui->cam_comboBox->currentText()=="1")
         {
             cameraIsOpened=cap.open(CAP_FIREWIRE+1);
+        }
+        else if(ui->cam_comboBox->currentText()=="USB0")
+        {
+            cameraIsOpened=cap.open(0);
+        }
+        else if(ui->cam_comboBox->currentText()=="USB1")
+        {
+            cameraIsOpened=cap.open(1);
         }
 
         setCameraSetting();
@@ -178,7 +186,6 @@ void MainWindow::on_open_button_clicked()
         blackThread->start();
         blackProc->Start();
 
-        checkTimer->start(15);
         cam_timer->start(1000*(1/ui->fps_comboBox->currentText().toInt()));
         connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
     }
@@ -781,63 +788,119 @@ void MainWindow::openSetting(QString fileAddress)
 
 void MainWindow::addHSVSettings()
 {
-    Vec3f min,max;
+    //    Vec3f min,max;
 
-    min.val[0] = ui->red_min_hue_slider->value();
-    min.val[1] = ui->red_min_sat_slider->value();
-    min.val[2] = ui->red_min_val_slider->value();
-    max.val[0] = ui->red_max_hue_slider->value();
-    max.val[1] = ui->red_max_sat_slider->value();
-    max.val[2] = ui->red_max_val_slider->value();
-    redProc->setRanges(min,max);
+    //    min.val[0] = ui->red_min_hue_slider->value();
+    //    min.val[1] = ui->red_min_sat_slider->value();
+    //    min.val[2] = ui->red_min_val_slider->value();
+    //    max.val[0] = ui->red_max_hue_slider->value();
+    //    max.val[1] = ui->red_max_sat_slider->value();
+    //    max.val[2] = ui->red_max_val_slider->value();
+    //    redProc->setRanges(min,max);
 
-    min.val[0] = ui->blue_min_hue_slider->value();
-    min.val[1] = ui->blue_min_sat_slider->value();
-    min.val[2] = ui->blue_min_val_slider->value();
-    max.val[0] = ui->blue_max_hue_slider->value();
-    max.val[1] = ui->blue_max_sat_slider->value();
-    max.val[2] = ui->blue_max_val_slider->value();
-    blueProc->setRanges(min,max);
+    //    min.val[0] = ui->blue_min_hue_slider->value();
+    //    min.val[1] = ui->blue_min_sat_slider->value();
+    //    min.val[2] = ui->blue_min_val_slider->value();
+    //    max.val[0] = ui->blue_max_hue_slider->value();
+    //    max.val[1] = ui->blue_max_sat_slider->value();
+    //    max.val[2] = ui->blue_max_val_slider->value();
+    //    blueProc->setRanges(min,max);
 
-    min.val[0] = ui->green_min_hue_slider->value();
-    min.val[1] = ui->green_min_sat_slider->value();
-    min.val[2] = ui->green_min_val_slider->value();
-    max.val[0] = ui->green_max_hue_slider->value();
-    max.val[1] = ui->green_max_sat_slider->value();
-    max.val[2] = ui->green_max_val_slider->value();
-    greenProc->setRanges(min,max);
+    //    min.val[0] = ui->green_min_hue_slider->value();
+    //    min.val[1] = ui->green_min_sat_slider->value();
+    //    min.val[2] = ui->green_min_val_slider->value();
+    //    max.val[0] = ui->green_max_hue_slider->value();
+    //    max.val[1] = ui->green_max_sat_slider->value();
+    //    max.val[2] = ui->green_max_val_slider->value();
+    //    greenProc->setRanges(min,max);
 
-    min.val[0] = ui->yellow_min_hue_slider->value();
-    min.val[1] = ui->yellow_min_sat_slider->value();
-    min.val[2] = ui->yellow_min_val_slider->value();
-    max.val[0] = ui->yellow_max_hue_slider->value();
-    max.val[1] = ui->yellow_max_sat_slider->value();
-    max.val[2] = ui->yellow_max_val_slider->value();
-    yellowProc->setRanges(min,max);
+    //    min.val[0] = ui->yellow_min_hue_slider->value();
+    //    min.val[1] = ui->yellow_min_sat_slider->value();
+    //    min.val[2] = ui->yellow_min_val_slider->value();
+    //    max.val[0] = ui->yellow_max_hue_slider->value();
+    //    max.val[1] = ui->yellow_max_sat_slider->value();
+    //    max.val[2] = ui->yellow_max_val_slider->value();
+    //    yellowProc->setRanges(min,max);
 
-    min.val[0] = ui->violet_min_hue_slider->value();
-    min.val[1] = ui->violet_min_sat_slider->value();
-    min.val[2] = ui->violet_min_val_slider->value();
-    max.val[0] = ui->violet_max_hue_slider->value();
-    max.val[1] = ui->violet_max_sat_slider->value();
-    max.val[2] = ui->violet_max_val_slider->value();
-    violetProc->setRanges(min,max);
+    //    min.val[0] = ui->violet_min_hue_slider->value();
+    //    min.val[1] = ui->violet_min_sat_slider->value();
+    //    min.val[2] = ui->violet_min_val_slider->value();
+    //    max.val[0] = ui->violet_max_hue_slider->value();
+    //    max.val[1] = ui->violet_max_sat_slider->value();
+    //    max.val[2] = ui->violet_max_val_slider->value();
+    //    violetProc->setRanges(min,max);
 
-    min.val[0] = ui->cyan_min_hue_slider->value();
-    min.val[1] = ui->cyan_min_sat_slider->value();
-    min.val[2] = ui->cyan_min_val_slider->value();
-    max.val[0] = ui->cyan_max_hue_slider->value();
-    max.val[1] = ui->cyan_max_sat_slider->value();
-    max.val[2] = ui->cyan_max_val_slider->value();
-    cyanProc->setRanges(min,max);
+    //    min.val[0] = ui->cyan_min_hue_slider->value();
+    //    min.val[1] = ui->cyan_min_sat_slider->value();
+    //    min.val[2] = ui->cyan_min_val_slider->value();
+    //    max.val[0] = ui->cyan_max_hue_slider->value();
+    //    max.val[1] = ui->cyan_max_sat_slider->value();
+    //    max.val[2] = ui->cyan_max_val_slider->value();
+    //    cyanProc->setRanges(min,max);
 
-    min.val[0] = ui->black_min_hue_slider->value();
-    min.val[1] = ui->black_min_sat_slider->value();
-    min.val[2] = ui->black_min_val_slider->value();
-    max.val[0] = ui->black_max_hue_slider->value();
-    max.val[1] = ui->black_max_sat_slider->value();
-    max.val[2] = ui->black_max_val_slider->value();
-    blackProc->setRanges(min,max);
+    //    min.val[0] = ui->black_min_hue_slider->value();
+    //    min.val[1] = ui->black_min_sat_slider->value();
+    //    min.val[2] = ui->black_min_val_slider->value();
+    //    max.val[0] = ui->black_max_hue_slider->value();
+    //    max.val[1] = ui->black_max_sat_slider->value();
+    //    max.val[2] = ui->black_max_val_slider->value();
+    //    blackProc->setRanges(min,max);
+}
+
+Mat MainWindow::returnFilterImage(Mat input, QString color)
+{
+    Mat Ranged;
+    if(color == "red")
+    {
+        inRange(input
+                ,Scalar(ui->red_min_hue_slider->value(),ui->red_min_sat_slider->value(),ui->red_min_val_slider->value())
+                ,Scalar(ui->red_max_hue_slider->value(),ui->red_max_sat_slider->value(),ui->red_max_val_slider->value())
+                ,Ranged);
+    }
+    else if(color == "blue")
+    {
+        inRange(input
+                ,Scalar(ui->blue_min_hue_slider->value(),ui->blue_min_sat_slider->value(),ui->blue_min_val_slider->value())
+                ,Scalar(ui->blue_max_hue_slider->value(),ui->blue_max_sat_slider->value(),ui->blue_max_val_slider->value())
+                ,Ranged);
+    }
+    else if(color == "green")
+    {
+        inRange(input
+                ,Scalar(ui->green_min_hue_slider->value(),ui->green_min_sat_slider->value(),ui->green_min_val_slider->value())
+                ,Scalar(ui->green_max_hue_slider->value(),ui->green_max_sat_slider->value(),ui->green_max_val_slider->value())
+                ,Ranged);
+    }
+    else if(color == "yellow")
+    {
+        inRange(input
+                ,Scalar(ui->yellow_min_hue_slider->value(),ui->yellow_min_sat_slider->value(),ui->yellow_min_val_slider->value())
+                ,Scalar(ui->yellow_max_hue_slider->value(),ui->yellow_max_sat_slider->value(),ui->yellow_max_val_slider->value())
+                ,Ranged);
+    }
+    else if(color == "violet")
+    {
+        inRange(input
+                ,Scalar(ui->violet_min_hue_slider->value(),ui->violet_min_sat_slider->value(),ui->violet_min_val_slider->value())
+                ,Scalar(ui->violet_max_hue_slider->value(),ui->violet_max_sat_slider->value(),ui->violet_max_val_slider->value())
+                ,Ranged);
+    }
+    else if(color == "cyan")
+    {
+        inRange(input
+                ,Scalar(ui->cyan_min_hue_slider->value(),ui->cyan_min_sat_slider->value(),ui->cyan_min_val_slider->value())
+                ,Scalar(ui->cyan_max_hue_slider->value(),ui->cyan_max_sat_slider->value(),ui->cyan_max_val_slider->value())
+                ,Ranged);
+    }
+    else if(color == "black")
+    {
+        inRange(input
+                ,Scalar(ui->black_min_hue_slider->value(),ui->black_min_sat_slider->value(),ui->black_min_val_slider->value())
+                ,Scalar(ui->black_max_hue_slider->value(),ui->black_max_sat_slider->value(),ui->black_max_val_slider->value())
+                ,Ranged);
+    }
+
+    return Ranged;
 }
 
 void MainWindow::addRedImage(Mat out)
@@ -892,9 +955,21 @@ void MainWindow::addBlackImage(Mat out)
 void MainWindow::callImageProcessingFunctions(Mat input_mat)
 {
     //undisort image
+    disconnect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
+
     Mat inputFrame;
 
-    imageProcessor->undistortImage(input_mat).copyTo(inputFrame);
+    if(ui->undisort_checkBox->isChecked())
+    {
+        if( (ui->cam_comboBox->currentText() == "USB0") || (ui->cam_comboBox->currentText() == "USB1") )
+            imageProcessor->undistortUSBCam(input_mat).copyTo(inputFrame);
+        else if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
+            imageProcessor->undistortFIREWIRECam(input_mat).copyTo(inputFrame);
+    }
+    else
+    {
+        input_mat.copyTo(inputFrame);
+    }
 
     realSem->tryAcquire(1,30);
     inputFrame.copyTo(filterColor[7]);
@@ -925,13 +1000,22 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
     Mat HSV;
     cvtColor(CropFrame,HSV,COLOR_RGB2HSV);
 
-    redProc->setImage(HSV);
-    blueProc->setImage(HSV);
-    greenProc->setImage(HSV);
-    yellowProc->setImage(HSV);
-    cyanProc->setImage(HSV);
-    violetProc->setImage(HSV);
-    blackProc->setImage(HSV);
+    filterColor[0] = returnFilterImage(HSV,"red");
+    redProc->setImage(filterColor[0]);
+    filterColor[1] = returnFilterImage(HSV,"blue");
+    blueProc->setImage(filterColor[1]);
+    filterColor[2] = returnFilterImage(HSV,"green");
+    greenProc->setImage(filterColor[2]);
+    filterColor[3] = returnFilterImage(HSV,"yellow");
+    yellowProc->setImage(filterColor[3]);
+    filterColor[4] = returnFilterImage(HSV,"cyan");
+    cyanProc->setImage(filterColor[4]);
+    filterColor[5] = returnFilterImage(HSV,"violet");
+    violetProc->setImage(filterColor[5]);
+    filterColor[6] = returnFilterImage(HSV,"black");
+    blackProc->setImage(filterColor[6]);
+
+    checkTimer->start(15);
 }
 
 void MainWindow::on_camSet_checkBox_stateChanged()
@@ -1130,37 +1214,40 @@ void MainWindow::updateCameraSetting()
 
 void MainWindow::setCameraSetting()
 {
-    if(cameraIsOpened)
+    if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
     {
-        cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
-        camSetting->set_fps(ui->fps_comboBox->currentText().toInt());
+        if(cameraIsOpened)
+        {
+            cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
+            camSetting->set_fps(ui->fps_comboBox->currentText().toInt());
 
-        cap.set(CAP_PROP_WHITE_BALANCE_BLUE_U,ui->blue_slider->value());
-        camSetting->set_WHITE_BALANCE_BLUE_U(ui->blue_slider->value());
+            cap.set(CAP_PROP_WHITE_BALANCE_BLUE_U,ui->blue_slider->value());
+            camSetting->set_WHITE_BALANCE_BLUE_U(ui->blue_slider->value());
 
-        cap.set(CAP_PROP_WHITE_BALANCE_RED_V,ui->red_slider->value());
-        camSetting->set_WHITE_BALANCE_RED_V(ui->red_slider->value());
+            cap.set(CAP_PROP_WHITE_BALANCE_RED_V,ui->red_slider->value());
+            camSetting->set_WHITE_BALANCE_RED_V(ui->red_slider->value());
 
-        cap.set(CAP_PROP_BRIGHTNESS,ui->brightness_slider->value());
-        camSetting->set_BRIGHTNESS(ui->brightness_slider->value());
+            cap.set(CAP_PROP_BRIGHTNESS,ui->brightness_slider->value());
+            camSetting->set_BRIGHTNESS(ui->brightness_slider->value());
 
-        cap.set(CAP_PROP_EXPOSURE,ui->exposure_slider->value());
-        camSetting->set_EXPOSURE(ui->exposure_slider->value());
+            cap.set(CAP_PROP_EXPOSURE,ui->exposure_slider->value());
+            camSetting->set_EXPOSURE(ui->exposure_slider->value());
 
-        cap.set(CAP_PROP_SHARPNESS,ui->sharpness_slider->value());
-        camSetting->set_SHARPNESS(ui->sharpness_slider->value());
+            cap.set(CAP_PROP_SHARPNESS,ui->sharpness_slider->value());
+            camSetting->set_SHARPNESS(ui->sharpness_slider->value());
 
-        cap.set(CAP_PROP_GAIN,ui->gain_slider->value());
-        camSetting->set_GAIN(ui->gain_slider->value());
+            cap.set(CAP_PROP_GAIN,ui->gain_slider->value());
+            camSetting->set_GAIN(ui->gain_slider->value());
 
-        cap.set(CAP_PROP_HUE,ui->hue_slider->value());
-        camSetting->set_HUE(ui->hue_slider->value());
+            cap.set(CAP_PROP_HUE,ui->hue_slider->value());
+            camSetting->set_HUE(ui->hue_slider->value());
 
-        cap.set(CAP_PROP_SATURATION,ui->saturation_slider->value());
-        camSetting->set_SATURATION(ui->saturation_slider->value());
+            cap.set(CAP_PROP_SATURATION,ui->saturation_slider->value());
+            camSetting->set_SATURATION(ui->saturation_slider->value());
 
-        cap.set(CAP_PROP_CONTRAST,ui->contrast_slider->value());
-        camSetting->set_CONTRAST(ui->contrast_slider->value());
+            cap.set(CAP_PROP_CONTRAST,ui->contrast_slider->value());
+            camSetting->set_CONTRAST(ui->contrast_slider->value());
+        }
     }
 }
 
@@ -1645,6 +1732,8 @@ void MainWindow::checkAllOfRecieved()
 {
     semaphoreForDataPlussing->acquire(7);
 
+    bool dataRecievedCompeletly = false;
+
     if(RecievedData[0] && RecievedData[1] && RecievedData[2] && RecievedData[3] && RecievedData[4] && RecievedData[5] && RecievedData[6])
     {
         for(int i=0;i<7;i++)
@@ -1721,15 +1810,22 @@ void MainWindow::checkAllOfRecieved()
             shape->set_type(black_shapes.at(i).type);
             shape->set_color(black_shapes.at(i).color);
         }
+        if(permissionForSending)
+        {
+            imageProcessor->result.set_mission(mission);
+            imageProcessor->result.set_type(1);
+            //sendDataPacket();
+            emit dataReadyForSend();
+        }
+        dataRecievedCompeletly = true;
     }
     semaphoreForDataPlussing->release(7);
 
-    if(permissionForSending)
+    if(dataRecievedCompeletly)
     {
-        imageProcessor->result.set_mission(mission);
-        imageProcessor->result.set_type(1);
-        //sendDataPacket();
-        emit dataReadyForSend();
+        dataRecievedCompeletly = false;
+        checkTimer->stop();
+        connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
     }
 
     Mat outputFrame;

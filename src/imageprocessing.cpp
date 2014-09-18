@@ -63,7 +63,7 @@ void ImageProcessing::updateFilterSettings(filterSettings *fs)
     this->filterSetting = fs;
 }
 
-Mat ImageProcessing::undistortImage(Mat input)
+Mat ImageProcessing::undistortFIREWIRECam(Mat input)
 {
     Mat cameraMatrix = Mat::eye(3, 3, CV_64F);
 
@@ -86,6 +86,52 @@ Mat ImageProcessing::undistortImage(Mat input)
     distCoeffs.at<double>(2,0) = 0;
     distCoeffs.at<double>(3,0) = 0;
     distCoeffs.at<double>(4,0) = -3.4799226907590207e-02;
+
+    Mat inputFrame;
+    input.copyTo(inputFrame);
+
+//    bitwise_not(inputFrame, inputFrame);
+
+    Mat outputFrame;
+//    undistort(input,outputFrame,cameraMatrix,distCoeffs);
+    Size imageSize = input.size();
+    Mat view, rview, map1, map2;
+
+    initUndistortRectifyMap(cameraMatrix, distCoeffs, Mat(),
+        getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, 0, imageSize, 0),
+        imageSize, CV_16SC2, map1, map2);
+    view = inputFrame;
+    remap(view, rview, map1, map2, INTER_LINEAR);
+
+//    //blur(outputFrame,outputFrame,Size(3,3));
+//    //imshow("dis",input);
+////    imshow("undis",rview);
+    return rview;
+}
+
+Mat ImageProcessing::undistortUSBCam(Mat input)
+{
+    Mat cameraMatrix = Mat::eye(3, 3, CV_64F);
+
+    cameraMatrix.at<double>(0,0) = 5.4460738964339271e+02;
+    cameraMatrix.at<double>(0,1) = 0;
+    cameraMatrix.at<double>(0,2) = 3.1950000000000000e+02;
+
+    cameraMatrix.at<double>(1,0) = 0;
+    cameraMatrix.at<double>(1,1) = 5.4460738964339271e+02;
+    cameraMatrix.at<double>(1,2) = 2.3950000000000000e+02;
+
+    cameraMatrix.at<double>(2,0) = 0;
+    cameraMatrix.at<double>(2,1) = 0;
+    cameraMatrix.at<double>(2,2) = 1;
+
+    Mat distCoeffs = Mat::zeros(8, 1, CV_64F);
+
+    distCoeffs.at<double>(0,0) = -1.1473830169948851e-01;
+    distCoeffs.at<double>(1,0) = 3.9770087919621766e-01;
+    distCoeffs.at<double>(2,0) = 0;
+    distCoeffs.at<double>(3,0) = 0;
+    distCoeffs.at<double>(4,0) = -7.4926520898945070e-01;
 
     Mat inputFrame;
     input.copyTo(inputFrame);
