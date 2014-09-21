@@ -96,7 +96,7 @@ void ImageProcSegment::shapeDetection(Mat input)
             {
                 prepareDataForOutput(contours[i],"RECT");
             }
-            else if ( (vtc >= 5 || vtc <=7) /*&& mincos >= -0.34 && maxcos <= -0.27*/) //-0.34,-0.27
+            else if ( (vtc >= 5 && vtc <=7) && mincos >= -0.7 && maxcos <= 0.5) //-0.34,-0.27
             {
                 prepareDataForOutput(contours[i],"PENTA");
             }
@@ -108,10 +108,14 @@ void ImageProcSegment::shapeDetection(Mat input)
             Rect r = boundingRect(contours[i]);
             int radius = r.width / 2;
 
-            if (abs(1 - ((double)r.width / r.height)) <= 0.2 &&
-                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.2)
+            if (abs(1 - ((double)r.width / r.height)) <= 0.3 &&
+                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.3)
             {
                 prepareDataForOutput(contours[i],"CIR");
+            }
+            else
+            {
+                prepareDataForOutput(contours[i],"Chasbideh");
             }
         }
     }
@@ -124,6 +128,37 @@ void ImageProcSegment::shapeDetection(Mat input)
     //        int radius = cvRound(circles[i][2]);
     //        circle(dst,center,radius,Scalar(0,124,124),3);
     //    }
+}
+
+void ImageProcSegment::RobotDetection(Mat input)
+{
+    imSize.width = input.cols;
+    imSize.height = input.rows;
+
+    detectedShapes.clear();
+
+    // Find contours
+    vector<vector<Point> > contours;
+    vector<Vec4i> hierarchy;
+    findContours(input.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
+    for (int i = 0; i < contours.size(); i++)
+    {
+        // Skip small or non-convex objects
+        if (fabs(contourArea(contours[i])) < 100 )
+            continue;
+
+        if(!checkAspectRatio(contours[i]))
+            continue;
+
+        RotatedRect rotatetBoundRect=minAreaRect(Mat(contours[i]));
+        if(!checkAspectRatioForRotatedRect(rotatetBoundRect))
+        {
+            continue;
+        }
+
+        prepareDataForOutput(contours[i],"Robot");
+    }
 }
 
 void ImageProcSegment::setImage(Mat input)
@@ -222,7 +257,14 @@ void ImageProcSegment::doProccess()
     input.copyTo(ranged);
     medianBlur(ranged,ranged,7);
     Canny( ranged, ranged, 80, 180, 3 );
-    shapeDetection(ranged);
+    if(this->color == "black")
+    {
+        RobotDetection(ranged);
+    }
+    else
+    {
+        shapeDetection(ranged);
+    }
 
     emit dataGenerated();
 

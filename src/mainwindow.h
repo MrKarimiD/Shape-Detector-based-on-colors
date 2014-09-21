@@ -133,6 +133,8 @@ private slots:
 
     void mouseReleaseEvent(QMouseEvent *event);
 
+    void mouseDoubleClickEvent(QMouseEvent *event);
+
     //-------------------------------
 
     void on_drawCrop_checkBox_stateChanged();
@@ -283,6 +285,10 @@ private slots:
 
     void receiveUDPPacket();
 
+    void on_lines_button_clicked();
+
+    void on_clearLines_button_clicked();
+
 private:
     Ui::MainWindow *ui;
     ImageProcessing *imageProcessor;
@@ -296,6 +302,13 @@ private:
     NetworkSender *sendingSocket;
     int mission;
     bool colorMode;
+
+    //------
+    bool lineDrawing;
+    bool firstLinePointIsValid;
+    cv::Point firstLinePoint;
+    //--------
+
     bool stallMode;
     QString whichColor;
     QPoint origin;

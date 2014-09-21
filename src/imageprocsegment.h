@@ -25,6 +25,8 @@ public:
 
     void shapeDetection(Mat input);
 
+    void RobotDetection(Mat input);
+
     void setImage(Mat input);
 
     void addShape(float x,float y,double radius,string type,string color);

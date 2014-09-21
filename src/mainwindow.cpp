@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     cameraIsOpened=false;
     mouseButtonClicked=false;
     colorMode = false;
+    lineDrawing = false;
     firstPointSelectedIsValid=false;
 
     redProc = new ImageProcSegment();
@@ -1374,7 +1375,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseMove || event->type() == QEvent::MouseButtonRelease)
     {
-        if(colorMode || mouseButtonClicked)
+        if(lineDrawing || mouseButtonClicked)
         {
             return QMainWindow::eventFilter(obj, event);
         }
@@ -1434,6 +1435,33 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 
     rubberBand->hide();
     firstPointSelectedIsValid = false;
+}
+
+void MainWindow::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    if(lineDrawing)
+    {
+        if(firstLinePointIsValid)
+        {
+            Point end;
+            end.x = event->x();
+            end.y = event->y();
+            //firstLinePointIsValid = false;
+            outputPacket_line *line = imageProcessor->result.add_mission2_lines();
+            line->set_start_x(firstLinePoint.x);
+            line->set_start_y(firstLinePoint.y);
+            line->set_end_x(end.x);
+            line->set_end_y(end.y);
+            firstLinePoint.x = event->x();
+            firstLinePoint.y = event->y();
+        }
+        else
+        {
+            firstLinePoint.x = event->x();
+            firstLinePoint.y = event->y();
+            firstLinePointIsValid = true;
+        }
+    }
 }
 
 void MainWindow::on_drawCrop_checkBox_stateChanged()
@@ -1519,6 +1547,7 @@ void MainWindow::sendDataPacket()
         {
             qDebug()<<"shape "<<i<<" seen at:"<<imageProcessor->result.shapes(i).position_x()<<","<<imageProcessor->result.shapes(i).position_y();
             qDebug()<<"color:"<<QString::fromStdString(imageProcessor->result.shapes(i).color());
+            qDebug()<<"type:"<<QString::fromStdString(imageProcessor->result.shapes(i).type());
         }
         qDebug()<<"--------------";
     }
@@ -1832,7 +1861,10 @@ void MainWindow::resposibleForVioletOutput()
 
 void MainWindow::resposibleForBlackOutput()
 {
+    semaphoreForDataPlussing->acquire(1);
+    black_shapes = blackProc->detectedShapes;
     RecievedData[6] = true;
+    semaphoreForDataPlussing->release(1);
 }
 
 void MainWindow::checkAllOfRecieved()
@@ -1936,8 +1968,8 @@ void MainWindow::checkAllOfRecieved()
         {
             connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
         }
-//        recSocket->flush();
-//        connect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
+        //        recSocket->flush();
+        //        connect(recSocket,SIGNAL(readyRead()),this,SLOT(receiveUDPPacket()));
         connect(this,SIGNAL(imageReady(Mat)),this,SLOT(callImageProcessingFunctions(Mat)));
     }
 
@@ -1978,6 +2010,15 @@ void MainWindow::checkAllOfRecieved()
     else if(ui->out_comboBox->currentText() == "Final")
     {
         filterColor[7].copyTo(outputFrame);
+        if(ui->drawCrop_checkBox->isChecked())
+        {
+           for(int i=0;i<imageProcessor->result.mission2_lines_size();i++)
+            {
+                line(outputFrame,Point(imageProcessor->result.mission2_lines(i).start_x(),imageProcessor->result.mission2_lines(i).start_y())
+                     ,Point(imageProcessor->result.mission2_lines(i).end_x(),imageProcessor->result.mission2_lines(i).end_y())
+                     ,Scalar(0,0,0));
+            }
+        }
     }
 
     if(!outputFrame.empty())
@@ -2735,4 +2776,22 @@ void MainWindow::receiveUDPPacket()
     QImage2Mat(udpImage1).copyTo(udpFrame);
     udp_datagram.clear();
     emit imageReady(udpFrame);
+}
+
+void MainWindow::on_lines_button_clicked()
+{
+    lineDrawing = !lineDrawing;
+    setMouseTracking(lineDrawing);
+    QString temp=(lineDrawing)?"Turn Off\nMouse\nIntrrupt":"Draw\nLines";
+    if(!lineDrawing)
+    {
+        firstLinePointIsValid = false;
+    }
+    ui->lines_button->setText(temp);
+}
+
+void MainWindow::on_clearLines_button_clicked()
+{
+    imageProcessor->result.clear_mission2_lines();
+    firstLinePointIsValid = false;
 }

@@ -61,7 +61,7 @@
      <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="input_tab">
      <attribute name="title">
@@ -1779,8 +1779,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2042,8 +2042,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2305,8 +2305,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2565,8 +2565,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2825,8 +2825,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3085,8 +3085,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3742,7 +3742,7 @@ Intrrupt</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>80</x>
         <y>230</y>
         <width>41</width>
         <height>20</height>
@@ -3758,7 +3758,7 @@ Intrrupt</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>230</y>
         <width>67</width>
         <height>17</height>
@@ -3774,7 +3774,7 @@ Intrrupt</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>163</x>
+        <x>123</x>
         <y>233</y>
         <width>21</width>
         <height>17</height>
@@ -3795,7 +3795,7 @@ Intrrupt</string>
       </property>
       <property name="geometry">
        <rect>
-        <x>170</x>
+        <x>130</x>
         <y>230</y>
         <width>41</width>
         <height>20</height>
@@ -4369,6 +4369,42 @@ Intrrupt</string>
         <string>0</string>
        </property>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="lines_button">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>201</y>
+        <width>71</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Draw
+Lines</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="clearLines_button">
+      <property name="geometry">
+       <rect>
+        <x>254</x>
+        <y>202</y>
+        <width>21</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>6</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>C
+L
+E
+A
+R</string>
+      </property>
      </widget>
     </widget>
    </widget>
