@@ -16,6 +16,7 @@ void ImageProcSegment::shapeDetection(Mat input)
     imSize.height = input.rows;
 
     detectedShapes.clear();
+    recycledShapes.clear();
 
     // Find contours
     vector<vector<Point> > contours;
@@ -32,7 +33,13 @@ void ImageProcSegment::shapeDetection(Mat input)
 
         // Skip small or non-convex objects
         if (fabs(contourArea(contours[i])) < 100 || !isContourConvex(approx))
-            continue;
+        {
+            if(fabs(contourArea(contours[i])) > 200 && !isContourConvex(approx))
+            {
+                recycledShapes.push_back(contours[i]);
+            }
+                continue;
+        }
 
         if(!checkAspectRatio(contours[i]))
             continue;
@@ -42,6 +49,12 @@ void ImageProcSegment::shapeDetection(Mat input)
         {
             continue;
         }
+
+//        if(contourArea(contours[i]) >(0.005)*imSize.width*imSize.height)
+//        {
+//           prepareDataForOutput(contours[i],"Chasbideh");
+//           continue;
+//        }
 
         if(approx.size() < 7)// !!!!!!!!!
         {// !!!!!!!!
@@ -71,6 +84,8 @@ void ImageProcSegment::shapeDetection(Mat input)
 
         if (approx.size() == 3)
         {
+            gravCenter.x = (approx.at(0).x + approx.at(1).x + approx.at(2).x) / 3;
+            gravCenter.y = (approx.at(0).y + approx.at(1).y + approx.at(2).y) / 3;
             prepareDataForOutput(contours[i],"TRI");
         }
         else if (approx.size() >= 4 && approx.size() <= 6)
@@ -100,6 +115,10 @@ void ImageProcSegment::shapeDetection(Mat input)
             {
                 prepareDataForOutput(contours[i],"PENTA");
             }
+            else
+            {
+                recycledShapes.push_back(contours[i]);
+            }
         }
         else
         {
@@ -115,9 +134,17 @@ void ImageProcSegment::shapeDetection(Mat input)
             }
             else
             {
-                prepareDataForOutput(contours[i],"Chasbideh");
+                recycledShapes.push_back(contours[i]);
             }
-        }
+       }
+    }
+
+    for(int i=0;i<recycledShapes.size();i++)
+    {
+            if(contourArea(recycledShapes[i]) >(0.005)*imSize.width*imSize.height)
+            {
+               prepareDataForOutput(recycledShapes[i],"Chasbideh");
+           }
     }
     //    vector<Vec3f> circles;
     //    HoughCircles(input, circles, HOUGH_GRADIENT,3,1, 150, 100 );
@@ -148,14 +175,14 @@ void ImageProcSegment::RobotDetection(Mat input)
         if (fabs(contourArea(contours[i])) < 100 )
             continue;
 
-        if(!checkAspectRatio(contours[i]))
-            continue;
+//        if(!checkAspectRatio(contours[i]))
+//            continue;
 
-        RotatedRect rotatetBoundRect=minAreaRect(Mat(contours[i]));
-        if(!checkAspectRatioForRotatedRect(rotatetBoundRect))
-        {
-            continue;
-        }
+//        RotatedRect rotatetBoundRect=minAreaRect(Mat(contours[i]));
+//        if(!checkAspectRatioForRotatedRect(rotatetBoundRect))
+//        {
+//            continue;
+//        }
 
         prepareDataForOutput(contours[i],"Robot");
     }
@@ -224,8 +251,17 @@ void ImageProcSegment::prepareDataForOutput(std::vector<Point> &contour, QString
     minEnclosingCircle( (Mat)contour, center, radius );
 
     //--------mohsen khare---------------
-    float Xman = Orgin_X - (center.x/imSize.width)*Width;
-    float Yman = Orgin_Y + (center.y/imSize.height)*Height;
+    float Xman,Yman;
+    if(type == "TRI")
+    {
+        Xman = Orgin_X - (gravCenter.x/imSize.width)*Width;
+        Yman = Orgin_Y + (gravCenter.y/imSize.height)*Height;
+    }
+    else
+    {
+        Xman = Orgin_X - (center.x/imSize.width)*Width;
+        Yman = Orgin_Y + (center.y/imSize.height)*Height;
+    }
     //---------------------------------
     addShape(Xman+100,Yman-100,radius,type.toStdString(),color.toStdString());
 }
@@ -245,15 +281,15 @@ void ImageProcSegment::doProccess()
 
     newDataRecieved = false;
     Mat ranged;
-//    semaphoreForRanges->tryAcquire(1,30);
-//    inRange(input
-//            ,Scalar(minColorRange.val[0],minColorRange.val[1],minColorRange.val[2])
-//            ,Scalar(maxColorRange.val[0],maxColorRange.val[1],maxColorRange.val[2])
-//            ,ranged);
+    //    semaphoreForRanges->tryAcquire(1,30);
+    //    inRange(input
+    //            ,Scalar(minColorRange.val[0],minColorRange.val[1],minColorRange.val[2])
+    //            ,Scalar(maxColorRange.val[0],maxColorRange.val[1],maxColorRange.val[2])
+    //            ,ranged);
 
-//    emit afterFilter(ranged);
+    //    emit afterFilter(ranged);
 
-//    semaphoreForRanges->release(1);
+    //    semaphoreForRanges->release(1);
     input.copyTo(ranged);
     medianBlur(ranged,ranged,7);
     Canny( ranged, ranged, 80, 180, 3 );

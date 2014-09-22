@@ -563,17 +563,23 @@ void MainWindow::setInitializeMessage(int mission)
         imageProcessor->result.set_mission2_end_x(ui->sMendX_lineEdit->text().toFloat());
         imageProcessor->result.set_mission2_end_y(ui->sMendY_lineEdit->text().toFloat());
 
-        outputPacket_line *line1=imageProcessor->result.add_mission2_lines();
-        line1->set_start_x(1300);
-        line1->set_start_y(-1500);
-        line1->set_end_x(1700);
-        line1->set_end_y(0);
 
-        outputPacket_line *line2=imageProcessor->result.add_mission2_lines();
-        line2->set_start_x(1700);
-        line2->set_start_y(0);
-        line2->set_end_x(1300);
-        line2->set_end_y(1500);
+        for(int i=0;i<lineBorders.size()-1;i++)
+        {
+            outputPacket_line *line=imageProcessor->result.add_mission2_lines();
+            int startX = Orgin_X - ((float)(lineBorders.at(i).x-cropedRect.x)/imSize.width)*Width;
+            int startY = Orgin_Y + ((float)(lineBorders.at(i).y-cropedRect.y)/imSize.height)*Height;
+
+            int endX = Orgin_X - ((float)(lineBorders.at(i+1).x-cropedRect.x)/imSize.width)*Width;
+            int endY = Orgin_Y + ((float)(lineBorders.at(i+1).y-cropedRect.y)/imSize.height)*Height;
+
+            qDebug()<<"start:"<<startX<<","<<startY;
+            qDebug()<<"end:"<<endX<<","<<endY;
+            line->set_start_x(startX+100);
+            line->set_start_y(startY-100);
+            line->set_end_x(endX+100);
+            line->set_end_y(endY-100);
+        }
         break;
     }
     case 3:
@@ -601,11 +607,12 @@ void MainWindow::setInitializeMessage(int mission)
 
         //goal2 center
         imageProcessor->result.set_mission3_goal2_x(ui->goal2_X_lineEdit->text().toFloat());
-        imageProcessor->result.set_mission3_goal2_x(ui->goal2_Y_lineEdit->text().toFloat());
+        imageProcessor->result.set_mission3_goal2_y(ui->goal2_Y_lineEdit->text().toFloat());
 
         break;
     }
     }
+    emit dataReadyForSend();
 }
 
 void MainWindow::preapreDataForSending()
@@ -1021,9 +1028,11 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
 
     //croped image for better performance
     Mat CropFrame;
-    Rect cropedRect;
+
     if(ui->crop_checkBox->isChecked())
     {
+        imSize.width = ui->sX_lineEdit->text().toInt()-ui->fX_lineEdit->text().toInt();
+        imSize.height = ui->sY_lineEdit->text().toInt()-ui->fY_lineEdit->text().toInt();
         cropedRect.width = ui->sX_lineEdit->text().toInt()-ui->fX_lineEdit->text().toInt();
         cropedRect.height = ui->sY_lineEdit->text().toInt()-ui->fY_lineEdit->text().toInt();
         cropedRect.x = ui->fX_lineEdit->text().toInt();
@@ -1034,6 +1043,9 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
     }
     else
     {
+        imSize.width = inputFrame.rows;
+        imSize.height = inputFrame.cols;
+
         cropedRect.width = inputFrame.rows;
         cropedRect.height = inputFrame.cols;
         cropedRect.x = 0;
@@ -1441,26 +1453,31 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if(lineDrawing)
     {
-        if(firstLinePointIsValid)
-        {
-            Point end;
-            end.x = event->x();
-            end.y = event->y();
-            //firstLinePointIsValid = false;
-            outputPacket_line *line = imageProcessor->result.add_mission2_lines();
-            line->set_start_x(firstLinePoint.x);
-            line->set_start_y(firstLinePoint.y);
-            line->set_end_x(end.x);
-            line->set_end_y(end.y);
-            firstLinePoint.x = event->x();
-            firstLinePoint.y = event->y();
-        }
-        else
-        {
-            firstLinePoint.x = event->x();
-            firstLinePoint.y = event->y();
-            firstLinePointIsValid = true;
-        }
+//        if(firstLinePointIsValid)
+//        {
+//            Point end;
+//            end.x = event->x();
+//            end.y = event->y();
+//            //firstLinePointIsValid = false;
+////            outputPacket_line *line = imageProcessor->result.add_mission2_lines();
+////            line->set_start_x(firstLinePoint.x);
+////            line->set_start_y(firstLinePoint.y);
+////            line->set_end_x(end.x);
+////            line->set_end_y(end.y);
+////            firstLinePoint.x = event->x();
+////            firstLinePoint.y = event->y();
+//        }
+//        else
+//        {
+//            firstLinePoint.x = event->x();
+//            firstLinePoint.y = event->y();
+//            firstLinePointIsValid = true;
+//        }
+
+        Point end;
+        end.x = event->x();
+        end.y = event->y();
+        lineBorders.push_back(end);
     }
 }
 
@@ -1539,17 +1556,17 @@ void MainWindow::sendDataPacket()
     access2StallMode->acquire(1);
     if(!stallMode)
     {
-        qDebug()<<"--------------";
-        qDebug()<<"mission:"<<imageProcessor->result.mission();
-        qDebug()<<"number:"<<imageProcessor->result.numberofshape();
-        qDebug()<<"type:"<<imageProcessor->result.type();
-        for(int i=0;i<imageProcessor->result.shapes_size();i++)
-        {
-            qDebug()<<"shape "<<i<<" seen at:"<<imageProcessor->result.shapes(i).position_x()<<","<<imageProcessor->result.shapes(i).position_y();
-            qDebug()<<"color:"<<QString::fromStdString(imageProcessor->result.shapes(i).color());
-            qDebug()<<"type:"<<QString::fromStdString(imageProcessor->result.shapes(i).type());
-        }
-        qDebug()<<"--------------";
+//        qDebug()<<"--------------";
+//        qDebug()<<"mission:"<<imageProcessor->result.mission();
+//        qDebug()<<"number:"<<imageProcessor->result.numberofshape();
+//        qDebug()<<"type:"<<imageProcessor->result.type();
+//        for(int i=0;i<imageProcessor->result.shapes_size();i++)
+//        {
+//            qDebug()<<"shape "<<i<<" seen at:"<<imageProcessor->result.shapes(i).position_x()<<","<<imageProcessor->result.shapes(i).position_y();
+//            qDebug()<<"color:"<<QString::fromStdString(imageProcessor->result.shapes(i).color());
+//            qDebug()<<"type:"<<QString::fromStdString(imageProcessor->result.shapes(i).type());
+//        }
+//        qDebug()<<"--------------";
     }
     else
     {
@@ -2012,11 +2029,30 @@ void MainWindow::checkAllOfRecieved()
         filterColor[7].copyTo(outputFrame);
         if(ui->drawCrop_checkBox->isChecked())
         {
-           for(int i=0;i<imageProcessor->result.mission2_lines_size();i++)
+            for(int i=0;i<lineBorders.size()-1;i++)
             {
-                line(outputFrame,Point(imageProcessor->result.mission2_lines(i).start_x(),imageProcessor->result.mission2_lines(i).start_y())
-                     ,Point(imageProcessor->result.mission2_lines(i).end_x(),imageProcessor->result.mission2_lines(i).end_y())
+                line(outputFrame,Point(lineBorders.at(i).x,lineBorders.at(i).y)
+                     ,Point(lineBorders.at(i+1).x,lineBorders.at(i+1).y)
                      ,Scalar(0,0,0));
+            }
+            if(mission == 1)
+            {
+                float tl_X = ((Orgin_X - ui->region1_tlX_lineEdit->text().toFloat()-100)/Width)*imSize.width + ui->fX_lineEdit->text().toInt();
+                float tl_Y = ((-Orgin_Y + ui->region1_tlY_lineEdit->text().toFloat()+100)/Height)*imSize.height + ui->fY_lineEdit->text().toInt();
+
+                float br_X = ((Orgin_X - ui->region1_brX_lineEdit->text().toFloat()-100)/Width)*imSize.width+ ui->fX_lineEdit->text().toInt();
+                float br_Y = ((-Orgin_Y + ui->region1_brY_lineEdit->text().toFloat()+100)/Height)*imSize.height+ ui->fY_lineEdit->text().toInt();
+
+
+                rectangle(outputFrame,Point(tl_X,tl_Y), Point(br_X,br_Y), Scalar(0,0,0));
+
+                tl_X = ((Orgin_X - ui->region2_tlX_lineEdit->text().toFloat()+100)/Width)*imSize.width + ui->fX_lineEdit->text().toInt();
+                tl_Y = ((-Orgin_Y + ui->region2_tlY_lineEdit->text().toFloat()-100)/Height)*imSize.height + ui->fY_lineEdit->text().toInt();
+
+                br_X = ((Orgin_X - ui->region2_brX_lineEdit->text().toFloat()+100)/Width)*imSize.width + ui->fX_lineEdit->text().toInt();
+                br_Y = ((-Orgin_Y + ui->region2_brY_lineEdit->text().toFloat()-100)/Height)*imSize.height + ui->fY_lineEdit->text().toInt();
+
+                rectangle(outputFrame,Point(tl_X,tl_Y), Point(br_X,br_Y), Scalar(0,0,0));
             }
         }
     }
@@ -2792,6 +2828,6 @@ void MainWindow::on_lines_button_clicked()
 
 void MainWindow::on_clearLines_button_clicked()
 {
-    imageProcessor->result.clear_mission2_lines();
+    lineBorders.clear();
     firstLinePointIsValid = false;
 }

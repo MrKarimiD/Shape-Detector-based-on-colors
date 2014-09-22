@@ -38,11 +38,13 @@ public:
     void setColor(QString input);
 
     QList<Shape> detectedShapes;
+    vector<vector<Point> > recycledShapes;
 
 private:
     cv::Size imSize;
     //Mat cameraMatrix, distCoeffs;
     QString color;
+    Point2f gravCenter;
 
     //QSemaphore *semaphoreForRanges;
 

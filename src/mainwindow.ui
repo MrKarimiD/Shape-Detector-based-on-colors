@@ -961,6 +961,9 @@
       <property name="text">
        <string>Croped Rectangle</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="filter_tab">
@@ -3733,7 +3736,7 @@ Intrrupt</string>
        </rect>
       </property>
       <property name="text">
-       <string>0</string>
+       <string>1500</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="sMendX_lineEdit">
@@ -3749,7 +3752,7 @@ Intrrupt</string>
        </rect>
       </property>
       <property name="text">
-       <string>0</string>
+       <string>2200</string>
       </property>
      </widget>
      <widget class="QLabel" name="sMend_label">
@@ -3890,7 +3893,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>200</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="region1_brY_lineEdit">
@@ -3903,7 +3906,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>500</string>
        </property>
       </widget>
       <widget class="QLabel" name="br_label">
@@ -3929,7 +3932,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>1300</string>
        </property>
       </widget>
       <widget class="QLabel" name="tlVirgoul_label">
@@ -3978,7 +3981,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>1000</string>
        </property>
       </widget>
      </widget>
@@ -4020,7 +4023,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>2000</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="region2_brY_lineEdit">
@@ -4033,7 +4036,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>500</string>
        </property>
       </widget>
       <widget class="QLabel" name="br_label_2">
@@ -4059,7 +4062,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>-1300</string>
        </property>
       </widget>
       <widget class="QLabel" name="tlVirgoul_label_2">
@@ -4108,7 +4111,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>3000</string>
        </property>
       </widget>
      </widget>
@@ -4208,7 +4211,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>-315</string>
        </property>
       </widget>
       <widget class="QLabel" name="tlVirgoul_label_4">
@@ -4252,7 +4255,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>1667</string>
        </property>
       </widget>
       <widget class="QLabel" name="goal2_label">
@@ -4278,7 +4281,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>1667</string>
        </property>
       </widget>
       <widget class="QLabel" name="tlVirgoul_label_6">
@@ -4309,7 +4312,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>110</string>
        </property>
       </widget>
       <widget class="QLabel" name="tlVirgoul_label_5">
@@ -4353,7 +4356,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>535</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="goal1_X_lineEdit">
@@ -4366,7 +4369,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>1667</string>
        </property>
       </widget>
      </widget>

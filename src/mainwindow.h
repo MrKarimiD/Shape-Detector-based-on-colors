@@ -349,6 +349,11 @@ private:
 
     //-------------------
 
+    QList<Point> lineBorders;
+
+    Size imSize;
+    Rect cropedRect;
+
     void enableCameraSetting();
 
     void disableCameraSetting();
