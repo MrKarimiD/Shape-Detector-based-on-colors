@@ -1556,17 +1556,17 @@ void MainWindow::sendDataPacket()
     access2StallMode->acquire(1);
     if(!stallMode)
     {
-//        qDebug()<<"--------------";
-//        qDebug()<<"mission:"<<imageProcessor->result.mission();
-//        qDebug()<<"number:"<<imageProcessor->result.numberofshape();
-//        qDebug()<<"type:"<<imageProcessor->result.type();
-//        for(int i=0;i<imageProcessor->result.shapes_size();i++)
-//        {
-//            qDebug()<<"shape "<<i<<" seen at:"<<imageProcessor->result.shapes(i).position_x()<<","<<imageProcessor->result.shapes(i).position_y();
-//            qDebug()<<"color:"<<QString::fromStdString(imageProcessor->result.shapes(i).color());
-//            qDebug()<<"type:"<<QString::fromStdString(imageProcessor->result.shapes(i).type());
-//        }
-//        qDebug()<<"--------------";
+        qDebug()<<"--------------";
+        qDebug()<<"mission:"<<imageProcessor->result.mission();
+        qDebug()<<"number:"<<imageProcessor->result.numberofshape();
+        qDebug()<<"type:"<<imageProcessor->result.type();
+        for(int i=0;i<imageProcessor->result.shapes_size();i++)
+        {
+            qDebug()<<"shape "<<i<<" seen at:"<<imageProcessor->result.shapes(i).position_x()<<","<<imageProcessor->result.shapes(i).position_y();
+            qDebug()<<"color:"<<QString::fromStdString(imageProcessor->result.shapes(i).color());
+            qDebug()<<"type:"<<QString::fromStdString(imageProcessor->result.shapes(i).type());
+        }
+        qDebug()<<"--------------";
     }
     else
     {

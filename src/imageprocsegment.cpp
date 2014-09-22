@@ -175,14 +175,14 @@ void ImageProcSegment::RobotDetection(Mat input)
         if (fabs(contourArea(contours[i])) < 100 )
             continue;
 
-//        if(!checkAspectRatio(contours[i]))
-//            continue;
+        if(!checkAspectRatio(contours[i]))
+            continue;
 
-//        RotatedRect rotatetBoundRect=minAreaRect(Mat(contours[i]));
-//        if(!checkAspectRatioForRotatedRect(rotatetBoundRect))
-//        {
-//            continue;
-//        }
+        RotatedRect rotatetBoundRect=minAreaRect(Mat(contours[i]));
+        if(!checkAspectRatioForRotatedRect(rotatetBoundRect))
+        {
+            continue;
+        }
 
         prepareDataForOutput(contours[i],"Robot");
     }
@@ -263,7 +263,7 @@ void ImageProcSegment::prepareDataForOutput(std::vector<Point> &contour, QString
         Yman = Orgin_Y + (center.y/imSize.height)*Height;
     }
     //---------------------------------
-    addShape(Xman+100,Yman-100,radius,type.toStdString(),color.toStdString());
+    addShape(Xman,Yman,radius,type.toStdString(),color.toStdString());
 }
 
 double ImageProcSegment::angle(Point pt1, Point pt2, Point pt0)
