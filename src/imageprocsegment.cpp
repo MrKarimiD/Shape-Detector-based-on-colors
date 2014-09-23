@@ -141,7 +141,7 @@ void ImageProcSegment::shapeDetection(Mat input)
 
     for(int i=0;i<recycledShapes.size();i++)
     {
-            if(contourArea(recycledShapes[i]) >(0.005)*imSize.width*imSize.height)
+            if(contourArea(recycledShapes[i]) >(0.01)*imSize.width*imSize.height)
             {
                prepareDataForOutput(recycledShapes[i],"Chasbideh");
            }
@@ -171,9 +171,16 @@ void ImageProcSegment::RobotDetection(Mat input)
 
     for (int i = 0; i < contours.size(); i++)
     {
-        // Skip small or non-convex objects
+         //Skip small or non-convex objects
         if (fabs(contourArea(contours[i])) < 100 )
             continue;
+
+        Point2f center;
+        float radius;
+        minEnclosingCircle( (Mat)contours[i], center, radius );
+
+//        if(radius < 20)
+//            continue;
 
         if(!checkAspectRatio(contours[i]))
             continue;
@@ -251,6 +258,8 @@ void ImageProcSegment::prepareDataForOutput(std::vector<Point> &contour, QString
     minEnclosingCircle( (Mat)contour, center, radius );
 
     //--------mohsen khare---------------
+
+    radius *= max((Width/imSize.width),(Height/imSize.height));
     float Xman,Yman;
     if(type == "TRI")
     {
@@ -291,14 +300,18 @@ void ImageProcSegment::doProccess()
 
     //    semaphoreForRanges->release(1);
     input.copyTo(ranged);
-    medianBlur(ranged,ranged,7);
-    Canny( ranged, ranged, 80, 180, 3 );
+
     if(this->color == "black")
     {
+        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+        dilate(ranged,ranged,structure);
+        Canny( ranged, ranged, 80, 180, 3 );
         RobotDetection(ranged);
     }
     else
     {
+        medianBlur(ranged,ranged,7);
+        Canny( ranged, ranged, 80, 180, 3 );
         shapeDetection(ranged);
     }
 

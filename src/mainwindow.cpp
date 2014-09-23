@@ -2022,6 +2022,17 @@ void MainWindow::checkAllOfRecieved()
     else if(ui->out_comboBox->currentText() == "Black")
     {
         filterColor[6].copyTo(outputFrame);
+        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+        dilate(outputFrame,outputFrame,structure);
+//        vector<vector<Point> > contours;
+//        vector<Vec4i> hierarchy;
+//        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+//        RNG rng(12345);
+//        for(int i=0;i<contours.size();i++)
+//        {
+//            Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+//        drawContours(outputFrame,contours, i, Scalar(125,255,0), 1, 8, hierarchy, 0);
+//        }
     }
 
     else if(ui->out_comboBox->currentText() == "Final")
