@@ -93,8 +93,8 @@ Mat ImageProcessing::undistortFIREWIRECam(Mat input)
 //    bitwise_not(inputFrame, inputFrame);
 
     Mat outputFrame;
-//    undistort(input,outputFrame,cameraMatrix,distCoeffs);
-    Size imageSize = input.size();
+    undistort(input,outputFrame,cameraMatrix,distCoeffs);
+    Size imageSize = inputFrame.size();
     Mat view, rview, map1, map2;
 
     initUndistortRectifyMap(cameraMatrix, distCoeffs, Mat(),

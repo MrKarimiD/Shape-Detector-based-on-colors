@@ -32,7 +32,7 @@ void ImageProcSegment::shapeDetection(Mat input)
         approxPolyDP(Mat(contours[i]), approx,arcLength(Mat(contours[i]), true)*0.0382, true);
 
         // Skip small or non-convex objects
-        if (fabs(contourArea(contours[i])) < 100 || !isContourConvex(approx))
+        if (fabs(contourArea(contours[i])) < 50 || !isContourConvex(approx))
         {
             if(fabs(contourArea(contours[i])) > 200 && !isContourConvex(approx))
             {
@@ -127,8 +127,11 @@ void ImageProcSegment::shapeDetection(Mat input)
             Rect r = boundingRect(contours[i]);
             int radius = r.width / 2;
 
-            if (abs(1 - ((double)r.width / r.height)) <= 0.3 &&
-                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.3)
+//            if (abs(1 - ((double)r.width / r.height)) <= 0.3 &&
+//                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.3)
+//            {
+            if (abs(1 - ((double)r.width / r.height)) <= 0.5 &&
+                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.5)
             {
                 prepareDataForOutput(contours[i],"CIR");
             }
@@ -165,22 +168,31 @@ void ImageProcSegment::RobotDetection(Mat input)
     detectedShapes.clear();
 
     // Find contours
+//    vector<vector<Point> > contours1;
+//    vector<Vec4i> hierarchy1;
+//    findContours(input.clone(), contours1, hierarchy1, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
+//    Mat fil = input.clone();
+
+//    for (int i = 0; i < contours1.size(); i++)
+//    {
+//        Rect boundedRect=boundingRect( Mat(contours1[i]) );
+//        rectangle( fil, boundedRect.tl(), boundedRect.br(), Scalar(255,255,255), 2, 8, 0 );
+//    }
+
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
-    findContours(input.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+    findContours(input.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE,cropR.tl());
 
+    //qDebug()<<"--------------";
     for (int i = 0; i < contours.size(); i++)
     {
+        //qDebug()<<"contoursArea:"<<fabs(contourArea(contours[i]));
          //Skip small or non-convex objects
-        if (fabs(contourArea(contours[i])) < 100 )
+        //qDebug()<<"contour:"<<contourArea(contours[i]);
+
+       if (fabs(contourArea(contours[i])) < 50 )
             continue;
-
-        Point2f center;
-        float radius;
-        minEnclosingCircle( (Mat)contours[i], center, radius );
-
-//        if(radius < 20)
-//            continue;
 
         if(!checkAspectRatio(contours[i]))
             continue;
@@ -191,8 +203,30 @@ void ImageProcSegment::RobotDetection(Mat input)
             continue;
         }
 
+        Point2f center;
+        float radius;
+        minEnclosingCircle( (Mat)contours[i], center, radius );
+
+        if(radius < 5)
+            continue;
+
         prepareDataForOutput(contours[i],"Robot");
+        //robotList.push_back(contours[i]);
     }
+
+//    for(int i=0;i<robotList.size();i++)
+//    {
+//        for(int j=i;j<robotList.size();j++)
+//        {
+//            if( fabs(contourArea(robotList[i])) < fabs(contourArea(robotList[j])) )
+//            {
+//                vector<Point> temp;
+//                temp = robotList.at(i);
+//                robotList.at(i) = robotList.at(j);
+//                robotList.at(j) = temp;
+//            }
+//        }
+//    }
 }
 
 void ImageProcSegment::setImage(Mat input)
@@ -260,18 +294,26 @@ void ImageProcSegment::prepareDataForOutput(std::vector<Point> &contour, QString
     //--------mohsen khare---------------
 
     radius *= max((Width/imSize.width),(Height/imSize.height));
+    //radius *= 1.5;
     float Xman,Yman;
+    Mat src(1,1,CV_32FC2);
+    Mat warp_dst(1,1,CV_32FC2);
     if(type == "TRI")
     {
-        Xman = Orgin_X - (gravCenter.x/imSize.width)*Width;
-        Yman = Orgin_Y + (gravCenter.y/imSize.height)*Height;
+        Xman = Orgin_X + (gravCenter.x/imSize.width)*Width;
+        Yman = Orgin_Y - (gravCenter.y/imSize.height)*Height;
     }
     else
     {
-        Xman = Orgin_X - (center.x/imSize.width)*Width;
-        Yman = Orgin_Y + (center.y/imSize.height)*Height;
+        Xman = Orgin_X + (center.x/imSize.width)*Width;
+        Yman = Orgin_Y - (center.y/imSize.height)*Height;
     }
     //---------------------------------
+
+//-------Tales------
+//    Xman *= 60/57;
+//    Yman *= 60/57;
+
     addShape(Xman,Yman,radius,type.toStdString(),color.toStdString());
 }
 
@@ -303,10 +345,26 @@ void ImageProcSegment::doProccess()
 
     if(this->color == "black")
     {
+
+
+        cropR.x = 20;
+        cropR.y = 20;
+        cropR.width = ranged.cols - 50;
+        cropR.height = ranged.rows - 50;
+
+        Mat crop(ranged,cropR);
+
+        medianBlur(crop,crop,3);
         Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-        dilate(ranged,ranged,structure);
-        Canny( ranged, ranged, 80, 180, 3 );
-        RobotDetection(ranged);
+        dilate(crop,crop,structure);
+//        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+//        erode(outputFrame,outputFrame,structure);
+//        dilate(ranged,ranged,structure);
+//        medianBlur(ranged,ranged,7);
+//        Mat structure2=getStructuringElement(MORPH_RECT,Size(5,5));
+//        erode(ranged,ranged,structure2);
+        Canny( crop, crop, 80, 180, 3 );
+        RobotDetection(crop);
     }
     else
     {

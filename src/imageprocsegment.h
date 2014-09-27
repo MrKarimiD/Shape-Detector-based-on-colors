@@ -39,6 +39,7 @@ public:
 
     QList<Shape> detectedShapes;
     vector<vector<Point> > recycledShapes;
+    vector<vector<Point> > robotList;
 
 private:
     cv::Size imSize;
@@ -51,6 +52,7 @@ private:
     Mat input;
     QTimer *timer;
     bool newDataRecieved;
+    Rect cropR;
 
     //Vec3f minColorRange,maxColorRange;
 

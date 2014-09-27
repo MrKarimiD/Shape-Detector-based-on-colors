@@ -165,7 +165,8 @@ void MainWindow::on_open_button_clicked()
         }
         else if(ui->cam_comboBox->currentText()=="USB0")
         {
-            cameraIsOpened=cap.open(0);
+            //cameraIsOpened=cap.open(0);
+            cap.open("/home/mil4d/guvcview_video-14.mkv");
         }
         else if(ui->cam_comboBox->currentText()=="USB1")
         {
@@ -240,7 +241,18 @@ void MainWindow::cam_timeout()
 {
     Mat frame;
     cap.read(frame);
-    emit imageReady(frame);
+    if(frame.empty())
+    {
+        if(ui->cam_comboBox->currentText() == "USB0")
+        {
+            cap.release();
+            cap.open("/home/mil4d/guvcview_video-14.mkv");
+        }
+    }
+    else
+    {
+        emit imageReady(frame);
+    }
 }
 
 void MainWindow::enableCameraSetting()
@@ -499,6 +511,8 @@ void MainWindow::enableSecondMission()
     ui->sMendX_lineEdit->setEnabled(true);
     ui->sMendY_lineEdit->setEnabled(true);
     ui->sMend_label->setEnabled(true);
+    ui->lines_button->setEnabled(true);
+    ui->clearLines_button->setEnabled(true);
 }
 
 void MainWindow::disableSecondMission()
@@ -506,6 +520,8 @@ void MainWindow::disableSecondMission()
     ui->sMendX_lineEdit->setDisabled(true);
     ui->sMendY_lineEdit->setDisabled(true);
     ui->sMend_label->setDisabled(true);
+    ui->lines_button->setDisabled(true);
+    ui->clearLines_button->setDisabled(true);
 }
 
 bool MainWindow::isValidPlaceForSelect(int x, int y)
@@ -567,18 +583,18 @@ void MainWindow::setInitializeMessage(int mission)
         for(int i=0;i<lineBorders.size()-1;i++)
         {
             outputPacket_line *line=imageProcessor->result.add_mission2_lines();
-            int startX = Orgin_X - ((float)(lineBorders.at(i).x-cropedRect.x)/imSize.width)*Width;
-            int startY = Orgin_Y + ((float)(lineBorders.at(i).y-cropedRect.y)/imSize.height)*Height;
+            int startX = Orgin_X + ((float)(lineBorders.at(i).x-cropedRect.x)/imSize.width)*Width;
+            int startY = Orgin_Y - ((float)(lineBorders.at(i).y-cropedRect.y)/imSize.height)*Height;
 
-            int endX = Orgin_X - ((float)(lineBorders.at(i+1).x-cropedRect.x)/imSize.width)*Width;
-            int endY = Orgin_Y + ((float)(lineBorders.at(i+1).y-cropedRect.y)/imSize.height)*Height;
+            int endX = Orgin_X + ((float)(lineBorders.at(i+1).x-cropedRect.x)/imSize.width)*Width;
+            int endY = Orgin_Y - ((float)(lineBorders.at(i+1).y-cropedRect.y)/imSize.height)*Height;
 
             qDebug()<<"start:"<<startX<<","<<startY;
             qDebug()<<"end:"<<endX<<","<<endY;
-            line->set_start_x(startX+100);
-            line->set_start_y(startY-100);
-            line->set_end_x(endX+100);
-            line->set_end_y(endY-100);
+            line->set_start_x(startX);
+            line->set_start_y(startY);
+            line->set_end_x(endX);
+            line->set_end_y(endY);
         }
         break;
     }
@@ -1040,6 +1056,23 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
 
         Mat crop(inputFrame,cropedRect);
         crop.copyTo(CropFrame);
+
+//        Point2f srcTri[3];
+//        Point2f dstTri[3];
+//        srcTri[0] = Point2f( 344,393 );
+//        srcTri[1] = Point2f( 333, 92);
+//        srcTri[2] = Point2f( 67, 340);
+
+//        dstTri[0] = Point2f( 2730, 480 );
+//        dstTri[1] = Point2f( 1220, 372 );
+//        dstTri[2] = Point2f( 2530, -1034 );
+//        Mat warp_mat( 2, 3, CV_32FC1 );
+//        /// Get the Affine Transform
+//        warp_mat = getAffineTransform( srcTri, dstTri );
+
+//        Mat rotated = Mat::zeros(CropFrame.rows,CropFrame.cols,CropFrame.type());
+//        warpAffine( CropFrame, rotated, warp_mat, rotated.size() );
+//        imshow("ro",rotated);
     }
     else
     {
@@ -1453,26 +1486,26 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if(lineDrawing)
     {
-//        if(firstLinePointIsValid)
-//        {
-//            Point end;
-//            end.x = event->x();
-//            end.y = event->y();
-//            //firstLinePointIsValid = false;
-////            outputPacket_line *line = imageProcessor->result.add_mission2_lines();
-////            line->set_start_x(firstLinePoint.x);
-////            line->set_start_y(firstLinePoint.y);
-////            line->set_end_x(end.x);
-////            line->set_end_y(end.y);
-////            firstLinePoint.x = event->x();
-////            firstLinePoint.y = event->y();
-//        }
-//        else
-//        {
-//            firstLinePoint.x = event->x();
-//            firstLinePoint.y = event->y();
-//            firstLinePointIsValid = true;
-//        }
+        //        if(firstLinePointIsValid)
+        //        {
+        //            Point end;
+        //            end.x = event->x();
+        //            end.y = event->y();
+        //            //firstLinePointIsValid = false;
+        ////            outputPacket_line *line = imageProcessor->result.add_mission2_lines();
+        ////            line->set_start_x(firstLinePoint.x);
+        ////            line->set_start_y(firstLinePoint.y);
+        ////            line->set_end_x(end.x);
+        ////            line->set_end_y(end.y);
+        ////            firstLinePoint.x = event->x();
+        ////            firstLinePoint.y = event->y();
+        //        }
+        //        else
+        //        {
+        //            firstLinePoint.x = event->x();
+        //            firstLinePoint.y = event->y();
+        //            firstLinePointIsValid = true;
+        //        }
 
         Point end;
         end.x = event->x();
@@ -1556,7 +1589,6 @@ void MainWindow::sendDataPacket()
     access2StallMode->acquire(1);
     if(!stallMode)
     {
-        qDebug()<<"--------------";
         qDebug()<<"mission:"<<imageProcessor->result.mission();
         qDebug()<<"number:"<<imageProcessor->result.numberofshape();
         qDebug()<<"type:"<<imageProcessor->result.type();
@@ -1566,7 +1598,6 @@ void MainWindow::sendDataPacket()
             qDebug()<<"color:"<<QString::fromStdString(imageProcessor->result.shapes(i).color());
             qDebug()<<"type:"<<QString::fromStdString(imageProcessor->result.shapes(i).type());
         }
-        qDebug()<<"--------------";
     }
     else
     {
@@ -2021,18 +2052,37 @@ void MainWindow::checkAllOfRecieved()
 
     else if(ui->out_comboBox->currentText() == "Black")
     {
-        filterColor[6].copyTo(outputFrame);
-        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+//        filterColor[6].copyTo(outputFrame);
+        //---------------
+        Mat crop;
+        Rect cropR;
+        filterColor[6].copyTo(crop);
+        cropR.x = 20;
+        cropR.y = 20;
+        cropR.width = crop.cols - 50;
+        cropR.height = crop.rows - 50;
+
+        Mat crop2(crop,cropR);
+        crop2.copyTo(outputFrame);
+        //---------------------------
+
+
+        medianBlur(outputFrame,outputFrame,3);
+       Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+//        erode(outputFrame,outputFrame,structure);
         dilate(outputFrame,outputFrame,structure);
-//        vector<vector<Point> > contours;
-//        vector<Vec4i> hierarchy;
-//        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
-//        RNG rng(12345);
-//        for(int i=0;i<contours.size();i++)
-//        {
-//            Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-//        drawContours(outputFrame,contours, i, Scalar(125,255,0), 1, 8, hierarchy, 0);
-//        }
+//        medianBlur(outputFrame,outputFrame,7);
+//        Mat structure2=getStructuringElement(MORPH_RECT,Size(3,3));
+//        erode(outputFrame,outputFrame,structure2);
+        //dilate(outputFrame,outputFrame,structure);
+        vector<vector<Point> > contours;
+        vector<Vec4i> hierarchy;
+        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+        RNG rng(12345);
+        for(int i=0;i<contours.size();i++)
+        {
+           drawContours(outputFrame,contours, i, Scalar(125,255,0), 2, 8, hierarchy, 0);
+        }
     }
 
     else if(ui->out_comboBox->currentText() == "Final")
@@ -2040,11 +2090,14 @@ void MainWindow::checkAllOfRecieved()
         filterColor[7].copyTo(outputFrame);
         if(ui->drawCrop_checkBox->isChecked())
         {
-            for(int i=0;i<lineBorders.size()-1;i++)
+            if(mission == 2)
             {
-                line(outputFrame,Point(lineBorders.at(i).x,lineBorders.at(i).y)
-                     ,Point(lineBorders.at(i+1).x,lineBorders.at(i+1).y)
-                     ,Scalar(0,0,0));
+                for(int i=0;i<lineBorders.size()-1;i++)
+                {
+                    line(outputFrame,Point(lineBorders.at(i).x,lineBorders.at(i).y)
+                         ,Point(lineBorders.at(i+1).x,lineBorders.at(i+1).y)
+                         ,Scalar(0,0,0));
+                }
             }
             if(mission == 1)
             {
