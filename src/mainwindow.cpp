@@ -165,8 +165,8 @@ void MainWindow::on_open_button_clicked()
         }
         else if(ui->cam_comboBox->currentText()=="USB0")
         {
-            //cameraIsOpened=cap.open(0);
-            cap.open("/home/mil4d/guvcview_video-14.mkv");
+            cameraIsOpened=cap.open(0);
+            //cap.open("/home/mil4d/guvcview_video-19.mkv");
         }
         else if(ui->cam_comboBox->currentText()=="USB1")
         {
@@ -246,7 +246,7 @@ void MainWindow::cam_timeout()
         if(ui->cam_comboBox->currentText() == "USB0")
         {
             cap.release();
-            cap.open("/home/mil4d/guvcview_video-14.mkv");
+            cap.open("/home/mil4d/guvcview_video-19.mkv");
         }
     }
     else
@@ -2057,6 +2057,7 @@ void MainWindow::checkAllOfRecieved()
         Mat crop;
         Rect cropR;
         filterColor[6].copyTo(crop);
+        imshow("re",crop);
         cropR.x = 20;
         cropR.y = 20;
         cropR.width = crop.cols - 50;
@@ -2067,22 +2068,26 @@ void MainWindow::checkAllOfRecieved()
         //---------------------------
 
 
-        medianBlur(outputFrame,outputFrame,3);
-       Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-//        erode(outputFrame,outputFrame,structure);
-        dilate(outputFrame,outputFrame,structure);
-//        medianBlur(outputFrame,outputFrame,7);
-//        Mat structure2=getStructuringElement(MORPH_RECT,Size(3,3));
-//        erode(outputFrame,outputFrame,structure2);
-        //dilate(outputFrame,outputFrame,structure);
-        vector<vector<Point> > contours;
-        vector<Vec4i> hierarchy;
-        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
-        RNG rng(12345);
-        for(int i=0;i<contours.size();i++)
-        {
-           drawContours(outputFrame,contours, i, Scalar(125,255,0), 2, 8, hierarchy, 0);
-        }
+       // medianBlur(outputFrame,outputFrame,);
+       Mat structure=getStructuringElement(MORPH_RECT,Size(3,3));
+
+////       dilate(outputFrame,outputFrame,structure);
+
+       erode(outputFrame,outputFrame,structure);
+
+////        dilate(outputFrame,outputFrame,structure);
+//////        medianBlur(outputFrame,outputFrame,7);
+//////        Mat structure2=getStructuringElement(MORPH_RECT,Size(3,3));
+//////        erode(outputFrame,outputFrame,structure2);
+////        //dilate(outputFrame,outputFrame,structure);
+//        vector<vector<Point> > contours;
+//        vector<Vec4i> hierarchy;
+//        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+//        RNG rng(12345);
+//        for(int i=0;i<contours.size();i++)
+//        {
+//           drawContours(outputFrame,contours, i, Scalar(125,255,0), 2, 8, hierarchy, 0);
+//        }
     }
 
     else if(ui->out_comboBox->currentText() == "Final")

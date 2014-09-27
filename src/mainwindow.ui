@@ -61,7 +61,7 @@
      <cursorShape>ArrowCursor</cursorShape>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="input_tab">
      <attribute name="title">
@@ -1791,8 +1791,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2054,8 +2054,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2317,8 +2317,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2577,8 +2577,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2837,8 +2837,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3097,8 +3097,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3357,8 +3357,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -4220,7 +4220,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>-315</string>
+        <string>-250</string>
        </property>
       </widget>
       <widget class="QLabel" name="tlVirgoul_label_4">
@@ -4264,7 +4264,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>1667</string>
+        <string>1750</string>
        </property>
       </widget>
       <widget class="QLabel" name="goal2_label">
@@ -4290,7 +4290,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>1667</string>
+        <string>1750</string>
        </property>
       </widget>
       <widget class="QLabel" name="tlVirgoul_label_6">
@@ -4321,7 +4321,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>110</string>
+        <string>0</string>
        </property>
       </widget>
       <widget class="QLabel" name="tlVirgoul_label_5">
@@ -4365,7 +4365,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>535</string>
+        <string>250</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="goal1_X_lineEdit">
@@ -4378,7 +4378,7 @@ Intrrupt</string>
         </rect>
        </property>
        <property name="text">
-        <string>1667</string>
+        <string>1750</string>
        </property>
       </widget>
      </widget>

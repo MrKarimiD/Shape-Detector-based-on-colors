@@ -38,7 +38,7 @@ void ImageProcSegment::shapeDetection(Mat input)
             {
                 recycledShapes.push_back(contours[i]);
             }
-                continue;
+            continue;
         }
 
         if(!checkAspectRatio(contours[i]))
@@ -50,114 +50,13 @@ void ImageProcSegment::shapeDetection(Mat input)
             continue;
         }
 
-//        if(contourArea(contours[i]) >(0.005)*imSize.width*imSize.height)
-//        {
-//           prepareDataForOutput(contours[i],"Chasbideh");
-//           continue;
-//        }
-
-        if(approx.size() < 7)// !!!!!!!!!
-        {// !!!!!!!!
-            double sum = arcLength(Mat(contours[i]), true);
-            Point first,second;
-            double avg = sum / approx.size();
-
-            for(int i=0;i<approx.size();i++)
-            {
-                for(int j=i+1;j<approx.size();j++)
-                {
-                    first = approx.at(i);
-                    second = approx.at(j);
-
-                    if( sqrt(pow(second.x-first.x,2)+pow(second.y-first.y,2))/avg < 0.5)
-                    {
-                        Point between;
-                        between.x = (first.x+second.x)/2;
-                        between.y = (first.y+second.y)/2;
-                        approx.erase(approx.begin()+i);
-                        approx.erase(approx.begin()+j);
-                        approx.insert(approx.begin()+i,between);
-                    }
-                }
-            }
-        } // !!!!!!!!!
-
-        if (approx.size() == 3)
-        {
-            gravCenter.x = (approx.at(0).x + approx.at(1).x + approx.at(2).x) / 3;
-            gravCenter.y = (approx.at(0).y + approx.at(1).y + approx.at(2).y) / 3;
-            prepareDataForOutput(contours[i],"TRI");
-        }
-        else if (approx.size() >= 4 && approx.size() <= 6)
-        {
-            // Number of vertices of polygonal curve
-            int vtc = approx.size();
-
-            // Get the cosines of all corners
-            vector<double> cos;
-            for (int j = 2; j < vtc+1; j++)
-                cos.push_back(angle(approx[j%vtc], approx[j-2], approx[j-1]));
-
-            // Sort ascending the cosine values
-            sort(cos.begin(), cos.end());
-
-            // Get the lowest and the highest cosine
-            double mincos = cos.front();
-            double maxcos = cos.back();
-
-            // Use the degrees obtained above and the number of vertices
-            // to determine the shape of the contour
-            if (vtc == 4 && mincos >= -0.3 && maxcos <= 0.3)  //-0.1,0.3
-            {
-                prepareDataForOutput(contours[i],"RECT");
-            }
-            else if ( (vtc >= 5 && vtc <=7) && mincos >= -0.7 && maxcos <= 0.5) //-0.34,-0.27
-            {
-                prepareDataForOutput(contours[i],"PENTA");
-            }
-            else
-            {
-                recycledShapes.push_back(contours[i]);
-            }
-        }
-        else
-        {
-            // Detect and label circles
-            double area = contourArea(contours[i]);
-            Rect r = boundingRect(contours[i]);
-            int radius = r.width / 2;
-
-//            if (abs(1 - ((double)r.width / r.height)) <= 0.3 &&
-//                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.3)
-//            {
-            if (abs(1 - ((double)r.width / r.height)) <= 0.5 &&
-                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.5)
-            {
-                prepareDataForOutput(contours[i],"CIR");
-            }
-            else
-            {
-                recycledShapes.push_back(contours[i]);
-            }
-       }
+        //        if(contourArea(contours[i]) >(0.005)*imSize.width*imSize.height)
+        //        {
+        //           prepareDataForOutput(contours[i],"Chasbideh");
+        //           continue;
+        //        }
+        prepareDataForOutput(contours[i],"Ball");
     }
-
-    for(int i=0;i<recycledShapes.size();i++)
-    {
-            if(contourArea(recycledShapes[i]) >(0.01)*imSize.width*imSize.height)
-            {
-               prepareDataForOutput(recycledShapes[i],"Chasbideh");
-           }
-    }
-    //    vector<Vec3f> circles;
-    //    HoughCircles(input, circles, HOUGH_GRADIENT,3,1, 150, 100 );
-    //    qDebug()<<"size:"<<circles.size();
-    //    for(int i=0;i<circles.size();i++)
-    //    {
-    //        Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-    //        int radius = cvRound(circles[i][2]);
-    //        circle(dst,center,radius,Scalar(0,124,124),3);
-    //    }
 }
 
 void ImageProcSegment::RobotDetection(Mat input)
@@ -168,30 +67,33 @@ void ImageProcSegment::RobotDetection(Mat input)
     detectedShapes.clear();
 
     // Find contours
-//    vector<vector<Point> > contours1;
-//    vector<Vec4i> hierarchy1;
-//    findContours(input.clone(), contours1, hierarchy1, RETR_LIST, CHAIN_APPROX_SIMPLE);
+    //    vector<vector<Point> > contours1;
+    //    vector<Vec4i> hierarchy1;
+    //    findContours(input.clone(), contours1, hierarchy1, RETR_LIST, CHAIN_APPROX_SIMPLE);
 
-//    Mat fil = input.clone();
+    //    Mat fil = input.clone();
 
-//    for (int i = 0; i < contours1.size(); i++)
-//    {
-//        Rect boundedRect=boundingRect( Mat(contours1[i]) );
-//        rectangle( fil, boundedRect.tl(), boundedRect.br(), Scalar(255,255,255), 2, 8, 0 );
-//    }
+    //    for (int i = 0; i < contours1.size(); i++)
+    //    {
+    //        Rect boundedRect=boundingRect( Mat(contours1[i]) );
+    //        rectangle( fil, boundedRect.tl(), boundedRect.br(), Scalar(255,255,255), 2, 8, 0 );
+    //    }
 
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
-    findContours(input.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE,cropR.tl());
+    Point tl;
+    tl.x = -cropR.tl().x;
+    tl.y = -cropR.tl().y;
+    findContours(input.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE,tl);
 
     //qDebug()<<"--------------";
     for (int i = 0; i < contours.size(); i++)
     {
         //qDebug()<<"contoursArea:"<<fabs(contourArea(contours[i]));
-         //Skip small or non-convex objects
+        //Skip small or non-convex objects
         //qDebug()<<"contour:"<<contourArea(contours[i]);
 
-       if (fabs(contourArea(contours[i])) < 50 )
+        if (fabs(contourArea(contours[i])) < 300 || fabs(contourArea(contours[i]))  > 1000 )
             continue;
 
         if(!checkAspectRatio(contours[i]))
@@ -203,30 +105,87 @@ void ImageProcSegment::RobotDetection(Mat input)
             continue;
         }
 
-        Point2f center;
-        float radius;
-        minEnclosingCircle( (Mat)contours[i], center, radius );
+        //        Point2f center;
+        //        float radius;
+        //        minEnclosingCircle( (Mat)contours[i], center, radius );
 
-        if(radius < 5)
-            continue;
+        //        if(radius < 5)
+        //            continue;
 
-        prepareDataForOutput(contours[i],"Robot");
-        //robotList.push_back(contours[i]);
+        //prepareDataForOutput(contours[i],"Robot");
+        robotList.push_back(contours[i]);
     }
 
 //    for(int i=0;i<robotList.size();i++)
 //    {
-//        for(int j=i;j<robotList.size();j++)
+//        Point2f center;
+//        float radius;
+//        minEnclosingCircle( (Mat)contours[i], center, radius );
+
+//        if(sqrt(pow( (center.x-221),2) + pow( (center.y-176),2) < 50))
 //        {
-//            if( fabs(contourArea(robotList[i])) < fabs(contourArea(robotList[j])) )
-//            {
-//                vector<Point> temp;
-//                temp = robotList.at(i);
-//                robotList.at(i) = robotList.at(j);
-//                robotList.at(j) = temp;
-//            }
+//            robotList.erase(robotList.begin()+i);
+//        }
+
+//        if(sqrt(pow( (center.x-221),2) + pow( (center.y-244),2) < 50))
+//        {
+//            robotList.erase(robotList.begin()+i);
 //        }
 //    }
+
+    for(int i=0;i<robotList.size();i++)
+    {
+        for(int j=i+1;j<robotList.size();j++)
+        {
+            Point2f centerI,centerJ;
+            float radiusI,radiusJ;
+            minEnclosingCircle( (Mat)robotList[i], centerI, radiusI );
+            minEnclosingCircle( (Mat)robotList[j], centerJ, radiusJ );
+
+            qDebug()<<"i:"<<i<<"     "<<centerI.x<<","<<centerI.y<<"     "<<radiusI;
+
+            if( sqrt( pow((centerI.x-centerJ.x),2)+ pow((centerI.y-centerJ.y),2)) < min(radiusI,radiusJ) )
+            {
+                if( min(radiusI,radiusJ) == radiusI)
+                {
+                    robotList.erase(robotList.begin()+i);
+                }
+                else
+                {
+                    robotList.erase(robotList.begin()+j);
+                }
+            }
+        }
+    }
+
+
+//    for(int i=0;i<robotList.size();i++)
+//    {
+//        if(fabs(contourArea(robotList[i]))  > 1000)
+//            robotList.erase(robotList.begin()+i);
+//    }
+
+    for(int i=0;i<robotList.size();i++)
+    {
+        for(int j=i+1;j<robotList.size();j++)
+        {
+            if( fabs(contourArea(robotList[i])) < fabs(contourArea(robotList[j])) )
+            {
+                vector<Point> temp;
+                temp = robotList.at(i);
+                robotList.at(i) = robotList.at(j);
+                robotList.at(j) = temp;
+            }
+        }
+    }
+
+    for(int i=0;i<robotList.size();i++)
+    {
+        qDebug()<<"size"<<i<<" "<<contourArea(robotList[i]);
+        prepareDataForOutput(robotList[i],"Robot");
+    }
+
+    //prepareDataForOutput(robotList[1],"Robot");
 }
 
 void ImageProcSegment::setImage(Mat input)
@@ -296,8 +255,8 @@ void ImageProcSegment::prepareDataForOutput(std::vector<Point> &contour, QString
     radius *= max((Width/imSize.width),(Height/imSize.height));
     //radius *= 1.5;
     float Xman,Yman;
-    Mat src(1,1,CV_32FC2);
-    Mat warp_dst(1,1,CV_32FC2);
+    //    Mat src(1,1,CV_32FC2);
+    //    Mat warp_dst(1,1,CV_32FC2);
     if(type == "TRI")
     {
         Xman = Orgin_X + (gravCenter.x/imSize.width)*Width;
@@ -310,9 +269,9 @@ void ImageProcSegment::prepareDataForOutput(std::vector<Point> &contour, QString
     }
     //---------------------------------
 
-//-------Tales------
-//    Xman *= 60/57;
-//    Yman *= 60/57;
+    //-------Tales------
+    //    Xman *= 60/57;
+    //    Yman *= 60/57;
 
     addShape(Xman,Yman,radius,type.toStdString(),color.toStdString());
 }
@@ -356,13 +315,13 @@ void ImageProcSegment::doProccess()
 
         medianBlur(crop,crop,3);
         Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-        dilate(crop,crop,structure);
-//        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-//        erode(outputFrame,outputFrame,structure);
-//        dilate(ranged,ranged,structure);
-//        medianBlur(ranged,ranged,7);
-//        Mat structure2=getStructuringElement(MORPH_RECT,Size(5,5));
-//        erode(ranged,ranged,structure2);
+        //        dilate(crop,crop,structure);
+        //        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+        erode(crop,crop,structure);
+        //        dilate(ranged,ranged,structure);
+        //        medianBlur(ranged,ranged,7);
+        //        Mat structure2=getStructuringElement(MORPH_RECT,Size(5,5));
+        //        erode(ranged,ranged,structure2);
         Canny( crop, crop, 80, 180, 3 );
         RobotDetection(crop);
     }
