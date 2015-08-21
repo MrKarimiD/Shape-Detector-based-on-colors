@@ -414,6 +414,8 @@ private:
 
     Mat returnFilterImage(Mat input,QString color);
 
+    void disableVideoSetting();
+
 signals:
     void imageReady(Mat image);
     void cameraSettingChanged();

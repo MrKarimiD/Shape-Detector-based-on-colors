@@ -90,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
     semaphoreForOutput = new QSemaphore(1);
 
     QStringList items;
-    items<<"0"<<"1"<<"USB0"<<"USB1"<<"Network";
+    items<<"0"<<"1"<<"USB0"<<"USB1"<<"Network"<<"Video";
     ui->cam_comboBox->addItems(items);
     ui->cam_comboBox->setCurrentIndex(4);
 
@@ -131,7 +131,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     recSocket= new QUdpSocket(this);
 
-    openSetting("/home/mil4d/setting-color.txt");
+    openSetting("setting-color.txt");
 }
 
 MainWindow::~MainWindow()
@@ -165,12 +165,15 @@ void MainWindow::on_open_button_clicked()
         }
         else if(ui->cam_comboBox->currentText()=="USB0")
         {
-            //cameraIsOpened=cap.open(0);
-            cap.open("/home/mil4d/guvcview_video-14.mkv");
+            cameraIsOpened=cap.open(0);
         }
         else if(ui->cam_comboBox->currentText()=="USB1")
         {
             cameraIsOpened=cap.open(1);
+        }
+        else if(ui->cam_comboBox->currentText()=="Video")
+        {
+            cap.open(ui->videoAdd_lineEdit->text().toStdString());
         }
 
         if(!imageRecievedFromNetwork)
@@ -186,6 +189,8 @@ void MainWindow::on_open_button_clicked()
     }
 
     int numberOfColors = 0;
+
+    disableVideoSetting();
 
     if(ui->use_red_checkBox->isChecked())
     {
@@ -243,10 +248,10 @@ void MainWindow::cam_timeout()
     cap.read(frame);
     if(frame.empty())
     {
-        if(ui->cam_comboBox->currentText() == "USB0")
+        if(ui->cam_comboBox->currentText() == "Video")
         {
             cap.release();
-            cap.open("/home/mil4d/guvcview_video-14.mkv");
+            cap.open(ui->videoAdd_lineEdit->text().toStdString());
         }
     }
     else
@@ -967,6 +972,12 @@ Mat MainWindow::returnFilterImage(Mat input, QString color)
     }
 
     return Ranged;
+}
+
+void MainWindow::disableVideoSetting()
+{
+    ui->videoAdd_label->setDisabled(true);
+    ui->videoAdd_lineEdit->setDisabled(true);
 }
 
 void MainWindow::addRedImage(Mat out)
