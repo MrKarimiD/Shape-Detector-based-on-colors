@@ -184,6 +184,7 @@ void MainWindow::on_open_button_clicked()
         }
 
         cam_timer->start(1000*(1/ui->fps_comboBox->currentText().toInt()));
+        cam_timer->start(15);
         connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
         emit imageReady(frame);
     }
@@ -588,14 +589,16 @@ void MainWindow::setInitializeMessage(int mission)
         for(int i=0;i<lineBorders.size()-1;i++)
         {
             outputPacket_line *line=imageProcessor->result.add_mission2_lines();
-            int startX = Orgin_X + ((float)(lineBorders.at(i).x-cropedRect.x)/imSize.width)*Width;
-            int startY = Orgin_Y - ((float)(lineBorders.at(i).y-cropedRect.y)/imSize.height)*Height;
 
-            int endX = Orgin_X + ((float)(lineBorders.at(i+1).x-cropedRect.x)/imSize.width)*Width;
-            int endY = Orgin_Y - ((float)(lineBorders.at(i+1).y-cropedRect.y)/imSize.height)*Height;
+//            Yman = -(Orgin_X - (gravCenter.x/imSize.width)*Width);
+//            Xman = Orgin_Y + (gravCenter.y/imSize.height)*Height;
 
-            qDebug()<<"start:"<<startX<<","<<startY;
-            qDebug()<<"end:"<<endX<<","<<endY;
+            int startY = -(Orgin_X - ((float)(lineBorders.at(i).x-cropedRect.x)/imSize.width)*Width);
+            int startX = Orgin_Y + ((float)(lineBorders.at(i).y-cropedRect.y)/imSize.height)*Height;
+
+            int endY = -(Orgin_X - ((float)(lineBorders.at(i+1).x-cropedRect.x)/imSize.width)*Width);
+            int endX = Orgin_Y + ((float)(lineBorders.at(i+1).y-cropedRect.y)/imSize.height)*Height;
+
             line->set_start_x(startX);
             line->set_start_y(startY);
             line->set_end_x(endX);
@@ -1041,7 +1044,7 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
 
     if(ui->undisort_checkBox->isChecked())
     {
-        if( (ui->cam_comboBox->currentText() == "USB0") || (ui->cam_comboBox->currentText() == "USB1") )
+        if( (ui->cam_comboBox->currentText() == "USB0") || (ui->cam_comboBox->currentText() == "USB1") || (ui->cam_comboBox->currentText() == "Video"))
             imageProcessor->undistortUSBCam(input_mat).copyTo(inputFrame);
         else if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") ||  (ui->cam_comboBox->currentText() == "Network"))
             imageProcessor->undistortFIREWIRECam(input_mat).copyTo(inputFrame);
@@ -1371,7 +1374,8 @@ void MainWindow::setCameraSetting()
 {
     if(cameraIsOpened)
     {
-        cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
+        //cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
+        cap.set(CAP_PROP_FPS, 30);
 
         if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
         {
@@ -2078,22 +2082,22 @@ void MainWindow::checkAllOfRecieved()
         //---------------------------
 
 
-        medianBlur(outputFrame,outputFrame,3);
-       Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-//        erode(outputFrame,outputFrame,structure);
-        dilate(outputFrame,outputFrame,structure);
-//        medianBlur(outputFrame,outputFrame,7);
-//        Mat structure2=getStructuringElement(MORPH_RECT,Size(3,3));
-//        erode(outputFrame,outputFrame,structure2);
-        //dilate(outputFrame,outputFrame,structure);
-        vector<vector<Point> > contours;
-        vector<Vec4i> hierarchy;
-        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
-        RNG rng(12345);
-        for(int i=0;i<contours.size();i++)
-        {
-           drawContours(outputFrame,contours, i, Scalar(125,255,0), 2, 8, hierarchy, 0);
-        }
+//        medianBlur(outputFrame,outputFrame,3);
+//       Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+////        erode(outputFrame,outputFrame,structure);
+//        dilate(outputFrame,outputFrame,structure);
+////        medianBlur(outputFrame,outputFrame,7);
+////        Mat structure2=getStructuringElement(MORPH_RECT,Size(3,3));
+////        erode(outputFrame,outputFrame,structure2);
+//        //dilate(outputFrame,outputFrame,structure);
+//        vector<vector<Point> > contours;
+//        vector<Vec4i> hierarchy;
+//        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+//        RNG rng(12345);
+//        for(int i=0;i<contours.size();i++)
+//        {
+//           drawContours(outputFrame,contours, i, Scalar(125,255,0), 2, 8, hierarchy, 0);
+//        }
     }
 
     else if(ui->out_comboBox->currentText() == "Final")

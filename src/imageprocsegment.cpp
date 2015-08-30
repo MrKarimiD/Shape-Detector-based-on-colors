@@ -300,13 +300,13 @@ void ImageProcSegment::prepareDataForOutput(std::vector<Point> &contour, QString
     Mat warp_dst(1,1,CV_32FC2);
     if(type == "TRI")
     {
-        Xman = Orgin_X + (gravCenter.x/imSize.width)*Width;
-        Yman = Orgin_Y - (gravCenter.y/imSize.height)*Height;
+        Yman = -(Orgin_X - (gravCenter.x/imSize.width)*Width);
+        Xman = Orgin_Y + (gravCenter.y/imSize.height)*Height;
     }
     else
     {
-        Xman = Orgin_X + (center.x/imSize.width)*Width;
-        Yman = Orgin_Y - (center.y/imSize.height)*Height;
+        Yman = -(Orgin_X - (center.x/imSize.width)*Width);
+        Xman = Orgin_Y + (center.y/imSize.height)*Height;
     }
     //---------------------------------
 
@@ -355,8 +355,8 @@ void ImageProcSegment::doProccess()
         Mat crop(ranged,cropR);
 
         medianBlur(crop,crop,3);
-        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-        dilate(crop,crop,structure);
+//        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+//        dilate(crop,crop,structure);
 //        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
 //        erode(outputFrame,outputFrame,structure);
 //        dilate(ranged,ranged,structure);
