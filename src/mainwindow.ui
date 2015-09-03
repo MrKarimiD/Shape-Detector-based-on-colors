@@ -1815,15 +1815,15 @@ Intrrupt</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="red_page">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2085,8 +2085,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2348,8 +2348,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2608,8 +2608,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2868,8 +2868,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3128,8 +3128,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3379,7 +3379,7 @@ Intrrupt</string>
          <string>In the Picture?</string>
         </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </widget>

@@ -176,7 +176,7 @@ void MainWindow::on_open_button_clicked()
             cap.open(ui->videoAdd_lineEdit->text().toStdString());
         }
 
-        if(!imageRecievedFromNetwork)
+        if(!imageRecievedFromNetwork || (ui->cam_comboBox->currentText()!="Video") )
         {
             setCameraSetting();
 
@@ -184,7 +184,6 @@ void MainWindow::on_open_button_clicked()
         }
 
         cam_timer->start(1000*(1/ui->fps_comboBox->currentText().toInt()));
-        cam_timer->start(15);
         connect(cam_timer,SIGNAL(timeout()),this,SLOT(cam_timeout()));
         emit imageReady(frame);
     }
@@ -1374,8 +1373,7 @@ void MainWindow::setCameraSetting()
 {
     if(cameraIsOpened)
     {
-        //cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
-        cap.set(CAP_PROP_FPS, 30);
+        cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
 
         if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
         {

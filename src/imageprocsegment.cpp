@@ -354,7 +354,7 @@ void ImageProcSegment::doProccess()
 
         Mat crop(ranged,cropR);
 
-        medianBlur(crop,crop,3);
+//        medianBlur(crop,crop,3);
 //        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
 //        dilate(crop,crop,structure);
 //        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
