@@ -171,8 +171,6 @@ private slots:
 
     void resposibleForYellowOutput();
 
-    void resposibleForCyanOutput();
-
     void resposibleForVioletOutput();
 
     void resposibleForBlackOutput();
@@ -186,8 +184,6 @@ private slots:
     void addGreenImage(Mat out);
 
     void addYellowImage(Mat out);
-
-    void addCyanImage(Mat out);
 
     void addVioletImage(Mat out);
 
@@ -253,18 +249,6 @@ private slots:
 
     void on_violet_max_val_slider_sliderMoved(int position);
 
-    void on_cyan_min_hue_slider_sliderMoved(int position);
-
-    void on_cyan_max_hue_slider_sliderMoved(int position);
-
-    void on_cyan_min_sat_slider_sliderMoved(int position);
-
-    void on_cyan_max_sat_slider_sliderMoved(int position);
-
-    void on_cyan_min_val_slider_sliderMoved(int position);
-
-    void on_cyan_max_val_slider_sliderMoved(int position);
-
     void on_black_min_hue_slider_sliderMoved(int position);
 
     void on_black_max_hue_slider_sliderMoved(int position);
@@ -318,26 +302,25 @@ private:
     QTimer *checkTimer;
 
     ImageProcSegment *redProc,*blueProc,*greenProc
-    ,*yellowProc,*cyanProc,*violetProc,*blackProc;
+    ,*yellowProc,*violetProc,*blackProc;
 
     QThread *redThread,*blueThread,*greenThread
-    ,*yellowThread,*cyanThread,*violetThread,*blackThread;
+    ,*yellowThread,*violetThread,*blackThread;
 
     QSemaphore *redSem,*blueSem,*greenSem
-    ,*yellowSem,*cyanSem,*violetSem,*blackSem,*realSem;
+    ,*yellowSem,*violetSem,*blackSem,*realSem;
 
     QList<Shape> red_shapes;
     QList<Shape> blue_shapes;
     QList<Shape> green_shapes;
     QList<Shape> yellow_shapes;
     QList<Shape> violet_shapes;
-    QList<Shape> cyan_shapes;
     QList<Shape> black_shapes;
 
     bool RecievedData[7];
     QSemaphore *semaphoreForDataPlussing;
 
-    Mat filterColor[8];
+    Mat filterColor[7];
 
     //------UDP Image Recieving
     QUdpSocket *recSocket;

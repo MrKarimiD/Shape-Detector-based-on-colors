@@ -2085,8 +2085,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>98</width>
-         <height>28</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2348,8 +2348,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2608,8 +2608,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2868,8 +2868,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3136,6 +3136,9 @@ Intrrupt</string>
         <string>Cyan</string>
        </attribute>
        <widget class="QSlider" name="cyan_min_val_slider">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>31</x>
@@ -3155,6 +3158,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QSlider" name="cyan_max_val_slider">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>31</x>
@@ -3174,6 +3180,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_val_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>115</x>
@@ -3187,6 +3196,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_min_hue_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>62</x>
@@ -3200,6 +3212,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QSlider" name="cyan_max_hue_slider">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -3219,6 +3234,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_hue_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>114</x>
@@ -3232,6 +3250,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_max_sat_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>174</x>
@@ -3245,6 +3266,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QSlider" name="cyan_max_sat_slider">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -3264,6 +3288,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_min_sat_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>62</x>
@@ -3277,6 +3304,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_sat_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>114</x>
@@ -3290,6 +3320,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_max_hue_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>174</x>
@@ -3303,6 +3336,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_max_val_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>174</x>
@@ -3316,6 +3352,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QSlider" name="cyan_min_sat_slider">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -3335,6 +3374,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QLabel" name="cyan_min_val_label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>63</x>
@@ -3348,6 +3390,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QSlider" name="cyan_min_hue_slider">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -3367,6 +3412,9 @@ Intrrupt</string>
         </property>
        </widget>
        <widget class="QCheckBox" name="use_cyan_checkBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -3388,8 +3436,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">

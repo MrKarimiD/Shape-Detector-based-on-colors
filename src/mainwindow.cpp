@@ -32,19 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
     violetProc = new ImageProcSegment();
     violetProc->setColor("violet");
 
-    cyanProc = new ImageProcSegment();
-    cyanProc->setColor("cyan");
-
     blackProc = new ImageProcSegment();
     blackProc->setColor("black");
-
-    //    connect(redProc,SIGNAL(afterFilter(Mat)),this,SLOT(addRedImage(Mat)));
-    //    connect(blueProc,SIGNAL(afterFilter(Mat)),this,SLOT(addBlueImage(Mat)));
-    //    connect(greenProc,SIGNAL(afterFilter(Mat)),this,SLOT(addGreenImage(Mat)));
-    //    connect(yellowProc,SIGNAL(afterFilter(Mat)),this,SLOT(addYellowImage(Mat)));
-    //    connect(violetProc,SIGNAL(afterFilter(Mat)),this,SLOT(addVioletImage(Mat)));
-    //    connect(cyanProc,SIGNAL(afterFilter(Mat)),this,SLOT(addCyanImage(Mat)));
-    //    connect(blackProc,SIGNAL(afterFilter(Mat)),this,SLOT(addBlackImage(Mat)));
 
     addHSVSettings();
 
@@ -52,7 +41,6 @@ MainWindow::MainWindow(QWidget *parent) :
     blueThread = new QThread();
     greenThread = new QThread();
     yellowThread = new QThread();
-    cyanThread = new QThread();
     violetThread = new QThread();
     blackThread = new QThread();
 
@@ -60,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
     blueSem = new QSemaphore();
     greenSem = new QSemaphore();
     yellowSem = new QSemaphore();
-    cyanSem = new QSemaphore();
     violetSem = new QSemaphore();
     blackSem = new QSemaphore();
     realSem = new QSemaphore();
@@ -69,7 +56,6 @@ MainWindow::MainWindow(QWidget *parent) :
     blueProc->moveToThread(blueThread);
     greenProc->moveToThread(greenThread);
     yellowProc->moveToThread(yellowThread);
-    cyanProc->moveToThread(cyanThread);
     violetProc->moveToThread(violetThread);
     blackProc->moveToThread(blackThread);
 
@@ -99,9 +85,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->fps_comboBox->addItems(fps_items);
 
     QStringList output_items;
-    output_items<<"Red"<<"Blue"<<"Green"<<"Yellow"<<"Violet"<<"Cyan"<<"Black"<<"Final";
+    output_items<<"Red"<<"Blue"<<"Green"<<"Yellow"<<"Violet"<<"Black"<<"Final";
     ui->out_comboBox->addItems(output_items);
-    ui->out_comboBox->setCurrentIndex(7);
+    ui->out_comboBox->setCurrentIndex(6);
 
     cam_timer = new QTimer();
     send_timer = new QTimer();
@@ -112,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(checkTimer,SIGNAL(timeout()),this,SLOT(checkAllOfRecieved()));
 
     connect(this,SIGNAL(imageReady(Mat)),this,SLOT(callImageProcessingFunctions(Mat)));
-    connect(this,SIGNAL(cameraSettingChanged()),this,SLOT(updateCameraSetting()));
+    //    connect(this,SIGNAL(cameraSettingChanged()),this,SLOT(updateCameraSetting()));
     connect(this,SIGNAL(dataReadyForSend()),this,SLOT(sendDataPacket()));
     connect(this,SIGNAL(filterSettingChanged()),this,SLOT(responseForFilterSettingsChanged()));
     //connect(send_timer,SIGNAL(timeout()),this,SLOT(send_timer_interval()));
@@ -122,7 +108,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(greenProc,SIGNAL(dataGenerated()),this,SLOT(resposibleForGreenOutput()));
     connect(yellowProc,SIGNAL(dataGenerated()),this,SLOT(resposibleForYellowOutput()));
     connect(violetProc,SIGNAL(dataGenerated()),this,SLOT(resposibleForVioletOutput()));
-    connect(cyanProc,SIGNAL(dataGenerated()),this,SLOT(resposibleForCyanOutput()));
     connect(blackProc,SIGNAL(dataGenerated()),this,SLOT(resposibleForBlackOutput()));
 
     imageProcessor=new ImageProcessing();
@@ -158,10 +143,12 @@ void MainWindow::on_open_button_clicked()
         if(ui->cam_comboBox->currentText()=="0")
         {
             cameraIsOpened=cap.open(CAP_FIREWIRE+0);
+            connect(this,SIGNAL(cameraSettingChanged()),this,SLOT(updateCameraSetting()));
         }
         else if(ui->cam_comboBox->currentText()=="1")
         {
             cameraIsOpened=cap.open(CAP_FIREWIRE+1);
+            connect(this,SIGNAL(cameraSettingChanged()),this,SLOT(updateCameraSetting()));
         }
         else if(ui->cam_comboBox->currentText()=="USB0")
         {
@@ -225,13 +212,6 @@ void MainWindow::on_open_button_clicked()
         numberOfColors++;
         violetThread->start();
         violetProc->Start();
-    }
-
-    if(ui->use_cyan_checkBox->isChecked())
-    {
-        numberOfColors++;
-        cyanThread->start();
-        cyanProc->Start();
     }
 
     if(ui->use_black_checkBox->isChecked())
@@ -589,8 +569,8 @@ void MainWindow::setInitializeMessage(int mission)
         {
             outputPacket_line *line=imageProcessor->result.add_mission2_lines();
 
-//            Yman = -(Orgin_X - (gravCenter.x/imSize.width)*Width);
-//            Xman = Orgin_Y + (gravCenter.y/imSize.height)*Height;
+            //            Yman = -(Orgin_X - (gravCenter.x/imSize.width)*Width);
+            //            Xman = Orgin_Y + (gravCenter.y/imSize.height)*Height;
 
             int startY = -(Orgin_X - ((float)(lineBorders.at(i).x-cropedRect.x)/imSize.width)*Width);
             int startX = Orgin_Y + ((float)(lineBorders.at(i).y-cropedRect.y)/imSize.height)*Height;
@@ -1010,13 +990,6 @@ void MainWindow::addYellowImage(Mat out)
     yellowSem->release(1);
 }
 
-void MainWindow::addCyanImage(Mat out)
-{
-    cyanSem->tryAcquire(1,30);
-    filterColor[5] = out;
-    cyanSem->release();
-}
-
 void MainWindow::addVioletImage(Mat out)
 {
     violetSem->tryAcquire(1,30);
@@ -1027,7 +1000,7 @@ void MainWindow::addVioletImage(Mat out)
 void MainWindow::addBlackImage(Mat out)
 {
     blackSem->tryAcquire(1,30);
-    filterColor[6] = out;
+    filterColor[5] = out;
     blackSem->release();
 }
 
@@ -1053,7 +1026,7 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
         input_mat.copyTo(inputFrame);
     }
 
-    inputFrame.copyTo(filterColor[7]);
+    inputFrame.copyTo(filterColor[6]);
 
     //croped image for better performance
     Mat CropFrame;
@@ -1070,22 +1043,22 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
         Mat crop(inputFrame,cropedRect);
         crop.copyTo(CropFrame);
 
-//        Point2f srcTri[3];
-//        Point2f dstTri[3];
-//        srcTri[0] = Point2f( 344,393 );
-//        srcTri[1] = Point2f( 333, 92);
-//        srcTri[2] = Point2f( 67, 340);
+        //        Point2f srcTri[3];
+        //        Point2f dstTri[3];
+        //        srcTri[0] = Point2f( 344,393 );
+        //        srcTri[1] = Point2f( 333, 92);
+        //        srcTri[2] = Point2f( 67, 340);
 
-//        dstTri[0] = Point2f( 2730, 480 );
-//        dstTri[1] = Point2f( 1220, 372 );
-//        dstTri[2] = Point2f( 2530, -1034 );
-//        Mat warp_mat( 2, 3, CV_32FC1 );
-//        /// Get the Affine Transform
-//        warp_mat = getAffineTransform( srcTri, dstTri );
+        //        dstTri[0] = Point2f( 2730, 480 );
+        //        dstTri[1] = Point2f( 1220, 372 );
+        //        dstTri[2] = Point2f( 2530, -1034 );
+        //        Mat warp_mat( 2, 3, CV_32FC1 );
+        //        /// Get the Affine Transform
+        //        warp_mat = getAffineTransform( srcTri, dstTri );
 
-//        Mat rotated = Mat::zeros(CropFrame.rows,CropFrame.cols,CropFrame.type());
-//        warpAffine( CropFrame, rotated, warp_mat, rotated.size() );
-//        imshow("ro",rotated);
+        //        Mat rotated = Mat::zeros(CropFrame.rows,CropFrame.cols,CropFrame.type());
+        //        warpAffine( CropFrame, rotated, warp_mat, rotated.size() );
+        //        imshow("ro",rotated);
     }
     else
     {
@@ -1152,20 +1125,12 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
         RecievedData[4] = true;
     }
 
-    if(ui->use_cyan_checkBox->isChecked())
-    {
-        filterColor[5] = returnFilterImage(HSV,"cyan");
-        cyanProc->setImage(filterColor[5]);
-    }
-    else
-    {
-        RecievedData[5] = true;
-    }
+    RecievedData[5] = true;
 
     if(ui->use_black_checkBox->isChecked())
     {
-        filterColor[6] = returnFilterImage(HSV,"black");
-        blackProc->setImage(filterColor[6]);
+        filterColor[5] = returnFilterImage(HSV,"black");
+        blackProc->setImage(filterColor[5]);
     }
     else
     {
@@ -1374,6 +1339,8 @@ void MainWindow::setCameraSetting()
     if(cameraIsOpened)
     {
         cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
+//        cap.set(CAP_PROP_FRAME_WIDTH, 480);
+//        cap.set(CAP_PROP_FRAME_HEIGHT, 320);
 
         if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
         {
@@ -1904,14 +1871,6 @@ void MainWindow::resposibleForYellowOutput()
     semaphoreForDataPlussing->release(1);
 }
 
-void MainWindow::resposibleForCyanOutput()
-{
-    semaphoreForDataPlussing->acquire(1);
-    cyan_shapes = cyanProc->detectedShapes;
-    RecievedData[5] = true;
-    semaphoreForDataPlussing->release(1);
-}
-
 void MainWindow::resposibleForVioletOutput()
 {
     semaphoreForDataPlussing->acquire(1);
@@ -1981,16 +1940,6 @@ void MainWindow::checkAllOfRecieved()
             shape->set_color(yellow_shapes.at(i).color);
         }
 
-        for(int i=0;i<cyan_shapes.size();i++)
-        {
-            outputPacket_shape *shape = imageProcessor->result.add_shapes();
-            shape->set_position_x(cyan_shapes.at(i).position_x);
-            shape->set_position_y(cyan_shapes.at(i).position_y);
-            shape->set_radios(cyan_shapes.at(i).roundedRadios);
-            shape->set_type(cyan_shapes.at(i).type);
-            shape->set_color(cyan_shapes.at(i).color);
-        }
-
         for(int i=0;i<violet_shapes.size();i++)
         {
             outputPacket_shape *shape = imageProcessor->result.add_shapes();
@@ -2058,18 +2007,13 @@ void MainWindow::checkAllOfRecieved()
         filterColor[4].copyTo(outputFrame);
     }
 
-    else if(ui->out_comboBox->currentText() == "Cyan")
-    {
-        filterColor[5].copyTo(outputFrame);
-    }
-
     else if(ui->out_comboBox->currentText() == "Black")
     {
-//        filterColor[6].copyTo(outputFrame);
+        //        filterColor[6].copyTo(outputFrame);
         //---------------
         Mat crop;
         Rect cropR;
-        filterColor[6].copyTo(crop);
+        filterColor[5].copyTo(crop);
         cropR.x = 20;
         cropR.y = 20;
         cropR.width = crop.cols - 50;
@@ -2080,27 +2024,27 @@ void MainWindow::checkAllOfRecieved()
         //---------------------------
 
 
-//        medianBlur(outputFrame,outputFrame,3);
-//       Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-////        erode(outputFrame,outputFrame,structure);
-//        dilate(outputFrame,outputFrame,structure);
-////        medianBlur(outputFrame,outputFrame,7);
-////        Mat structure2=getStructuringElement(MORPH_RECT,Size(3,3));
-////        erode(outputFrame,outputFrame,structure2);
-//        //dilate(outputFrame,outputFrame,structure);
-//        vector<vector<Point> > contours;
-//        vector<Vec4i> hierarchy;
-//        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
-//        RNG rng(12345);
-//        for(int i=0;i<contours.size();i++)
-//        {
-//           drawContours(outputFrame,contours, i, Scalar(125,255,0), 2, 8, hierarchy, 0);
-//        }
+        //        medianBlur(outputFrame,outputFrame,3);
+        //       Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+        ////        erode(outputFrame,outputFrame,structure);
+        //        dilate(outputFrame,outputFrame,structure);
+        ////        medianBlur(outputFrame,outputFrame,7);
+        ////        Mat structure2=getStructuringElement(MORPH_RECT,Size(3,3));
+        ////        erode(outputFrame,outputFrame,structure2);
+        //        //dilate(outputFrame,outputFrame,structure);
+        //        vector<vector<Point> > contours;
+        //        vector<Vec4i> hierarchy;
+        //        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
+        //        RNG rng(12345);
+        //        for(int i=0;i<contours.size();i++)
+        //        {
+        //           drawContours(outputFrame,contours, i, Scalar(125,255,0), 2, 8, hierarchy, 0);
+        //        }
     }
 
     else if(ui->out_comboBox->currentText() == "Final")
     {
-        filterColor[7].copyTo(outputFrame);
+        filterColor[6].copyTo(outputFrame);
         if(ui->drawCrop_checkBox->isChecked())
         {
             if(mission == 2)
@@ -2320,42 +2264,6 @@ void MainWindow::on_violet_min_val_slider_sliderMoved(int position)
 void MainWindow::on_violet_max_val_slider_sliderMoved(int position)
 {
     ui->violet_max_val_label->setText(QString::number(position));
-    addHSVSettings();
-}
-
-void MainWindow::on_cyan_min_hue_slider_sliderMoved(int position)
-{
-    ui->cyan_min_hue_label->setText(QString::number(position));
-    addHSVSettings();
-}
-
-void MainWindow::on_cyan_max_hue_slider_sliderMoved(int position)
-{
-    ui->cyan_max_hue_label->setText(QString::number(position));
-    addHSVSettings();
-}
-
-void MainWindow::on_cyan_min_sat_slider_sliderMoved(int position)
-{
-    ui->cyan_min_sat_label->setText(QString::number(position));
-    addHSVSettings();
-}
-
-void MainWindow::on_cyan_max_sat_slider_sliderMoved(int position)
-{
-    ui->cyan_max_sat_label->setText(QString::number(position));
-    addHSVSettings();
-}
-
-void MainWindow::on_cyan_min_val_slider_sliderMoved(int position)
-{
-    ui->cyan_min_val_label->setText(QString::number(position));
-    addHSVSettings();
-}
-
-void MainWindow::on_cyan_max_val_slider_sliderMoved(int position)
-{
-    ui->cyan_max_val_label->setText(QString::number(position));
     addHSVSettings();
 }
 

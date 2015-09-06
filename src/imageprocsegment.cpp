@@ -233,6 +233,7 @@ void ImageProcSegment::setImage(Mat input)
 {
     newDataRecieved = true;
     this->input = input;
+//    imshow(color.toStdString(),input);
 }
 
 void ImageProcSegment::addShape(float x, float y, double radius, string type, string color)
@@ -252,7 +253,7 @@ void ImageProcSegment::addShape(float x, float y, double radius, string type, st
 
 void ImageProcSegment::Start()
 {
-    timer->start(15);
+    timer->start(30);
 }
 
 void ImageProcSegment::setColor(QString input)
@@ -368,7 +369,9 @@ void ImageProcSegment::doProccess()
     }
     else
     {
-        medianBlur(ranged,ranged,7);
+
+//       imshow(color.toStdString(),ranged);
+        medianBlur(ranged,ranged,3);
         Canny( ranged, ranged, 80, 180, 3 );
         shapeDetection(ranged);
     }

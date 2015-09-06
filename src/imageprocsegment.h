@@ -12,7 +12,6 @@
 #include "QTimer"
 #include "Constants.h"
 #include "QSemaphore"
-#include "QDebug"
 
 using namespace cv;
 using namespace std;
@@ -66,14 +65,11 @@ private:
 
     void doProccess();
 
-signals:
-
 public slots:
     void timer_inteval();
 
 signals:
     void dataGenerated();
-    //void afterFilter(Mat out);
 
 public slots:
 
