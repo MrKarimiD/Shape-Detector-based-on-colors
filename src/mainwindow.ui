@@ -1815,7 +1815,7 @@ Intrrupt</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="red_page">
        <property name="geometry">
@@ -1842,7 +1842,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>119</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -1900,7 +1900,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>124</number>
+         <number>180</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -1932,7 +1932,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>233</number>
+         <number>255</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -1980,7 +1980,7 @@ Intrrupt</string>
          <number>1</number>
         </property>
         <property name="value">
-         <number>219</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2012,7 +2012,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>203</number>
+         <number>255</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2057,7 +2057,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>186</number>
+         <number>255</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2085,8 +2085,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2172,7 +2172,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>179</number>
+         <number>180</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2217,7 +2217,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>217</number>
+         <number>255</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2288,7 +2288,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>210</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2320,7 +2320,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>176</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2348,8 +2348,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2432,7 +2432,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>58</number>
+         <number>180</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2477,7 +2477,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>254</number>
+         <number>255</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2548,7 +2548,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>231</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2580,7 +2580,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>54</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2608,8 +2608,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2692,7 +2692,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>85</number>
+         <number>180</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2808,7 +2808,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>198</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2840,7 +2840,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>83</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2868,8 +2868,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2952,7 +2952,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>141</number>
+         <number>180</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -2997,7 +2997,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>233</number>
+         <number>255</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -3068,7 +3068,7 @@ Intrrupt</string>
          <number>255</number>
         </property>
         <property name="value">
-         <number>225</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -3100,7 +3100,7 @@ Intrrupt</string>
          <number>180</number>
         </property>
         <property name="value">
-         <number>138</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -3436,8 +3436,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>100</width>
-         <height>30</height>
+         <width>281</width>
+         <height>228</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3447,7 +3447,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>169</y>
+          <y>185</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3466,7 +3466,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>190</y>
+          <y>206</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3485,7 +3485,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>115</x>
-          <y>159</y>
+          <y>175</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3498,7 +3498,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>21</y>
+          <y>61</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3511,7 +3511,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>50</y>
+          <y>98</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3530,7 +3530,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>19</y>
+          <y>59</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3543,7 +3543,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>82</y>
+          <y>121</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3556,7 +3556,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>112</y>
+          <y>151</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3575,7 +3575,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>83</y>
+          <y>122</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3588,7 +3588,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>81</y>
+          <y>120</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3601,7 +3601,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>20</y>
+          <y>60</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3614,7 +3614,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>160</y>
+          <y>176</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3627,7 +3627,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>91</y>
+          <y>130</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3646,7 +3646,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>63</x>
-          <y>161</y>
+          <y>177</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3659,7 +3659,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>29</y>
+          <y>77</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3685,6 +3685,27 @@ Intrrupt</string>
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="useHSV_checkbox">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>28</y>
+          <width>98</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Use HSV</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
         </property>
        </widget>
       </widget>

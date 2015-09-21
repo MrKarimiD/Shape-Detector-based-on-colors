@@ -351,8 +351,6 @@ void ImageProcSegment::doProccess()
 
     if(this->color == "black")
     {
-
-
         cropR.x = 20;
         cropR.y = 20;
         cropR.width = ranged.cols - 50;
@@ -360,67 +358,50 @@ void ImageProcSegment::doProccess()
 
         Mat crop(ranged,cropR); ///رخقخیه ذشغشی زقخح ذشساث؟؟
 
-        /// Global variables
-        Mat  erosion_dst, dilation_dst,erosion_dst_gray;
+        if( crop.channels() == 1)
+        {
+            Canny( crop, ranged, 80, 180, 3 );
+            RobotDetection(ranged);
+        }
+        else
+        {
+            /// Global variables
+            Mat  erosion_dst, dilation_dst,erosion_dst_gray;
 
-        Mat threshold_output;
+            Mat threshold_output;
 
-        int erosion_size = 5;//4
-        int dilation_size = 1;//2
-        int thresh = 250;
-        int erosion_type;
-        int dilation_type;
+            int erosion_size = 5;//4
+            int dilation_size = 1;//2
+            int thresh = 250;
+            int erosion_type;
+            int dilation_type;
 
-        //        medianBlur(crop,crop,3);
-        //        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-        //        dilate(crop,crop,structure);
-        //        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-        //        erode(outputFrame,outputFrame,structure);
-        //        dilate(ranged,ranged,structure);
-        //        medianBlur(ranged,ranged,7);
-        //        Mat structure2=getStructuringElement(MORPH_RECT,Size(5,5));
-        //        erode(ranged,ranged,structure2);
+            // Dilation
 
+            Mat element_dilation = getStructuringElement( dilation_type,
+                                                          Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                                          Point( dilation_size, dilation_size ) );
+            /// Apply the dilation operation
+            dilate( crop, dilation_dst,element_dilation);
+            //  Erosion
 
+            Mat element_erosion = getStructuringElement( erosion_type,
+                                                         Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                                         Point( erosion_size, erosion_size ) );
 
+            /// Apply the erosion operation
+            erode( dilation_dst, erosion_dst, element_erosion );
 
-        // Dilation
+            cvtColor( erosion_dst, erosion_dst_gray, COLOR_BGR2GRAY );
+            // contour
+            /// Detect edges using Threshold
+            threshold( erosion_dst_gray, threshold_output, thresh, 255, THRESH_BINARY );
 
-        Mat element_dilation = getStructuringElement( dilation_type,
-                                                      Size( 2*dilation_size + 1, 2*dilation_size+1 ),
-                                                      Point( dilation_size, dilation_size ) );
-        /// Apply the dilation operation
-        dilate( crop, dilation_dst,element_dilation);
-        //  Erosion
-
-        Mat element_erosion = getStructuringElement( erosion_type,
-                                                     Size( 2*erosion_size + 1, 2*erosion_size+1 ),
-                                                     Point( erosion_size, erosion_size ) );
-
-        /// Apply the erosion operation
-        erode( dilation_dst, erosion_dst, element_erosion );
-        // imshow( "Erosion Demo", erosion_dst );
-
-        cvtColor( erosion_dst, erosion_dst_gray, COLOR_BGR2GRAY );
-        // contour
-        /// Detect edges using Threshold
-        threshold( erosion_dst_gray, threshold_output, thresh, 255, THRESH_BINARY );
-
-        RobotDetection(threshold_output);
-
-        //If we want to use HSV
-//        cvtColor( erosion_dst, erosion_dst_gray, COLOR_BGR2HSV );
-//        inRange(erosion_dst_gray
-//                ,Scalar(0,0,0)
-//                ,Scalar(255,255,170)
-//                ,erosion_dst_gray);
-//        RobotDetection(erosion_dst_gray);
-
+            RobotDetection(threshold_output);
+        }
     }
     else
     {
-
-        //       imshow(color.toStdString(),ranged);
         medianBlur(ranged,ranged,3);
         Canny( ranged, ranged, 80, 180, 3 );
         shapeDetection(ranged);

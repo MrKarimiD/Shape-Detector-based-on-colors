@@ -948,12 +948,42 @@ Mat MainWindow::returnFilterImage(Mat input, QString color)
     }
     else if(color == "black")
     {
-//        inRange(input
-//                ,Scalar(ui->black_min_hue_slider->value(),ui->black_min_sat_slider->value(),ui->black_min_val_slider->value())
-//                ,Scalar(ui->black_max_hue_slider->value(),ui->black_max_sat_slider->value(),ui->black_max_val_slider->value())
-//                ,Ranged);
-//        cvtColor( input, Ranged, COLOR_BGR2GRAY );
-        input.copyTo(Ranged);
+        if( ui->useHSV_checkbox->isChecked() )
+        {
+            Mat  erosion_dst, dilation_dst,erosion_dst_gray;
+
+            int erosion_size = 4;
+            int dilation_size = 2;
+            int erosion_type;
+            int dilation_type;
+
+            // Dilation
+
+            Mat element_dilation = getStructuringElement( dilation_type,
+                                                          Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                                          Point( dilation_size, dilation_size ) );
+            /// Apply the dilation operation
+            dilate( input, dilation_dst,element_dilation);
+            //  Erosion
+
+            Mat element_erosion = getStructuringElement( erosion_type,
+                                                         Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                                         Point( erosion_size, erosion_size ) );
+
+            /// Apply the erosion operation
+            erode( dilation_dst, erosion_dst, element_erosion );
+
+            cvtColor( erosion_dst, erosion_dst_gray, COLOR_BGR2HSV );
+
+            inRange(erosion_dst_gray
+                    ,Scalar(ui->black_min_hue_slider->value(),ui->black_min_sat_slider->value(),ui->black_min_val_slider->value())
+                    ,Scalar(ui->black_max_hue_slider->value(),ui->black_max_sat_slider->value(),ui->black_max_val_slider->value())
+                    ,Ranged);
+        }
+        else
+        {
+            input.copyTo(Ranged);
+        }
     }
 
     return Ranged;
@@ -1342,8 +1372,8 @@ void MainWindow::setCameraSetting()
     if(cameraIsOpened)
     {
         cap.set(CAP_PROP_FPS, ui->fps_comboBox->currentText().toInt());
-//        cap.set(CAP_PROP_FRAME_WIDTH, 480);
-//        cap.set(CAP_PROP_FRAME_HEIGHT, 320);
+        //        cap.set(CAP_PROP_FRAME_WIDTH, 480);
+        //        cap.set(CAP_PROP_FRAME_HEIGHT, 320);
 
         if( (ui->cam_comboBox->currentText() == "0") || (ui->cam_comboBox->currentText() == "1") )
         {
@@ -2029,73 +2059,72 @@ void MainWindow::checkAllOfRecieved()
 
     else if(ui->out_comboBox->currentText() == "Black")
     {
-        //        filterColor[6].copyTo(outputFrame);
-        //---------------
-        Mat crop;
-        Rect cropR;
-        filterColor[5].copyTo(crop);
-        cropR.x = 20;
-        cropR.y = 20;
-        cropR.width = crop.cols - 50;
-        cropR.height = crop.rows - 50;
+        if( ui->useHSV_checkbox->isChecked())
+        {
+            filterColor[5].copyTo(outputFrame);
+        }
+        else
+        {
+            Mat crop;
+            Rect cropR;
+            filterColor[6].copyTo(crop);
+            cropR.x = 20;
+            cropR.y = 20;
+            cropR.width = crop.cols - 50;
+            cropR.height = crop.rows - 50;
 
-        Mat crop2(crop,cropR);
-        crop2.copyTo(outputFrame);
-        //---------------------------
+            Mat crop2(crop,cropR);
+            crop2.copyTo(outputFrame);
+            //---------------------------
 
-        /// Global variables
-        Mat threshold_output;
-        vector<vector<Point> > contours;
-        vector<Vec4i> hierarchy;
+            /// Global variables
+            Mat threshold_output;
+            vector<vector<Point> > contours;
+            vector<Vec4i> hierarchy;
 
-        int erosion_elem = 0;
-        int erosion_size = 5;
-        int dilation_size = 1;
-        int thresh = 120;
-        int erosion_type;
-        int dilation_type;
-        RNG rng(12345);
+            int erosion_elem = 0;
+            int erosion_size = 5;
+            int dilation_size = 1;
+            int thresh = 120;
+            int erosion_type;
+            int dilation_type;
+            RNG rng(12345);
 
+            // Dilation
+            Mat element_dilation = getStructuringElement( dilation_type,
+                                                          Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                                          Point( dilation_size, dilation_size ) );
+            /// Apply the dilation operation
+            dilate( outputFrame, outputFrame,element_dilation);
 
+            //  Erosion
+            Mat element_erosion = getStructuringElement( erosion_type,
+                                                         Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                                         Point( erosion_size, erosion_size ) );
 
-        // Dilation
+            /// Apply the erosion operation
+            erode( outputFrame, outputFrame, element_erosion );
 
-        Mat element_dilation = getStructuringElement( dilation_type,
-                                             Size( 2*dilation_size + 1, 2*dilation_size+1 ),
-                                             Point( dilation_size, dilation_size ) );
-        /// Apply the dilation operation
-        dilate( outputFrame, outputFrame,element_dilation);
+            cvtColor( outputFrame, outputFrame, COLOR_BGR2GRAY );
+            // contour
+            /// Detect edges using Threshold
+            threshold( outputFrame, outputFrame, thresh, 255, THRESH_BINARY );
+            /// Find contours
+            findContours( outputFrame, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
 
-        //  Erosion
+            Mat drawing = Mat::zeros( outputFrame.size(), CV_8UC3 );
 
-        Mat element_erosion = getStructuringElement( erosion_type,
-                                             Size( 2*erosion_size + 1, 2*erosion_size+1 ),
-                                             Point( erosion_size, erosion_size ) );
+            for (unsigned int i = 0; i < contours.size(); i++)
+            {
+                if ((contourArea(contours[i])) <500)
+                    continue;
 
-        /// Apply the erosion operation
-        erode( outputFrame, outputFrame, element_erosion );
+                Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+                drawContours( drawing, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+            }
 
-        cvtColor( outputFrame, outputFrame, COLOR_BGR2GRAY );
-        // contour
-        /// Detect edges using Threshold
-        threshold( outputFrame, outputFrame, thresh, 255, THRESH_BINARY );
-        /// Find contours
-        findContours( outputFrame, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
-
-        Mat drawing = Mat::zeros( outputFrame.size(), CV_8UC3 );
-
-        for (unsigned int i = 0; i < contours.size(); i++)
-       {
-
-            if ((contourArea(contours[i])) <500)
-                continue;
-
-               Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-              drawContours( drawing, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-
-       }
-
-        drawing.copyTo(outputFrame);
+            drawing.copyTo(outputFrame);
+        }
     }
     else if(ui->out_comboBox->currentText() == "Final")
     {
@@ -2138,10 +2167,10 @@ void MainWindow::checkAllOfRecieved()
         cv::resize(outputFrame,outputFrame,Size(640,480),0,0,INTER_CUBIC);
         QImage imgIn;
 
-        if((ui->out_comboBox->currentText() == "Final" ) || (ui->out_comboBox->currentText() == "Black"))
-            cvtColor(outputFrame, outputFrame, COLOR_BGR2RGB);
-        else
+        if( outputFrame.channels() == 1 )
             cvtColor(outputFrame, outputFrame, COLOR_GRAY2RGB);
+        else
+            cvtColor(outputFrame, outputFrame, COLOR_BGR2RGB);
 
         imgIn= QImage((uchar*) outputFrame.data, outputFrame.cols, outputFrame.rows, outputFrame.step, QImage::Format_RGB888);
         ui->outputLabel->setPixmap(QPixmap::fromImage(imgIn));
