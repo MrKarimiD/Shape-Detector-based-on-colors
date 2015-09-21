@@ -12,9 +12,15 @@
 #include "QTimer"
 #include "Constants.h"
 #include "QSemaphore"
+#include <QDebug>
 
 using namespace cv;
 using namespace std;
+
+//        Mat threshold_output;
+//        vector<vector<Point> > contours;
+//        vector<Vec4i> hierarchy;
+//        RNG rng(12345);
 
 class ImageProcSegment : public QObject
 {

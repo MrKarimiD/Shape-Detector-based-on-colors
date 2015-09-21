@@ -78,11 +78,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QStringList items;
     items<<"0"<<"1"<<"USB0"<<"USB1"<<"Network"<<"Video";
     ui->cam_comboBox->addItems(items);
-    ui->cam_comboBox->setCurrentIndex(4);
+    ui->cam_comboBox->setCurrentIndex(3);
 
     QStringList fps_items;
     fps_items<<"15"<<"30"<<"60";
     ui->fps_comboBox->addItems(fps_items);
+    ui->fps_comboBox->setCurrentIndex(1);
 
     QStringList output_items;
     output_items<<"Red"<<"Blue"<<"Green"<<"Yellow"<<"Violet"<<"Black"<<"Final";
@@ -947,10 +948,12 @@ Mat MainWindow::returnFilterImage(Mat input, QString color)
     }
     else if(color == "black")
     {
-        inRange(input
-                ,Scalar(ui->black_min_hue_slider->value(),ui->black_min_sat_slider->value(),ui->black_min_val_slider->value())
-                ,Scalar(ui->black_max_hue_slider->value(),ui->black_max_sat_slider->value(),ui->black_max_val_slider->value())
-                ,Ranged);
+//        inRange(input
+//                ,Scalar(ui->black_min_hue_slider->value(),ui->black_min_sat_slider->value(),ui->black_min_val_slider->value())
+//                ,Scalar(ui->black_max_hue_slider->value(),ui->black_max_sat_slider->value(),ui->black_max_val_slider->value())
+//                ,Ranged);
+//        cvtColor( input, Ranged, COLOR_BGR2GRAY );
+        input.copyTo(Ranged);
     }
 
     return Ranged;
@@ -1129,7 +1132,7 @@ void MainWindow::callImageProcessingFunctions(Mat input_mat)
 
     if(ui->use_black_checkBox->isChecked())
     {
-        filterColor[5] = returnFilterImage(HSV,"black");
+        filterColor[5] = returnFilterImage(CropFrame,"black");
         blackProc->setImage(filterColor[5]);
     }
     else
@@ -1569,14 +1572,31 @@ void MainWindow::sendDataPacket()
     access2StallMode->acquire(1);
     if(!stallMode)
     {
-        qDebug()<<"mission:"<<imageProcessor->result.mission();
-        qDebug()<<"number:"<<imageProcessor->result.numberofshape();
-        qDebug()<<"type:"<<imageProcessor->result.type();
+        double tmp;
+        int index = -1;
+
         for(int i=0;i<imageProcessor->result.shapes_size();i++)
         {
-            qDebug()<<"shape "<<i<<" seen at:"<<imageProcessor->result.shapes(i).position_x()<<","<<imageProcessor->result.shapes(i).position_y();
-            qDebug()<<"color:"<<QString::fromStdString(imageProcessor->result.shapes(i).color());
-            qDebug()<<"type:"<<QString::fromStdString(imageProcessor->result.shapes(i).type());
+            if( i == 0 )
+            {
+                tmp = imageProcessor->result.shapes(i).position_y(); //position_y();
+                index = i;
+            }
+            else
+            {
+                if( imageProcessor->result.shapes(i).position_y() < tmp) // ( imageProcessor->result.shapes(i).position_y() < tmp)
+                {
+                    tmp = imageProcessor->result.shapes(i).position_x(); //position_y();
+                    index = i;
+                }
+            }
+
+        }
+
+        if( index != -1)
+        {
+            qDebug() << "Shape seen at "<< imageProcessor->result.shapes(index).position_x() << " , "<< imageProcessor->result.shapes(index).position_y();
+            qDebug() << "Type : "<<QString::fromStdString(imageProcessor->result.shapes(index).type())<< " , Color : " <<QString::fromStdString(imageProcessor->result.shapes(index).color());
         }
     }
     else
@@ -2023,25 +2043,60 @@ void MainWindow::checkAllOfRecieved()
         crop2.copyTo(outputFrame);
         //---------------------------
 
+        /// Global variables
+        Mat threshold_output;
+        vector<vector<Point> > contours;
+        vector<Vec4i> hierarchy;
 
-        //        medianBlur(outputFrame,outputFrame,3);
-        //       Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-        ////        erode(outputFrame,outputFrame,structure);
-        //        dilate(outputFrame,outputFrame,structure);
-        ////        medianBlur(outputFrame,outputFrame,7);
-        ////        Mat structure2=getStructuringElement(MORPH_RECT,Size(3,3));
-        ////        erode(outputFrame,outputFrame,structure2);
-        //        //dilate(outputFrame,outputFrame,structure);
-        //        vector<vector<Point> > contours;
-        //        vector<Vec4i> hierarchy;
-        //        findContours(outputFrame.clone(), contours, hierarchy, RETR_LIST, CHAIN_APPROX_SIMPLE);
-        //        RNG rng(12345);
-        //        for(int i=0;i<contours.size();i++)
-        //        {
-        //           drawContours(outputFrame,contours, i, Scalar(125,255,0), 2, 8, hierarchy, 0);
-        //        }
+        int erosion_elem = 0;
+        int erosion_size = 5;
+        int dilation_size = 1;
+        int thresh = 120;
+        int erosion_type;
+        int dilation_type;
+        RNG rng(12345);
+
+
+
+        // Dilation
+
+        Mat element_dilation = getStructuringElement( dilation_type,
+                                             Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                             Point( dilation_size, dilation_size ) );
+        /// Apply the dilation operation
+        dilate( outputFrame, outputFrame,element_dilation);
+
+        //  Erosion
+
+        Mat element_erosion = getStructuringElement( erosion_type,
+                                             Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                             Point( erosion_size, erosion_size ) );
+
+        /// Apply the erosion operation
+        erode( outputFrame, outputFrame, element_erosion );
+
+        cvtColor( outputFrame, outputFrame, COLOR_BGR2GRAY );
+        // contour
+        /// Detect edges using Threshold
+        threshold( outputFrame, outputFrame, thresh, 255, THRESH_BINARY );
+        /// Find contours
+        findContours( outputFrame, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
+
+        Mat drawing = Mat::zeros( outputFrame.size(), CV_8UC3 );
+
+        for (unsigned int i = 0; i < contours.size(); i++)
+       {
+
+            if ((contourArea(contours[i])) <500)
+                continue;
+
+               Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+              drawContours( drawing, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
+
+       }
+
+        drawing.copyTo(outputFrame);
     }
-
     else if(ui->out_comboBox->currentText() == "Final")
     {
         filterColor[6].copyTo(outputFrame);
@@ -2083,7 +2138,7 @@ void MainWindow::checkAllOfRecieved()
         cv::resize(outputFrame,outputFrame,Size(640,480),0,0,INTER_CUBIC);
         QImage imgIn;
 
-        if(ui->out_comboBox->currentText() == "Final")
+        if((ui->out_comboBox->currentText() == "Final" ) || (ui->out_comboBox->currentText() == "Black"))
             cvtColor(outputFrame, outputFrame, COLOR_BGR2RGB);
         else
             cvtColor(outputFrame, outputFrame, COLOR_GRAY2RGB);

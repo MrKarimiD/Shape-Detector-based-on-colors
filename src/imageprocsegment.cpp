@@ -1,5 +1,6 @@
 #include "imageprocsegment.h"
 
+
 ImageProcSegment::ImageProcSegment(QObject *parent) :
     QObject(parent)
 {
@@ -38,7 +39,7 @@ void ImageProcSegment::shapeDetection(Mat input)
             {
                 recycledShapes.push_back(contours[i]);
             }
-                continue;
+            continue;
         }
 
         if(!checkAspectRatio(contours[i]))
@@ -50,11 +51,11 @@ void ImageProcSegment::shapeDetection(Mat input)
             continue;
         }
 
-//        if(contourArea(contours[i]) >(0.005)*imSize.width*imSize.height)
-//        {
-//           prepareDataForOutput(contours[i],"Chasbideh");
-//           continue;
-//        }
+        //        if(contourArea(contours[i]) >(0.005)*imSize.width*imSize.height)
+        //        {
+        //           prepareDataForOutput(contours[i],"Chasbideh");
+        //           continue;
+        //        }
 
         if(approx.size() < 7)// !!!!!!!!!
         {// !!!!!!!!
@@ -127,9 +128,9 @@ void ImageProcSegment::shapeDetection(Mat input)
             Rect r = boundingRect(contours[i]);
             int radius = r.width / 2;
 
-//            if (abs(1 - ((double)r.width / r.height)) <= 0.3 &&
-//                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.3)
-//            {
+            //            if (abs(1 - ((double)r.width / r.height)) <= 0.3 &&
+            //                    abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.3)
+            //            {
             if (abs(1 - ((double)r.width / r.height)) <= 0.5 &&
                     abs(1 - (area / (CV_PI * pow(radius, 2)))) <= 0.5)
             {
@@ -139,15 +140,15 @@ void ImageProcSegment::shapeDetection(Mat input)
             {
                 recycledShapes.push_back(contours[i]);
             }
-       }
+        }
     }
 
     for(int i=0;i<recycledShapes.size();i++)
     {
-            if(contourArea(recycledShapes[i]) >(0.01)*imSize.width*imSize.height)
-            {
-               prepareDataForOutput(recycledShapes[i],"Chasbideh");
-           }
+        if(contourArea(recycledShapes[i]) >(0.01)*imSize.width*imSize.height)
+        {
+            prepareDataForOutput(recycledShapes[i],"Chasbideh");
+        }
     }
     //    vector<Vec3f> circles;
     //    HoughCircles(input, circles, HOUGH_GRADIENT,3,1, 150, 100 );
@@ -168,17 +169,17 @@ void ImageProcSegment::RobotDetection(Mat input)
     detectedShapes.clear();
 
     // Find contours
-//    vector<vector<Point> > contours1;
-//    vector<Vec4i> hierarchy1;
-//    findContours(input.clone(), contours1, hierarchy1, RETR_LIST, CHAIN_APPROX_SIMPLE);
+    //    vector<vector<Point> > contours1;
+    //    vector<Vec4i> hierarchy1;
+    //    findContours(input.clone(), contours1, hierarchy1, RETR_LIST, CHAIN_APPROX_SIMPLE);
 
-//    Mat fil = input.clone();
+    //    Mat fil = input.clone();
 
-//    for (int i = 0; i < contours1.size(); i++)
-//    {
-//        Rect boundedRect=boundingRect( Mat(contours1[i]) );
-//        rectangle( fil, boundedRect.tl(), boundedRect.br(), Scalar(255,255,255), 2, 8, 0 );
-//    }
+    //    for (int i = 0; i < contours1.size(); i++)
+    //    {
+    //        Rect boundedRect=boundingRect( Mat(contours1[i]) );
+    //        rectangle( fil, boundedRect.tl(), boundedRect.br(), Scalar(255,255,255), 2, 8, 0 );
+    //    }
 
     vector<vector<Point> > contours;
     vector<Vec4i> hierarchy;
@@ -188,52 +189,56 @@ void ImageProcSegment::RobotDetection(Mat input)
     for (int i = 0; i < contours.size(); i++)
     {
         //qDebug()<<"contoursArea:"<<fabs(contourArea(contours[i]));
-         //Skip small or non-convex objects
+        //Skip small or non-convex objects
         //qDebug()<<"contour:"<<contourArea(contours[i]);
 
-       if (fabs(contourArea(contours[i])) < 50 )
+        //        qDebug()<<contourArea(contours[i]);
+        if ((contourArea(contours[i])) <500)
             continue;
 
-        if(!checkAspectRatio(contours[i]))
+        if ((contourArea(contours[i])) >3000)
             continue;
 
-        RotatedRect rotatetBoundRect=minAreaRect(Mat(contours[i]));
-        if(!checkAspectRatioForRotatedRect(rotatetBoundRect))
-        {
-            continue;
-        }
+        //        if(!checkAspectRatio(contours[i]))
+        //            continue;
 
-        Point2f center;
-        float radius;
-        minEnclosingCircle( (Mat)contours[i], center, radius );
+        //        RotatedRect rotatetBoundRect=minAreaRect(Mat(contours[i]));
+        //        if(!checkAspectRatioForRotatedRect(rotatetBoundRect))
+        //        {
+        //            continue;
+        //        }
 
-        if(radius < 5)
-            continue;
+        //        Point2f center;
+        //        float radius;
+        //        minEnclosingCircle( (Mat)contours[i], center, radius );
+
+        //        if(radius < 5)
+        //            continue;
 
         prepareDataForOutput(contours[i],"Robot");
         //robotList.push_back(contours[i]);
     }
 
-//    for(int i=0;i<robotList.size();i++)
-//    {
-//        for(int j=i;j<robotList.size();j++)
-//        {
-//            if( fabs(contourArea(robotList[i])) < fabs(contourArea(robotList[j])) )
-//            {
-//                vector<Point> temp;
-//                temp = robotList.at(i);
-//                robotList.at(i) = robotList.at(j);
-//                robotList.at(j) = temp;
-//            }
-//        }
-//    }
+    //    for(int i=0;i<robotList.size();i++)
+    //    {
+    //        for(int j=i;j<robotList.size();j++)
+    //        {
+    //            if( fabs(contourArea(robotList[i])) < fabs(contourArea(robotList[j])) )
+    //            {
+    //                vector<Point> temp;
+    //                temp = robotList.at(i);
+    //                robotList.at(i) = robotList.at(j);
+    //                robotList.at(j) = temp;
+    //            }
+    //        }
+    //    }
 }
 
 void ImageProcSegment::setImage(Mat input)
 {
     newDataRecieved = true;
     this->input = input;
-//    imshow(color.toStdString(),input);
+    //    imshow(color.toStdString(),input);
 }
 
 void ImageProcSegment::addShape(float x, float y, double radius, string type, string color)
@@ -301,19 +306,19 @@ void ImageProcSegment::prepareDataForOutput(std::vector<Point> &contour, QString
     Mat warp_dst(1,1,CV_32FC2);
     if(type == "TRI")
     {
-        Yman = -(Orgin_X - (gravCenter.x/imSize.width)*Width);
-        Xman = Orgin_Y + (gravCenter.y/imSize.height)*Height;
+        Xman = (gravCenter.y/imSize.height)*Width + Orgin_X;
+        Yman = (gravCenter.x/imSize.width)*Height + Orgin_Y;
     }
     else
     {
-        Yman = -(Orgin_X - (center.x/imSize.width)*Width);
-        Xman = Orgin_Y + (center.y/imSize.height)*Height;
+        Xman = (center.y/imSize.height)*Width + Orgin_X;
+        Yman = (center.x/imSize.width)*Height + Orgin_Y;
     }
     //---------------------------------
 
-//-------Tales------
-//    Xman *= 60/57;
-//    Yman *= 60/57;
+    //-------Tales------
+    //    Xman *= 60/57;
+    //    Yman *= 60/57;
 
     addShape(Xman,Yman,radius,type.toStdString(),color.toStdString());
 }
@@ -353,24 +358,69 @@ void ImageProcSegment::doProccess()
         cropR.width = ranged.cols - 50;
         cropR.height = ranged.rows - 50;
 
-        Mat crop(ranged,cropR);
+        Mat crop(ranged,cropR); ///رخقخیه ذشغشی زقخح ذشساث؟؟
 
-//        medianBlur(crop,crop,3);
-//        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-//        dilate(crop,crop,structure);
-//        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
-//        erode(outputFrame,outputFrame,structure);
-//        dilate(ranged,ranged,structure);
-//        medianBlur(ranged,ranged,7);
-//        Mat structure2=getStructuringElement(MORPH_RECT,Size(5,5));
-//        erode(ranged,ranged,structure2);
-        Canny( crop, crop, 80, 180, 3 );
-        RobotDetection(crop);
+        /// Global variables
+        Mat  erosion_dst, dilation_dst,erosion_dst_gray;
+
+        Mat threshold_output;
+
+        int erosion_size = 5;//4
+        int dilation_size = 1;//2
+        int thresh = 250;
+        int erosion_type;
+        int dilation_type;
+
+        //        medianBlur(crop,crop,3);
+        //        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+        //        dilate(crop,crop,structure);
+        //        Mat structure=getStructuringElement(MORPH_RECT,Size(5,5));
+        //        erode(outputFrame,outputFrame,structure);
+        //        dilate(ranged,ranged,structure);
+        //        medianBlur(ranged,ranged,7);
+        //        Mat structure2=getStructuringElement(MORPH_RECT,Size(5,5));
+        //        erode(ranged,ranged,structure2);
+
+
+
+
+        // Dilation
+
+        Mat element_dilation = getStructuringElement( dilation_type,
+                                                      Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                                      Point( dilation_size, dilation_size ) );
+        /// Apply the dilation operation
+        dilate( crop, dilation_dst,element_dilation);
+        //  Erosion
+
+        Mat element_erosion = getStructuringElement( erosion_type,
+                                                     Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                                     Point( erosion_size, erosion_size ) );
+
+        /// Apply the erosion operation
+        erode( dilation_dst, erosion_dst, element_erosion );
+        // imshow( "Erosion Demo", erosion_dst );
+
+        cvtColor( erosion_dst, erosion_dst_gray, COLOR_BGR2GRAY );
+        // contour
+        /// Detect edges using Threshold
+        threshold( erosion_dst_gray, threshold_output, thresh, 255, THRESH_BINARY );
+
+        RobotDetection(threshold_output);
+
+        //If we want to use HSV
+//        cvtColor( erosion_dst, erosion_dst_gray, COLOR_BGR2HSV );
+//        inRange(erosion_dst_gray
+//                ,Scalar(0,0,0)
+//                ,Scalar(255,255,170)
+//                ,erosion_dst_gray);
+//        RobotDetection(erosion_dst_gray);
+
     }
     else
     {
 
-//       imshow(color.toStdString(),ranged);
+        //       imshow(color.toStdString(),ranged);
         medianBlur(ranged,ranged,3);
         Canny( ranged, ranged, 80, 180, 3 );
         shapeDetection(ranged);
@@ -388,3 +438,5 @@ void ImageProcSegment::timer_inteval()
         doProccess();
     }
 }
+
+
