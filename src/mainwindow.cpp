@@ -133,6 +133,10 @@ void MainWindow::on_open_button_clicked()
 
     imageRecievedFromNetwork = false;
 
+    disableCameraSetting();
+    ui->camSet_checkBox->setChecked(false);
+    ui->camSet_checkBox->setDisabled(true);
+
     if(ui->cam_comboBox->currentText() == "Network")
     {
         recSocket->bind(udpPort);
@@ -145,11 +149,17 @@ void MainWindow::on_open_button_clicked()
         {
             cameraIsOpened=cap.open(CAP_FIREWIRE+0);
             connect(this,SIGNAL(cameraSettingChanged()),this,SLOT(updateCameraSetting()));
+            enableCameraSetting();
+            ui->camSet_checkBox->setChecked(true);
+            ui->camSet_checkBox->setDisabled(false);
         }
         else if(ui->cam_comboBox->currentText()=="1")
         {
             cameraIsOpened=cap.open(CAP_FIREWIRE+1);
             connect(this,SIGNAL(cameraSettingChanged()),this,SLOT(updateCameraSetting()));
+            enableCameraSetting();
+            ui->camSet_checkBox->setChecked(true);
+            ui->camSet_checkBox->setDisabled(false);
         }
         else if(ui->cam_comboBox->currentText()=="USB0")
         {
@@ -249,6 +259,9 @@ void MainWindow::enableCameraSetting()
     ui->brightness_slider->setEnabled(true);
     ui->gain_slider->setEnabled(true);
     ui->sharpness_slider->setEnabled(true);
+    ui->hue_slider->setEnabled(true);
+    ui->saturation_slider->setEnabled(true);
+    ui->contrast_slider->setEnabled(true);
 
     ui->red_label->setEnabled(true);
     ui->blue_label->setEnabled(true);
@@ -256,6 +269,9 @@ void MainWindow::enableCameraSetting()
     ui->brightness_label->setEnabled(true);
     ui->gain_label->setEnabled(true);
     ui->sharpness_label->setEnabled(true);
+    ui->hue_label->setEnabled(true);
+    ui->saturation_label->setEnabled(true);
+    ui->contrast_label->setEnabled(true);
 
     ui->redOut_label->setEnabled(true);
     ui->blueOut_label->setEnabled(true);
@@ -263,6 +279,9 @@ void MainWindow::enableCameraSetting()
     ui->brightnessOut_label->setEnabled(true);
     ui->gainOut_label->setEnabled(true);
     ui->sharpnessOut_label->setEnabled(true);
+    ui->hueOut_label->setEnabled(true);
+    ui->saturationOut_label->setEnabled(true);
+    ui->contrastOut_label->setEnabled(true);
 }
 
 void MainWindow::disableCameraSetting()
@@ -273,6 +292,9 @@ void MainWindow::disableCameraSetting()
     ui->brightness_slider->setDisabled(true);
     ui->gain_slider->setDisabled(true);
     ui->sharpness_slider->setDisabled(true);
+    ui->hue_slider->setDisabled(true);
+    ui->saturation_slider->setDisabled(true);
+    ui->contrast_slider->setDisabled(true);
 
     ui->red_label->setDisabled(true);
     ui->blue_label->setDisabled(true);
@@ -280,6 +302,9 @@ void MainWindow::disableCameraSetting()
     ui->brightness_label->setDisabled(true);
     ui->gain_label->setDisabled(true);
     ui->sharpness_label->setDisabled(true);
+    ui->hue_label->setDisabled(true);
+    ui->saturation_label->setDisabled(true);
+    ui->contrast_label->setDisabled(true);
 
     ui->redOut_label->setDisabled(true);
     ui->blueOut_label->setDisabled(true);
@@ -287,6 +312,9 @@ void MainWindow::disableCameraSetting()
     ui->brightnessOut_label->setDisabled(true);
     ui->gainOut_label->setDisabled(true);
     ui->sharpnessOut_label->setDisabled(true);
+    ui->hueOut_label->setDisabled(true);
+    ui->saturationOut_label->setDisabled(true);
+    ui->contrastOut_label->setDisabled(true);
 }
 
 void MainWindow::enableOpenCamera()
@@ -570,14 +598,11 @@ void MainWindow::setInitializeMessage(int mission)
         {
             outputPacket_line *line=imageProcessor->result.add_mission2_lines();
 
-            //            Yman = -(Orgin_X - (gravCenter.x/imSize.width)*Width);
-            //            Xman = Orgin_Y + (gravCenter.y/imSize.height)*Height;
+            int startX = Orgin_X + ((float)(lineBorders.at(i).y-cropedRect.y)/imSize.height)*Width;
+            int startY = Orgin_Y + ((float)(lineBorders.at(i).x-cropedRect.x)/imSize.width)*Height;
 
-            int startY = -(Orgin_X - ((float)(lineBorders.at(i).x-cropedRect.x)/imSize.width)*Width);
-            int startX = Orgin_Y + ((float)(lineBorders.at(i).y-cropedRect.y)/imSize.height)*Height;
-
-            int endY = -(Orgin_X - ((float)(lineBorders.at(i+1).x-cropedRect.x)/imSize.width)*Width);
-            int endX = Orgin_Y + ((float)(lineBorders.at(i+1).y-cropedRect.y)/imSize.height)*Height;
+            int endX = Orgin_X + ((float)(lineBorders.at(i+1).y-cropedRect.y)/imSize.height)*Width;
+            int endY = Orgin_Y + ((float)(lineBorders.at(i+1).x-cropedRect.x)/imSize.width)*Height;
 
             line->set_start_x(startX);
             line->set_start_y(startY);
@@ -2090,45 +2115,39 @@ void MainWindow::checkAllOfRecieved()
 
     else if(ui->out_comboBox->currentText() == "Black")
     {
-        if( ui->useHSV_checkbox->isChecked())
+        Mat crop;
+        Rect cropR;
+        filterColor[5].copyTo(crop);
+        cropR.x = 20;
+        cropR.y = 20;
+        cropR.width = crop.cols - 50;
+        cropR.height = crop.rows - 50;
+
+        Mat crop2(crop,cropR);
+        crop2.copyTo(outputFrame);
+
+        vector<vector<Point> > contours;
+        vector<Vec4i> hierarchy;
+
+        RNG rng(12345);
+
+        findContours( outputFrame, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
+
+        Mat drawing = Mat::zeros( outputFrame.size(), CV_8UC3 );
+
+        for (unsigned int i = 0; i < contours.size(); i++)
         {
-            filterColor[5].copyTo(outputFrame);
+            if ((contourArea(contours[i])) <500)
+                continue;
+
+            if ((contourArea(contours[i])) >3000)
+                continue;
+
+            Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+            drawContours( drawing, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
         }
-        else
-        {
-            Mat crop;
-            Rect cropR;
-            filterColor[5].copyTo(crop);
-            cropR.x = 20;
-            cropR.y = 20;
-            cropR.width = crop.cols - 50;
-            cropR.height = crop.rows - 50;
 
-            Mat crop2(crop,cropR);
-            crop2.copyTo(outputFrame);
-            //---------------------------
-
-            /// Global variables
-            vector<vector<Point> > contours;
-            vector<Vec4i> hierarchy;
-
-            RNG rng(12345);
-
-           findContours( outputFrame, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
-
-            Mat drawing = Mat::zeros( outputFrame.size(), CV_8UC3 );
-
-            for (unsigned int i = 0; i < contours.size(); i++)
-            {
-                if ((contourArea(contours[i])) <500)
-                    continue;
-
-                Scalar color = Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-                drawContours( drawing, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point() );
-            }
-
-            drawing.copyTo(outputFrame);
-        }
+        drawing.copyTo(outputFrame);
     }
     else if(ui->out_comboBox->currentText() == "Final")
     {
@@ -2923,6 +2942,8 @@ void MainWindow::on_useHSV_checkbox_toggled(bool checked)
 
         ui->black_sat_label->setVisible(true);
         ui->black_val_label->setVisible(true);
+
+        ui->black_max_hue_slider->setMaximum(180);
     }
     else
     {
@@ -2940,5 +2961,7 @@ void MainWindow::on_useHSV_checkbox_toggled(bool checked)
 
         ui->black_sat_label->setVisible(false);
         ui->black_val_label->setVisible(false);
+
+        ui->black_max_hue_slider->setMaximum(255);
     }
 }
