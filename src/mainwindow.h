@@ -273,6 +273,8 @@ private slots:
 
     void on_clearLines_button_clicked();
 
+    void on_useHSV_checkbox_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     ImageProcessing *imageProcessor;

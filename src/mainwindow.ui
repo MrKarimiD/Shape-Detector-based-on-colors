@@ -1815,7 +1815,7 @@ Intrrupt</string>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="red_page">
        <property name="geometry">
@@ -2085,8 +2085,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2348,8 +2348,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2608,8 +2608,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2868,8 +2868,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3128,8 +3128,8 @@ Intrrupt</string>
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>281</width>
-         <height>228</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -3447,7 +3447,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>185</y>
+          <y>179</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3466,7 +3466,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>31</x>
-          <y>206</y>
+          <y>200</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3485,7 +3485,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>115</x>
-          <y>175</y>
+          <y>169</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3511,7 +3511,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>98</y>
+          <y>86</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3543,7 +3543,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>121</y>
+          <y>111</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3556,7 +3556,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>151</y>
+          <y>141</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3575,7 +3575,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>62</x>
-          <y>122</y>
+          <y>112</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3588,7 +3588,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>114</x>
-          <y>120</y>
+          <y>110</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3614,7 +3614,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>174</x>
-          <y>176</y>
+          <y>170</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3627,7 +3627,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>130</y>
+          <y>120</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3646,7 +3646,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>63</x>
-          <y>177</y>
+          <y>171</y>
           <width>41</width>
           <height>17</height>
          </rect>
@@ -3659,7 +3659,7 @@ Intrrupt</string>
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>77</y>
+          <y>67</y>
           <width>220</width>
           <height>29</height>
          </rect>
@@ -3705,7 +3705,7 @@ Intrrupt</string>
          <string>Use HSV</string>
         </property>
         <property name="checked">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
       </widget>

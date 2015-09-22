@@ -356,54 +356,13 @@ void ImageProcSegment::doProccess()
         cropR.width = ranged.cols - 50;
         cropR.height = ranged.rows - 50;
 
-        Mat crop(ranged,cropR); ///رخقخیه ذشغشی زقخح ذشساث؟؟
+        Mat crop(ranged,cropR);
 
-        if( crop.channels() == 1)
-        {
-            Canny( crop, ranged, 80, 180, 3 );
-            RobotDetection(ranged);
-        }
-        else
-        {
-            /// Global variables
-            Mat  erosion_dst, dilation_dst,erosion_dst_gray;
-
-            Mat threshold_output;
-
-            int erosion_size = 5;//4
-            int dilation_size = 1;//2
-            int thresh = 250;
-            int erosion_type;
-            int dilation_type;
-
-            // Dilation
-
-            Mat element_dilation = getStructuringElement( dilation_type,
-                                                          Size( 2*dilation_size + 1, 2*dilation_size+1 ),
-                                                          Point( dilation_size, dilation_size ) );
-            /// Apply the dilation operation
-            dilate( crop, dilation_dst,element_dilation);
-            //  Erosion
-
-            Mat element_erosion = getStructuringElement( erosion_type,
-                                                         Size( 2*erosion_size + 1, 2*erosion_size+1 ),
-                                                         Point( erosion_size, erosion_size ) );
-
-            /// Apply the erosion operation
-            erode( dilation_dst, erosion_dst, element_erosion );
-
-            cvtColor( erosion_dst, erosion_dst_gray, COLOR_BGR2GRAY );
-            // contour
-            /// Detect edges using Threshold
-            threshold( erosion_dst_gray, threshold_output, thresh, 255, THRESH_BINARY );
-
-            RobotDetection(threshold_output);
-        }
+        RobotDetection(crop);
     }
     else
     {
         medianBlur(ranged,ranged,3);
-        Canny( ranged, ranged, 80, 180, 3 );
         shapeDetection(ranged);
     }
 

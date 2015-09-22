@@ -982,7 +982,38 @@ Mat MainWindow::returnFilterImage(Mat input, QString color)
         }
         else
         {
-            input.copyTo(Ranged);
+            /// Global variables
+            Mat  erosion_dst, dilation_dst,erosion_dst_gray;
+
+            Mat threshold_output;
+
+            int erosion_size = 5;//4
+            int dilation_size = 1;//2
+            int erosion_type;
+            int dilation_type;
+
+            // Dilation
+
+            Mat element_dilation = getStructuringElement( dilation_type,
+                                                          Size( 2*dilation_size + 1, 2*dilation_size+1 ),
+                                                          Point( dilation_size, dilation_size ) );
+            /// Apply the dilation operation
+            dilate( input, dilation_dst,element_dilation);
+            //  Erosion
+
+            Mat element_erosion = getStructuringElement( erosion_type,
+                                                         Size( 2*erosion_size + 1, 2*erosion_size+1 ),
+                                                         Point( erosion_size, erosion_size ) );
+
+            /// Apply the erosion operation
+            erode( dilation_dst, erosion_dst, element_erosion );
+
+            cvtColor( erosion_dst, erosion_dst_gray, COLOR_BGR2GRAY );
+            // contour
+            /// Detect edges using Threshold
+            threshold( erosion_dst_gray, threshold_output, ui->black_min_hue_slider->value(), ui->black_max_hue_slider->value(), THRESH_BINARY );
+
+            threshold_output.copyTo(Ranged);
         }
     }
 
@@ -2067,7 +2098,7 @@ void MainWindow::checkAllOfRecieved()
         {
             Mat crop;
             Rect cropR;
-            filterColor[6].copyTo(crop);
+            filterColor[5].copyTo(crop);
             cropR.x = 20;
             cropR.y = 20;
             cropR.width = crop.cols - 50;
@@ -2078,39 +2109,12 @@ void MainWindow::checkAllOfRecieved()
             //---------------------------
 
             /// Global variables
-            Mat threshold_output;
             vector<vector<Point> > contours;
             vector<Vec4i> hierarchy;
 
-            int erosion_elem = 0;
-            int erosion_size = 5;
-            int dilation_size = 1;
-            int thresh = 120;
-            int erosion_type;
-            int dilation_type;
             RNG rng(12345);
 
-            // Dilation
-            Mat element_dilation = getStructuringElement( dilation_type,
-                                                          Size( 2*dilation_size + 1, 2*dilation_size+1 ),
-                                                          Point( dilation_size, dilation_size ) );
-            /// Apply the dilation operation
-            dilate( outputFrame, outputFrame,element_dilation);
-
-            //  Erosion
-            Mat element_erosion = getStructuringElement( erosion_type,
-                                                         Size( 2*erosion_size + 1, 2*erosion_size+1 ),
-                                                         Point( erosion_size, erosion_size ) );
-
-            /// Apply the erosion operation
-            erode( outputFrame, outputFrame, element_erosion );
-
-            cvtColor( outputFrame, outputFrame, COLOR_BGR2GRAY );
-            // contour
-            /// Detect edges using Threshold
-            threshold( outputFrame, outputFrame, thresh, 255, THRESH_BINARY );
-            /// Find contours
-            findContours( outputFrame, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
+           findContours( outputFrame, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
 
             Mat drawing = Mat::zeros( outputFrame.size(), CV_8UC3 );
 
@@ -2899,4 +2903,42 @@ void MainWindow::on_clearLines_button_clicked()
 {
     lineBorders.clear();
     firstLinePointIsValid = false;
+}
+
+void MainWindow::on_useHSV_checkbox_toggled(bool checked)
+{
+    if( checked )
+    {
+        ui->black_hue_label->setText("< Hue <");
+
+        ui->black_max_sat_label->setVisible(true);
+        ui->black_max_sat_slider->setVisible(true);
+        ui->black_max_val_label->setVisible(true);
+        ui->black_max_val_slider->setVisible(true);
+
+        ui->black_min_sat_label->setVisible(true);
+        ui->black_min_sat_slider->setVisible(true);
+        ui->black_min_val_label->setVisible(true);
+        ui->black_min_val_slider->setVisible(true);
+
+        ui->black_sat_label->setVisible(true);
+        ui->black_val_label->setVisible(true);
+    }
+    else
+    {
+        ui->black_hue_label->setText("< THR <");
+
+        ui->black_max_sat_label->setVisible(false);
+        ui->black_max_sat_slider->setVisible(false);
+        ui->black_max_val_label->setVisible(false);
+        ui->black_max_val_slider->setVisible(false);
+
+        ui->black_min_sat_label->setVisible(false);
+        ui->black_min_sat_slider->setVisible(false);
+        ui->black_min_val_label->setVisible(false);
+        ui->black_min_val_slider->setVisible(false);
+
+        ui->black_sat_label->setVisible(false);
+        ui->black_val_label->setVisible(false);
+    }
 }
